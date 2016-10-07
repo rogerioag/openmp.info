@@ -14,7 +14,7 @@ for gcc_tag in `svn ls svn://gcc.gnu.org/svn/gcc/tags | grep "^gcc_"`; do
 	svn info svn://gcc.gnu.org/svn/gcc/tags/${gcc_version}/libgomp/libgomp.map &> ${gcc_version}-libgomp.info
 	if [ $? -eq 0 ]
 	then
-		mkdir -p ${gcc_version}/libgomp && svn export svn://gcc.gnu.org/svn/gcc/tags/${gcc_version}/libgomp/libgomp.map ${gcc_version}/libgomp/libgomp.map
+		svn export svn://gcc.gnu.org/svn/gcc/tags/${gcc_version}/libgomp/libgomp.map ${gcc_version}-libgomp.map
 	else
 		echo "Não existe no ${gcc_version}."
 	fi	
