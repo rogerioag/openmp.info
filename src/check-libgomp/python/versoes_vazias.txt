@@ -30,5 +30,3 @@ gcc_4_0_2_release/  NÃO POSSUE libgomp
 gcc_4_0_3_release/  NÃO POSSUE libgomp
 gcc_4_0_4_release/  NÃO POSSUE libgomp
 gcc_4_1_0_release/  NÃO POSSUE libgomp
-gcc_4_1_1_release/  NÃO POSSUE libgomp
-gcc_4_1_2_release/  NÃO POSSUE libgomp
