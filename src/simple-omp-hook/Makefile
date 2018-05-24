@@ -1,5 +1,5 @@
-CC=gcc-4.8
-CXX=g++-4.8
+CC=gcc
+CXX=g++
 LIB_HOOKOMP_PATH=$(PWD)
 
 all: clean info libhookomp
