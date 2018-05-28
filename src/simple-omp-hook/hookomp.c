@@ -129,17 +129,6 @@ void GOMP_atomic_end (void){
 /* loop.c                                                        */
 /* ------------------------------------------------------------- */
 
-void gomp_loop_init(struct gomp_work_share *ws, long start, long end, long incr, enum gomp_schedule_type sched, long chunk_size)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_loop_init, "gomp_loop_init");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_loop_init.\n", (unsigned long int)pthread_self());
-	PRE_gomp_loop_init();
-	lib_gomp_loop_init(ws,start,end,incr,sched,chunk_size);
-	POST_gomp_loop_init();
-}
-
-
 bool GOMP_loop_static_start (long start, long end, long incr, long chunk_size,
 			long *istart, long *iend){
 	PRINT_FUNC_NAME;
@@ -329,41 +318,6 @@ bool GOMP_loop_ordered_runtime_start (long start, long end, long incr,
 	return result;
 }
 
-/* ------------------------------------------------------------- */
-bool gomp_loop_doacross_static_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_loop_doacross_static_start, "gomp_loop_doacross_static_start");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_loop_doacross_static_start.\n", (unsigned long int)pthread_self());
-	PRE_gomp_loop_doacross_static_start();
-	bool result = lib_gomp_loop_doacross_static_start(ncounts,counts,chunk_size,istart,iend);
-	POST_gomp_loop_doacross_static_start();
-	return result;
-}
-
-/* ------------------------------------------------------------- */
-bool gomp_loop_doacross_dynamic_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_loop_doacross_dynamic_start, "gomp_loop_doacross_dynamic_start");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_loop_doacross_dynamic_start.\n", (unsigned long int)pthread_self());
-	PRE_gomp_loop_doacross_dynamic_start();
-	bool result = lib_gomp_loop_doacross_dynamic_start(ncounts,counts,chunk_size,istart,iend);
-	POST_gomp_loop_doacross_dynamic_start();
-	return result;
-}
-
-/* ------------------------------------------------------------- */
-bool gomp_loop_doacross_guided_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_loop_doacross_guided_start, "gomp_loop_doacross_guided_start");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_loop_doacross_guided_start.\n", (unsigned long int)pthread_self());
-	PRE_gomp_loop_doacross_guided_start();
-	bool result = lib_gomp_loop_doacross_guided_start(ncounts,counts,chunk_size,istart,iend);
-	POST_gomp_loop_doacross_guided_start();
-	return result;
-}
 
 /* ------------------------------------------------------------- */
 bool GOMP_loop_doacross_runtime_start(unsigned ncounts, long *counts, long *istart, long *iend)
@@ -740,16 +694,6 @@ bool GOMP_loop_end_cancel (void){
 /* loop_ull.c                                                    */
 /* ------------------------------------------------------------- */
 
-void gomp_loop_ull_init(struct gomp_work_share *ws, bool up, gomp_ull start, gomp_ull end, gomp_ull incr, enum gomp_schedule_type sched, gomp_ull chunk_size)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_loop_ull_init, "gomp_loop_ull_init");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_loop_ull_init.\n", (unsigned long int)pthread_self());
-	PRE_gomp_loop_ull_init();
-	lib_gomp_loop_ull_init(ws,up,start,end,incr,sched,chunk_size);
-	POST_gomp_loop_ull_init();
-}
-
 bool GOMP_loop_ull_static_start (bool up, unsigned long long start, unsigned long long end,
 			    unsigned long long incr, unsigned long long chunk_size,
 			    unsigned long long *istart, unsigned long long *iend){
@@ -912,42 +856,6 @@ bool GOMP_loop_ull_ordered_runtime_start (bool up, unsigned long long start, uns
 
 
 /* ------------------------------------------------------------- */
-bool gomp_loop_ull_doacross_static_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_loop_ull_doacross_static_start, "gomp_loop_ull_doacross_static_start");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_loop_ull_doacross_static_start.\n", (unsigned long int)pthread_self());
-	PRE_gomp_loop_ull_doacross_static_start();
-	bool result = lib_gomp_loop_ull_doacross_static_start(ncounts,counts,chunk_size,istart,iend);
-	POST_gomp_loop_ull_doacross_static_start();
-	return result;
-}
-
-/* ------------------------------------------------------------- */
-bool gomp_loop_ull_doacross_dynamic_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_loop_ull_doacross_dynamic_start, "gomp_loop_ull_doacross_dynamic_start");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_loop_ull_doacross_dynamic_start.\n", (unsigned long int)pthread_self());
-	PRE_gomp_loop_ull_doacross_dynamic_start();
-	bool result = lib_gomp_loop_ull_doacross_dynamic_start(ncounts,counts,chunk_size,istart,iend);
-	POST_gomp_loop_ull_doacross_dynamic_start();
-	return result;
-}
-
-/* ------------------------------------------------------------- */
-bool gomp_loop_ull_doacross_guided_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_loop_ull_doacross_guided_start, "gomp_loop_ull_doacross_guided_start");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_loop_ull_doacross_guided_start.\n", (unsigned long int)pthread_self());
-	PRE_gomp_loop_ull_doacross_guided_start();
-	bool result = lib_gomp_loop_ull_doacross_guided_start(ncounts,counts,chunk_size,istart,iend);
-	POST_gomp_loop_ull_doacross_guided_start();
-	return result;
-}
-
-/* ------------------------------------------------------------- */
 bool GOMP_loop_ull_doacross_runtime_start(unsigned ncounts, gomp_ull *counts, gomp_ull *istart, gomp_ull *iend)
 {
 	PRINT_FUNC_NAME;
@@ -1104,70 +1012,7 @@ bool GOMP_loop_ull_ordered_runtime_next (unsigned long long *istart, unsigned lo
 /* ordered.c                                                     */
 /* ------------------------------------------------------------- */
 
-void gomp_ordered_first(void)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_ordered_first, "gomp_ordered_first");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_ordered_first.\n", (unsigned long int)pthread_self());
-	PRE_gomp_ordered_first();
-	lib_gomp_ordered_first();
-	POST_gomp_ordered_first();
-}
 
-/* ------------------------------------------------------------- */
-void gomp_ordered_last(void)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_ordered_last, "gomp_ordered_last");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_ordered_last.\n", (unsigned long int)pthread_self());
-	PRE_gomp_ordered_last();
-	lib_gomp_ordered_last();
-	POST_gomp_ordered_last();
-}
-
-/* ------------------------------------------------------------- */
-void gomp_ordered_next(void)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_ordered_next, "gomp_ordered_next");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_ordered_next.\n", (unsigned long int)pthread_self());
-	PRE_gomp_ordered_next();
-	lib_gomp_ordered_next();
-	POST_gomp_ordered_next();
-}
-
-/* ------------------------------------------------------------- */
-void gomp_ordered_static_init(void)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_ordered_static_init, "gomp_ordered_static_init");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_ordered_static_init.\n", (unsigned long int)pthread_self());
-	PRE_gomp_ordered_static_init();
-	lib_gomp_ordered_static_init();
-	POST_gomp_ordered_static_init();
-}
-
-/* ------------------------------------------------------------- */
-void gomp_ordered_static_next(void)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_ordered_static_next, "gomp_ordered_static_next");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_ordered_static_next.\n", (unsigned long int)pthread_self());
-	PRE_gomp_ordered_static_next();
-	lib_gomp_ordered_static_next();
-	POST_gomp_ordered_static_next();
-}
-
-/* ------------------------------------------------------------- */
-void gomp_ordered_sync(void)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_ordered_sync, "gomp_ordered_sync");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_ordered_sync.\n", (unsigned long int)pthread_self());
-	PRE_gomp_ordered_sync();
-	lib_gomp_ordered_sync();
-	POST_gomp_ordered_sync();
-}
 
 
 void GOMP_ordered_start (void){
@@ -1195,16 +1040,6 @@ void GOMP_ordered_end (void){
 	POST_GOMP_ordered_end();
 }
 
-/* ------------------------------------------------------------- */
-void gomp_doacross_init(unsigned ncounts, long *counts, long chunk_size)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_doacross_init, "gomp_doacross_init");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_doacross_init.\n", (unsigned long int)pthread_self());
-	PRE_gomp_doacross_init();
-	lib_gomp_doacross_init(ncounts,counts,chunk_size);
-	POST_gomp_doacross_init();
-}
 
 /* ------------------------------------------------------------- */
 void GOMP_doacross_post(long *counts)
@@ -1227,18 +1062,6 @@ void GOMP_doacross_wait(long first, ...)
 	lib_GOMP_doacross_wait(first);
 	POST_GOMP_doacross_wait();
 }
-
-/* ------------------------------------------------------------- */
-void gomp_doacross_ull_init(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_doacross_ull_init, "gomp_doacross_ull_init");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_doacross_ull_init.\n", (unsigned long int)pthread_self());
-	PRE_gomp_doacross_ull_init();
-	lib_gomp_doacross_ull_init(ncounts,counts,chunk_size);
-	POST_gomp_doacross_ull_init();
-}
-
 /* ------------------------------------------------------------- */
 void GOMP_doacross_ull_post(gomp_ull *counts)
 {
@@ -1419,16 +1242,6 @@ void GOMP_taskgroup_end (void){
 /* ------------------------------------------------------------- */
 /* sections.c */
 /* ------------------------------------------------------------- */
-
-void gomp_sections_init(struct gomp_work_share *ws, unsigned count)
-{
-	PRINT_FUNC_NAME;
-	GET_RUNTIME_FUNCTION(lib_gomp_sections_init, "gomp_sections_init");
-	TRACE("[hookomp]: Thread [%lu] is executing gomp_sections_init.\n", (unsigned long int)pthread_self());
-	PRE_gomp_sections_init();
-	lib_gomp_sections_init(ws,count);
-	POST_gomp_sections_init();
-}
 
 unsigned GOMP_sections_start (unsigned count){
 	PRINT_FUNC_NAME;
