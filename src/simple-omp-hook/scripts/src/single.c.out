@@ -1,0 +1,22 @@
+_Bool
+GOMP_single_start (void)
+{
+}
+
+
+
+
+
+
+void *
+GOMP_single_copy_start (void)
+{
+}
+
+
+
+
+void
+GOMP_single_copy_end (void *data)
+{
+}

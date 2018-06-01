@@ -9,6 +9,7 @@ repository_url = 'https://raw.githubusercontent.com/gcc-mirror/gcc/master/libgom
 files = ['barrier.c', 'critical.c', 'loop.c', 'loop_ull.c', 'ordered.c',
          'parallel.c', 'sections.c', 'single.c']
 
+#files = ['task.c', 'target.c']
 # excluded files with errors: task.c target.c
 
 for f in files:

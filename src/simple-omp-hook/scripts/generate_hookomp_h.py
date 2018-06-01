@@ -12,6 +12,10 @@ class Visitor1(c_ast.NodeVisitor):
     def visit_FuncDef(self, node):
 
         func_name = node.decl.name
+
+        if not str(func_name).startswith('GOMP_'):
+            return
+
         decl = node.children()[0]
         x = decl[1]
         funcdecl = x.type
@@ -28,6 +32,10 @@ class Visitor2(c_ast.NodeVisitor):
     def visit_FuncDef(self, node):
 
         func_name = node.decl.name
+
+        if not str(func_name).startswith('GOMP_'):
+            return
+
         decl = node.children()[0]
         x = decl[1]
         funcdecl = x.type
@@ -43,7 +51,7 @@ class Visitor2(c_ast.NodeVisitor):
 for f in files:
     print('\n/* {} */\n'.format(f))
     ast = parse_file('src/{0}.out'.format(f))
-    fdv = Visitor()
+    fdv = Visitor1()
     fdv.visit(ast)
 
 for f in files:

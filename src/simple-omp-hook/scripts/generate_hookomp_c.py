@@ -12,6 +12,10 @@ class Visitor(c_ast.NodeVisitor):
     def visit_FuncDef(self, node):
 
         func_name = node.decl.name
+
+        if not str(func_name).startswith('GOMP_'):
+            return
+
         decl = node.children()[0]
         x = decl[1]
         funcdecl = x.type
@@ -35,7 +39,7 @@ class Visitor(c_ast.NodeVisitor):
         print('\tGET_RUNTIME_FUNCTION(lib_' + func_name + ', "' + func_name + '");')
         print('\tTRACE("[hookomp]: Thread [%lu] is executing {}.\\n", (unsigned long int)pthread_self());'.format(
             func_name))
-        print('\tPRE_' + func_name + '();')
+        print('\tPRE_' + func_name + (args_str if args_str != '()' else '()') + ';')
 
         if str_function_type != 'void':
             print('\t' + str_function_type.replace('_Bool', 'bool') +
@@ -43,7 +47,7 @@ class Visitor(c_ast.NodeVisitor):
         else:
             print('\tlib_' + func_name + args_str + ';')
 
-        print('\tPOST_' + func_name + '();')
+        print('\tPOST_' + func_name  + (args_str if args_str != '()' else '()') + ';')
 
         if str_function_type != 'void':
             print('\treturn result;')

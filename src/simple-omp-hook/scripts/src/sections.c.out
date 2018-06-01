@@ -1,0 +1,47 @@
+static inline void
+gomp_sections_init (struct gomp_work_share *ws, unsigned count)
+{
+}
+unsigned
+GOMP_sections_start (unsigned count)
+{
+}
+unsigned
+GOMP_sections_next (void)
+{
+}
+
+
+
+
+void
+GOMP_parallel_sections_start (void (*fn) (void *), void *data,
+         unsigned num_threads, unsigned count)
+{
+}
+
+
+void
+GOMP_parallel_sections (void (*fn) (void *), void *data,
+   unsigned num_threads, unsigned count, unsigned flags)
+{
+}
+
+
+
+
+
+void
+GOMP_sections_end (void)
+{
+}
+
+_Bool
+GOMP_sections_end_cancel (void)
+{
+}
+
+void
+GOMP_sections_end_nowait (void)
+{
+}

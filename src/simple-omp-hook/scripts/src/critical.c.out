@@ -1,0 +1,28 @@
+
+void
+GOMP_critical_start (void)
+{
+}
+
+void
+GOMP_critical_end (void)
+{
+}
+
+
+
+
+void
+GOMP_critical_name_start (void **pptr)
+{
+}
+
+void
+GOMP_critical_name_end (void **pptr)
+{
+}
+
+
+initialize_critical (void)
+{
+}
