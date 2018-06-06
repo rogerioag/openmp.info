@@ -1,0 +1,104 @@
+
+;; Function main (main, funcdef_no=2, decl_uid=3482, cgraph_uid=2, symbol_order=2)
+
+
+OMP region tree
+
+bb 2: gimple_omp_parallel
+    bb 3: gimple_omp_for
+    bb 4: GIMPLE_OMP_CONTINUE
+    bb 5: GIMPLE_OMP_RETURN
+bb 6: GIMPLE_OMP_RETURN
+
+Added new low gimple function main._omp_fn.0 to callgraph
+Introduced new external node (__builtin_GOMP_loop_dynamic_next/4).
+Introduced new external node (pthread_self/5).
+Introduced new external node (omp_get_thread_num/6).
+Introduced new external node (printf/7).
+Introduced new external node (__builtin_GOMP_loop_end_nowait/8).
+
+;; Function main._omp_fn.0 (main._omp_fn.0, funcdef_no=3, decl_uid=3490, cgraph_uid=3, symbol_order=3)
+
+main._omp_fn.0 (void * .omp_data_i)
+{
+  _Bool D.3511;
+  int D.3510;
+  long unsigned int D.3509;
+  int D.3508;
+  long int .iend0.4;
+  int i;
+  long int .istart0.3;
+  _Bool D.3504;
+  long int .iend0.2;
+  long int .istart0.1;
+
+  <bb 11>:
+
+  <bb 3>:
+  D.3504 = __builtin_GOMP_loop_dynamic_next (&.istart0.1, &.iend0.2);
+  if (D.3504 != 0)
+    goto <bb 9>;
+  else
+    goto <bb 5>;
+
+  <bb 9>:
+  .istart0.3 = .istart0.1;
+  i = (int) .istart0.3;
+  .iend0.4 = .iend0.2;
+  D.3508 = (int) .iend0.4;
+
+  <bb 4>:
+  D.3509 = pthread_self ();
+  D.3510 = omp_get_thread_num ();
+  printf ("omp thread: %lu, thread: %lu, iteration: %d\n", D.3510, D.3509, i);
+  i = i + 1;
+  if (i < D.3508)
+    goto <bb 4>;
+  else
+    goto <bb 10>;
+
+  <bb 10>:
+  D.3511 = __builtin_GOMP_loop_dynamic_next (&.istart0.1, &.iend0.2);
+  if (D.3511 != 0)
+    goto <bb 9>;
+  else
+    goto <bb 5>;
+
+  <bb 5>:
+  __builtin_GOMP_loop_end_nowait ();
+
+  <bb 6>:
+  return;
+
+}
+
+
+
+;; Function main (main, funcdef_no=2, decl_uid=3482, cgraph_uid=2, symbol_order=2)
+
+Merging blocks 2 and 12
+Merging blocks 2 and 7
+main ()
+{
+  _Bool D.3501;
+  long int .iend0.4;
+  int D.3500;
+  long int .istart0.3;
+  _Bool D.3497;
+  long int .iend0.2;
+  long int .istart0.1;
+  int i;
+  int i;
+  int D.3488;
+
+  <bb 2>:
+  __builtin_GOMP_parallel_loop_dynamic (main._omp_fn.0, 0B, 2, 0, 10, 1, 1, 0);
+  __builtin_puts (&"Fora da região paralela."[0]);
+  D.3488 = 0;
+
+<L0>:
+  return D.3488;
+
+}
+
+

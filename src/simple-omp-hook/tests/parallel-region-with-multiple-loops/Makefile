@@ -1,7 +1,8 @@
 CC=gcc
 CXX=g++
 #LIB_HOOKOMP_PATH=$(PWD)/..
-LIB_HOOKOMP_PATH:~/Projects/openmp.info/src/simple-omp-hook/
+
+LIB_HOOKOMP_PATH=/home/${USER}/openmp.info/src/simple-omp-hook/
 
 all: clean main
 
