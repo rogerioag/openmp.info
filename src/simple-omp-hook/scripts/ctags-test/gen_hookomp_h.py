@@ -5,9 +5,9 @@ visited_files = []
 
 for tag in tags:
     if tag.file not in visited_files:
-        print('\n/* ------------------------------------------------------------- */')
-        print('/* %s' % tag.file)
-        print('/* ------------------------------------------------------------- */')
+
+        print('\n/* %s */\n' % tag.file)
+
         visited_files.append(tag.file)
 
     print('%s (*lib_%s) %s;' % (tag.return_type, tag.name, tag.signature))
@@ -19,9 +19,9 @@ visited_files.clear()
 
 for tag in tags:
     if tag.file not in visited_files:
-        print('\n/* ------------------------------------------------------------- */')
-        print('/* %s' % tag.file)
-        print('/* ------------------------------------------------------------- */')
+
+        print('\n/* %s */\n' % tag.file)
+
         visited_files.append(tag.file)
 
     print('%s %s %s;' % (tag.return_type, tag.name, tag.signature))
