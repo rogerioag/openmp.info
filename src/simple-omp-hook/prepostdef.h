@@ -12,6 +12,14 @@ extern "C"
 {
 #endif
 
+	/* atomic.c */
+
+	void PRE_GOMP_atomic_start(void);
+	void POST_GOMP_atomic_start(void);
+
+	void PRE_GOMP_atomic_end(void);
+	void POST_GOMP_atomic_end(void);
+
 	/* barrier.c */
 	void PRE_GOMP_barrier(void);
 	void POST_GOMP_barrier(void);

@@ -2,8 +2,8 @@ from pycparser import c_parser, c_ast, parse_file, c_generator
 
 generator = c_generator.CGenerator()
 
-files = ['barrier.c', 'critical.c', 'loop.c', 'loop_ull.c', 'ordered.c',
-         'parallel.c', 'sections.c', 'single.c']
+#files = ['barrier.c', 'critical.c', 'loop.c', 'loop_ull.c', 'ordered.c',
+#         'parallel.c', 'sections.c', 'single.c']
 
 # excluded files with errors: task.c target.c
 
@@ -56,11 +56,10 @@ class Visitor(c_ast.NodeVisitor):
         print('/* ------------------------------------------------------------- */')
 
 
-for f in files:
-    print('\n/* ------------------------------------------------------------- */')
-    print('/* ' + f)
-    print('/* ------------------------------------------------------------- */')
 
-    ast = parse_file('src/{0}.out'.format(f))
-    fdv = Visitor()
-    fdv.visit(ast)
+print('\n/* ------------------------------------------------------------- */')
+#print('/* ' + f)
+print('/* ------------------------------------------------------------- */')
+ast = parse_file('src/all_functions.c')
+fdv = Visitor()
+fdv.visit(ast)

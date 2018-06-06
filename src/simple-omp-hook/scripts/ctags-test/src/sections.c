@@ -25,6 +25,7 @@
 
 /* This file handles the SECTIONS construct.  */
 
+#include "libgomp.h"
 
 
 /* Initialize the given work share construct from the given arguments.  */
@@ -32,6 +33,27 @@
 static inline void
 gomp_sections_init (struct gomp_work_share *ws, unsigned count)
 {
+  ws->sched = GFS_DYNAMIC;
+  ws->chunk_size = 1;
+  ws->end = count + 1L;
+  ws->incr = 1;
+  ws->next = 1;
+#ifdef HAVE_SYNC_BUILTINS
+  /* Prepare things to make each iteration faster.  */
+  if (sizeof (long) > sizeof (unsigned))
+    ws->mode = 1;
+  else
+    {
+      struct gomp_thread *thr = gomp_thread ();
+      struct gomp_team *team = thr->ts.team;
+      long nthreads = team ? team->nthreads : 1;
+
+      ws->mode = ((nthreads | ws->end)
+		  < 1UL << (sizeof (long) * __CHAR_BIT__ / 2 - 1));
+    }
+#else
+  ws->mode = 0;
+#endif
 }
 
 /* This routine is called when first encountering a sections construct
@@ -47,6 +69,30 @@ gomp_sections_init (struct gomp_work_share *ws, unsigned count)
 unsigned
 GOMP_sections_start (unsigned count)
 {
+  struct gomp_thread *thr = gomp_thread ();
+  long s, e, ret;
+
+  if (gomp_work_share_start (false))
+    {
+      gomp_sections_init (thr->ts.work_share, count);
+      gomp_work_share_init_done ();
+    }
+
+#ifdef HAVE_SYNC_BUILTINS
+  if (gomp_iter_dynamic_next (&s, &e))
+    ret = s;
+  else
+    ret = 0;
+#else
+  gomp_mutex_lock (&thr->ts.work_share->lock);
+  if (gomp_iter_dynamic_next_locked (&s, &e))
+    ret = s;
+  else
+    ret = 0;
+  gomp_mutex_unlock (&thr->ts.work_share->lock);
+#endif
+
+  return ret;
 }
 
 /* This routine is called when the thread completes processing of the
@@ -61,6 +107,25 @@ GOMP_sections_start (unsigned count)
 unsigned
 GOMP_sections_next (void)
 {
+  long s, e, ret;
+
+#ifdef HAVE_SYNC_BUILTINS
+  if (gomp_iter_dynamic_next (&s, &e))
+    ret = s;
+  else
+    ret = 0;
+#else
+  struct gomp_thread *thr = gomp_thread ();
+
+  gomp_mutex_lock (&thr->ts.work_share->lock);
+  if (gomp_iter_dynamic_next_locked (&s, &e))
+    ret = s;
+  else
+    ret = 0;
+  gomp_mutex_unlock (&thr->ts.work_share->lock);
+#endif
+
+  return ret;
 }
 
 /* This routine pre-initializes a work-share construct to avoid one
@@ -70,6 +135,12 @@ void
 GOMP_parallel_sections_start (void (*fn) (void *), void *data,
 			      unsigned num_threads, unsigned count)
 {
+  struct gomp_team *team;
+
+  num_threads = gomp_resolve_num_threads (num_threads, count);
+  team = gomp_new_team (num_threads);
+  gomp_sections_init (&team->work_shares[0], count);
+  gomp_team_start (fn, data, num_threads, 0, team);
 }
 
 
@@ -77,6 +148,14 @@ void
 GOMP_parallel_sections (void (*fn) (void *), void *data,
 			unsigned num_threads, unsigned count, unsigned flags)
 {
+  struct gomp_team *team;
+
+  num_threads = gomp_resolve_num_threads (num_threads, count);
+  team = gomp_new_team (num_threads);
+  gomp_sections_init (&team->work_shares[0], count);
+  gomp_team_start (fn, data, num_threads, flags, team);
+  fn (data);
+  GOMP_parallel_end ();
 }
 
 /* The GOMP_section_end* routines are called after the thread is told
@@ -86,14 +165,17 @@ GOMP_parallel_sections (void (*fn) (void *), void *data,
 void
 GOMP_sections_end (void)
 {
+  gomp_work_share_end ();
 }
 
-_Bool
+bool
 GOMP_sections_end_cancel (void)
 {
+  return gomp_work_share_end_cancel ();
 }
 
 void
 GOMP_sections_end_nowait (void)
 {
+  gomp_work_share_end_nowait ();
 }

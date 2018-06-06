@@ -23,32 +23,32 @@
    see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    <http://www.gnu.org/licenses/>.  */
 
-/* This file handles the CRITICAL construct.  */
+/* This file handles the BARRIER construct.  */
 
-
-
-
-void
-GOMP_critical_start (void)
-{
-}
-
-void
-GOMP_critical_end (void)
-{
-}
+#include "libgomp.h"
 
 
 void
-GOMP_critical_name_start (void **pptr)
+GOMP_barrier (void)
 {
+  struct gomp_thread *thr = gomp_thread ();
+  struct gomp_team *team = thr->ts.team;
+
+  /* It is legal to have orphaned barriers.  */
+  if (team == NULL)
+    return;
+
+  gomp_team_barrier_wait (&team->barrier);
 }
 
-void
-GOMP_critical_name_end (void **pptr)
+bool
+GOMP_barrier_cancel (void)
 {
-}
+  struct gomp_thread *thr = gomp_thread ();
+  struct gomp_team *team = thr->ts.team;
 
-initialize_critical (void)
-{
+  /* The compiler transforms to barrier_cancel when it sees that the
+     barrier is within a construct that can cancel.  Thus we should
+     never have an orphaned cancellable barrier.  */
+  return gomp_team_barrier_wait_cancel (&team->barrier);
 }

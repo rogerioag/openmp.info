@@ -1,0 +1,87 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+DLSYM	target.c	2522
+DLSYM	target.c	2596
+DLSYM_OPT	target.c	2527
+DLSYM_OPT	target.c	2597
+GOMP_offload_register	target.c	/^GOMP_offload_register (const void *host_table, int target_type,$/;"	signature:(const void *host_table, int target_type, const void *target_data)
+GOMP_offload_register_ver	target.c	/^GOMP_offload_register_ver (unsigned version, const void *host_table,$/;"	signature:(unsigned version, const void *host_table, int target_type, const void *target_data)
+GOMP_offload_unregister	target.c	/^GOMP_offload_unregister (const void *host_table, int target_type,$/;"	signature:(const void *host_table, int target_type, const void *target_data)
+GOMP_offload_unregister_ver	target.c	/^GOMP_offload_unregister_ver (unsigned version, const void *host_table,$/;"	signature:(unsigned version, const void *host_table, int target_type, const void *target_data)
+GOMP_target	target.c	/^GOMP_target (int device, void (*fn) (void *), const void *unused,$/;"	signature:(int device, void (*fn) (void *), const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
+GOMP_target_data	target.c	/^GOMP_target_data (int device, const void *unused, size_t mapnum,$/;"	signature:(int device, const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
+GOMP_target_data_ext	target.c	/^GOMP_target_data_ext (int device, size_t mapnum, void **hostaddrs,$/;"	signature:(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds)
+GOMP_target_end_data	target.c	/^GOMP_target_end_data (void)$/;"	signature:(void)
+GOMP_target_enter_exit_data	target.c	/^GOMP_target_enter_exit_data (int device, size_t mapnum, void **hostaddrs,$/;"	signature:(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend)
+GOMP_target_ext	target.c	/^GOMP_target_ext (int device, void (*fn) (void *), size_t mapnum,$/;"	signature:(int device, void (*fn) (void *), size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend, void **args)
+GOMP_target_update	target.c	/^GOMP_target_update (int device, const void *unused, size_t mapnum,$/;"	signature:(int device, const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
+GOMP_target_update_ext	target.c	/^GOMP_target_update_ext (int device, size_t mapnum, void **hostaddrs,$/;"	signature:(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend)
+GOMP_teams	target.c	/^GOMP_teams (unsigned int num_teams, unsigned int thread_limit)$/;"	signature:(unsigned int num_teams, unsigned int thread_limit)
+MAX_COALESCE_BUF_GAP	target.c	212
+MAX_COALESCE_BUF_SIZE	target.c	204
+buf	target.c	/^  void *buf;$/
+calculate_firstprivate_requirements	target.c	/^calculate_firstprivate_requirements (size_t mapnum, size_t *sizes,$/;"	signature:(size_t mapnum, size_t *sizes, unsigned short *kinds, size_t *tgt_align, size_t *tgt_size)
+chunk_cnt	target.c	/^  long chunk_cnt;$/
+chunks	target.c	/^  size_t *chunks;$/
+copy_firstprivate_data	target.c	/^copy_firstprivate_data (char *tgt, size_t mapnum, void **hostaddrs,$/;"	signature:(char *tgt, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, size_t tgt_align, size_t tgt_size)
+devices	target.c	/^static struct gomp_device_descr *devices;$/
+get_kind	target.c	/^get_kind (bool short_mapkind, void *kinds, int idx)$/;"	signature:(bool short_mapkind, void *kinds, int idx)
+gomp_coalesce_buf	target.c	/^struct gomp_coalesce_buf$/
+gomp_coalesce_buf_add	target.c	/^gomp_coalesce_buf_add (struct gomp_coalesce_buf *cbuf, size_t start, size_t len)$/;"	signature:(struct gomp_coalesce_buf *cbuf, size_t start, size_t len)
+gomp_copy_dev2host	target.c	/^gomp_copy_dev2host (struct gomp_device_descr *devicep,$/;"	signature:(struct gomp_device_descr *devicep, void *h, const void *d, size_t sz)
+gomp_copy_host2dev	target.c	/^gomp_copy_host2dev (struct gomp_device_descr *devicep,$/;"	signature:(struct gomp_device_descr *devicep, void *d, const void *h, size_t sz, struct gomp_coalesce_buf *cbuf)
+gomp_device_copy	target.c	/^gomp_device_copy (struct gomp_device_descr *devicep,$/;"	signature:(struct gomp_device_descr *devicep, bool (*copy_func) (int, void *, const void *, size_t), const char *dst, void *dstaddr, const char *src, const void *srcaddr, size_t size)
+gomp_exit_data	target.c	/^gomp_exit_data (struct gomp_device_descr *devicep, size_t mapnum,$/;"	signature:(struct gomp_device_descr *devicep, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds)
+gomp_free_device_memory	target.c	/^gomp_free_device_memory (struct gomp_device_descr *devicep, void *devptr)$/;"	signature:(struct gomp_device_descr *devicep, void *devptr)
+gomp_free_memmap	target.c	/^gomp_free_memmap (struct splay_tree_s *mem_map)$/;"	signature:(struct splay_tree_s *mem_map)
+gomp_get_num_devices	target.c	/^gomp_get_num_devices (void)$/;"	signature:(void)
+gomp_get_target_fn_addr	target.c	/^gomp_get_target_fn_addr (struct gomp_device_descr *devicep,$/;"	signature:(struct gomp_device_descr *devicep, void (*host_fn) (void *))
+gomp_init_device	target.c	/^gomp_init_device (struct gomp_device_descr *devicep)$/;"	signature:(struct gomp_device_descr *devicep)
+gomp_init_targets_once	target.c	/^gomp_init_targets_once (void)$/;"	signature:(void)
+gomp_is_initialized	target.c	/^static pthread_once_t gomp_is_initialized = PTHREAD_ONCE_INIT;$/
+gomp_load_image_to_device	target.c	/^gomp_load_image_to_device (struct gomp_device_descr *devicep, unsigned version,$/;"	signature:(struct gomp_device_descr *devicep, unsigned version, const void *host_table, const void *target_data, bool is_register_lock)
+gomp_load_plugin_for_device	target.c	/^gomp_load_plugin_for_device (struct gomp_device_descr *device,$/;"	signature:(struct gomp_device_descr *device, const char *plugin_name)
+gomp_map_0len_lookup	target.c	/^gomp_map_0len_lookup (splay_tree mem_map, splay_tree_key key)$/;"	signature:(splay_tree mem_map, splay_tree_key key)
+gomp_map_fields_existing	target.c	/^gomp_map_fields_existing (struct target_mem_desc *tgt, splay_tree_key n,$/;"	signature:(struct target_mem_desc *tgt, splay_tree_key n, size_t first, size_t i, void **hostaddrs, size_t *sizes, void *kinds, struct gomp_coalesce_buf *cbuf)
+gomp_map_lookup	target.c	/^gomp_map_lookup (splay_tree mem_map, splay_tree_key key)$/;"	signature:(splay_tree mem_map, splay_tree_key key)
+gomp_map_pointer	target.c	/^gomp_map_pointer (struct target_mem_desc *tgt, uintptr_t host_ptr,$/;"	signature:(struct target_mem_desc *tgt, uintptr_t host_ptr, uintptr_t target_offset, uintptr_t bias, struct gomp_coalesce_buf *cbuf)
+gomp_map_val	target.c	/^gomp_map_val (struct target_mem_desc *tgt, void **hostaddrs, size_t i)$/;"	signature:(struct target_mem_desc *tgt, void **hostaddrs, size_t i)
+gomp_map_vars	target.c	/^gomp_map_vars (struct gomp_device_descr *devicep, size_t mapnum,$/;"	signature:(struct gomp_device_descr *devicep, size_t mapnum, void **hostaddrs, void **devaddrs, size_t *sizes, void *kinds, bool short_mapkind, enum gomp_map_vars_kind pragma_kind)
+gomp_map_vars_existing	target.c	/^gomp_map_vars_existing (struct gomp_device_descr *devicep, splay_tree_key oldn,$/;"	signature:(struct gomp_device_descr *devicep, splay_tree_key oldn, splay_tree_key newn, struct target_var_desc *tgt_var, unsigned char kind, struct gomp_coalesce_buf *cbuf)
+gomp_realloc_unlock	target.c	/^gomp_realloc_unlock (void *old, size_t size)$/;"	signature:(void *old, size_t size)
+gomp_target_data_fallback	target.c	/^gomp_target_data_fallback (void)$/;"	signature:(void)
+gomp_target_fallback	target.c	/^gomp_target_fallback (void (*fn) (void *), void **hostaddrs)$/;"	signature:(void (*fn) (void *), void **hostaddrs)
+gomp_target_fini	target.c	/^gomp_target_fini (void)$/;"	signature:(void)
+gomp_target_init	target.c	/^gomp_target_init (void)$/;"	signature:(void)
+gomp_target_task_fn	target.c	/^gomp_target_task_fn (void *data)$/;"	signature:(void *data)
+gomp_to_device_kind_p	target.c	/^gomp_to_device_kind_p (int kind)$/;"	signature:(int kind)
+gomp_unload_device	target.c	/^gomp_unload_device (struct gomp_device_descr *devicep)$/;"	signature:(struct gomp_device_descr *devicep)
+gomp_unload_image_from_device	target.c	/^gomp_unload_image_from_device (struct gomp_device_descr *devicep,$/;"	signature:(struct gomp_device_descr *devicep, unsigned version, const void *host_table, const void *target_data)
+gomp_unmap_tgt	target.c	/^gomp_unmap_tgt (struct target_mem_desc *tgt)$/;"	signature:(struct target_mem_desc *tgt)
+gomp_unmap_vars	target.c	/^gomp_unmap_vars (struct target_mem_desc *tgt, bool do_copyfrom)$/;"	signature:(struct target_mem_desc *tgt, bool do_copyfrom)
+gomp_update	target.c	/^gomp_update (struct gomp_device_descr *devicep, size_t mapnum, void **hostaddrs,$/;"	signature:(struct gomp_device_descr *devicep, size_t mapnum, void **hostaddrs, size_t *sizes, void *kinds, bool short_mapkind)
+host_table	target.c	/^  const void *host_table;$/
+num_devices	target.c	/^static int num_devices;$/
+num_devices_openmp	target.c	/^static int num_devices_openmp;$/
+num_offload_images	target.c	/^static int num_offload_images;$/
+offload_image_descr	target.c	/^struct offload_image_descr {$/
+offload_images	target.c	/^static struct offload_image_descr *offload_images;$/
+omp_target_alloc	target.c	/^omp_target_alloc (size_t size, int device_num)$/;"	signature:(size_t size, int device_num)
+omp_target_associate_ptr	target.c	/^omp_target_associate_ptr (void *host_ptr, void *device_ptr, size_t size,$/;"	signature:(void *host_ptr, void *device_ptr, size_t size, size_t device_offset, int device_num)
+omp_target_disassociate_ptr	target.c	/^omp_target_disassociate_ptr (void *ptr, int device_num)$/;"	signature:(void *ptr, int device_num)
+omp_target_free	target.c	/^omp_target_free (void *device_ptr, int device_num)$/;"	signature:(void *device_ptr, int device_num)
+omp_target_is_present	target.c	/^omp_target_is_present (void *ptr, int device_num)$/;"	signature:(void *ptr, int device_num)
+omp_target_memcpy	target.c	/^omp_target_memcpy (void *dst, void *src, size_t length, size_t dst_offset,$/;"	signature:(void *dst, void *src, size_t length, size_t dst_offset, size_t src_offset, int dst_device_num, int src_device_num)
+omp_target_memcpy_rect	target.c	/^omp_target_memcpy_rect (void *dst, void *src, size_t element_size,$/;"	signature:(void *dst, void *src, size_t element_size, int num_dims, const size_t *volume, const size_t *dst_offsets, const size_t *src_offsets, const size_t *dst_dimensions, const size_t *src_dimensions, int dst_device_num, int src_device_num)
+omp_target_memcpy_rect_worker	target.c	/^omp_target_memcpy_rect_worker (void *dst, void *src, size_t element_size,$/;"	signature:(void *dst, void *src, size_t element_size, int num_dims, const size_t *volume, const size_t *dst_offsets, const size_t *src_offsets, const size_t *dst_dimensions, const size_t *src_dimensions, struct gomp_device_descr *dst_devicep, struct gomp_device_descr *src_devicep)
+register_lock	target.c	/^static gomp_mutex_t register_lock;$/
+resolve_device	target.c	/^resolve_device (int device_id)$/;"	signature:(int device_id)
+target_data	target.c	/^  const void *target_data;$/
+tgt	target.c	/^  struct target_mem_desc *tgt;$/
+type	target.c	/^  enum offload_target_type type;$/
+use_cnt	target.c	/^  long use_cnt;$/
+version	target.c	/^  unsigned version;$/

@@ -25,15 +25,34 @@
 
 /* This file handles the SINGLE construct.  */
 
+#include "libgomp.h"
 
 
 /* This routine is called when first encountering a SINGLE construct that
    doesn't have a COPYPRIVATE clause.  Returns true if this is the thread
    that should execute the clause.  */
 
-_Bool
+bool
 GOMP_single_start (void)
 {
+#ifdef HAVE_SYNC_BUILTINS
+  struct gomp_thread *thr = gomp_thread ();
+  struct gomp_team *team = thr->ts.team;
+  unsigned long single_count;
+
+  if (__builtin_expect (team == NULL, 0))
+    return true;
+
+  single_count = thr->ts.single_count++;
+  return __sync_bool_compare_and_swap (&team->single_count, single_count,
+				       single_count + 1L);
+#else
+  bool ret = gomp_work_share_start (false);
+  if (ret)
+    gomp_work_share_init_done ();
+  gomp_work_share_end_nowait ();
+  return ret;
+#endif
 }
 
 /* This routine is called when first encountering a SINGLE construct that
@@ -44,6 +63,27 @@ GOMP_single_start (void)
 void *
 GOMP_single_copy_start (void)
 {
+  struct gomp_thread *thr = gomp_thread ();
+
+  bool first;
+  void *ret;
+
+  first = gomp_work_share_start (false);
+  
+  if (first)
+    {
+      gomp_work_share_init_done ();
+      ret = NULL;
+    }
+  else
+    {
+      gomp_team_barrier_wait (&thr->ts.team->barrier);
+
+      ret = thr->ts.work_share->copyprivate;
+      gomp_work_share_end_nowait ();
+    }
+
+  return ret;
 }
 
 /* This routine is called when the thread that entered a SINGLE construct
@@ -52,4 +92,14 @@ GOMP_single_copy_start (void)
 void
 GOMP_single_copy_end (void *data)
 {
+  struct gomp_thread *thr = gomp_thread ();
+  struct gomp_team *team = thr->ts.team;
+
+  if (team != NULL)
+    {
+      thr->ts.work_share->copyprivate = data;
+      gomp_team_barrier_wait (&team->barrier);
+    }
+
+  gomp_work_share_end_nowait ();
 }

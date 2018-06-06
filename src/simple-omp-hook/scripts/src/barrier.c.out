@@ -1,9 +1,0 @@
-void
-GOMP_barrier (void)
-{
-}
-
-_Bool
-GOMP_barrier_cancel (void)
-{
-}
