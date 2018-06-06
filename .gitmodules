@@ -1,3 +1,0 @@
-[submodule "src/simple-omp-hook/src/simple-omp-hook/scripts/ctags-test/ctags"]
-	path = src/simple-omp-hook/src/simple-omp-hook/scripts/ctags-test/ctags
-	url = https://github.com/universal-ctags/ctags
