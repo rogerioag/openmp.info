@@ -1,7 +1,7 @@
 CC=gcc-4.8
 CXX=g++-4.8
 #LIB_HOOKOMP_PATH=$(PWD)/..
-LIB_HOOKOMP_PATH=/dados/Dropbox/doutorado/producao/publications/minicurso-openmp-wscad-2017/mc-openmp-wscad-2017-texto/src/simple-omp-hook
+LIB_HOOKOMP_PATH=/home/${USER}/openmp.info/src/simple-omp-hook/
 
 all: clean main
 

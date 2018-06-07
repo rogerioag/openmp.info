@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "debug.h"
-
 typedef unsigned long long gomp_ull;
-typedef long TYPE;
 typedef _Bool bool;
-
+typedef long TYPE;
+// Variables
 int num_GOMP_atomic_end = 0;
 int num_GOMP_atomic_start = 0;
 int num_GOMP_barrier = 0;
@@ -127,7 +126,8 @@ int num_GOACC_parallel_keyed = 0;
 int num_GOACC_update = 0;
 int num_GOACC_wait = 0;
 
-void print_results()
+// print_results
+void print_results(void)
 {
 	printf("Number of GOMP_atomic_end: %d\n", num_GOMP_atomic_end);
 	printf("Number of GOMP_atomic_start: %d\n", num_GOMP_atomic_start);
@@ -251,6 +251,7 @@ void print_results()
 	printf("Number of GOACC_wait: %d\n", num_GOACC_wait);
 }
 
+// HOOKS
 void PRE_GOMP_atomic_end(void)
 {
 	PRINT_FUNC_NAME;
@@ -1118,6 +1119,7 @@ void PRE_GOMP_parallel_end(void)
 void POST_GOMP_parallel_end(void)
 {
 	PRINT_FUNC_NAME;
+	print_results();
 }
 
 void PRE_GOMP_parallel_start(void (*fn)(void *), void *data, unsigned num_threads)
@@ -1570,3 +1572,5 @@ void POST_GOACC_wait(int async, int num_waits, ...)
 {
 	PRINT_FUNC_NAME;
 }
+
+///GENERATED 120 FUNCTIONS

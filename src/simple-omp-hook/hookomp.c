@@ -10,7 +10,7 @@ void foo(void)
 	puts("Hello, I'm a shared library.\n");
 }
 
-/* ------------------------------------------------------------- */
+//* ------------------------------------------------------------- */
 /* atomic.c
 /* ------------------------------------------------------------- */
 void GOMP_atomic_end(void)
@@ -52,8 +52,9 @@ bool GOMP_barrier_cancel(void)
 	GET_RUNTIME_FUNCTION(lib_GOMP_barrier_cancel, "GOMP_barrier_cancel");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_barrier_cancel.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_barrier_cancel();
-	lib_GOMP_barrier_cancel();
+	bool ret = lib_GOMP_barrier_cancel();
 	POST_GOMP_barrier_cancel();
+	return ret;
 }
 
 /* ------------------------------------------------------------- */
@@ -108,8 +109,9 @@ bool GOMP_loop_doacross_dynamic_start(unsigned ncounts, long *counts, long chunk
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_doacross_dynamic_start, "GOMP_loop_doacross_dynamic_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_doacross_dynamic_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_doacross_dynamic_start(ncounts, counts, chunk_size, istart, iend);
-	lib_GOMP_loop_doacross_dynamic_start(ncounts, counts, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_doacross_dynamic_start(ncounts, counts, chunk_size, istart, iend);
 	POST_GOMP_loop_doacross_dynamic_start(ncounts, counts, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_doacross_guided_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
@@ -118,8 +120,9 @@ bool GOMP_loop_doacross_guided_start(unsigned ncounts, long *counts, long chunk_
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_doacross_guided_start, "GOMP_loop_doacross_guided_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_doacross_guided_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_doacross_guided_start(ncounts, counts, chunk_size, istart, iend);
-	lib_GOMP_loop_doacross_guided_start(ncounts, counts, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_doacross_guided_start(ncounts, counts, chunk_size, istart, iend);
 	POST_GOMP_loop_doacross_guided_start(ncounts, counts, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_doacross_runtime_start(unsigned ncounts, long *counts, long *istart, long *iend)
@@ -128,8 +131,9 @@ bool GOMP_loop_doacross_runtime_start(unsigned ncounts, long *counts, long *ista
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_doacross_runtime_start, "GOMP_loop_doacross_runtime_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_doacross_runtime_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_doacross_runtime_start(ncounts, counts, istart, iend);
-	lib_GOMP_loop_doacross_runtime_start(ncounts, counts, istart, iend);
+	bool ret = lib_GOMP_loop_doacross_runtime_start(ncounts, counts, istart, iend);
 	POST_GOMP_loop_doacross_runtime_start(ncounts, counts, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_doacross_static_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
@@ -138,8 +142,9 @@ bool GOMP_loop_doacross_static_start(unsigned ncounts, long *counts, long chunk_
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_doacross_static_start, "GOMP_loop_doacross_static_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_doacross_static_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_doacross_static_start(ncounts, counts, chunk_size, istart, iend);
-	lib_GOMP_loop_doacross_static_start(ncounts, counts, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_doacross_static_start(ncounts, counts, chunk_size, istart, iend);
 	POST_GOMP_loop_doacross_static_start(ncounts, counts, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_dynamic_next(long *istart, long *iend)
@@ -148,8 +153,9 @@ bool GOMP_loop_dynamic_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_dynamic_next, "GOMP_loop_dynamic_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_dynamic_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_dynamic_next(istart, iend);
-	lib_GOMP_loop_dynamic_next(istart, iend);
+	bool ret = lib_GOMP_loop_dynamic_next(istart, iend);
 	POST_GOMP_loop_dynamic_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
@@ -158,8 +164,9 @@ bool GOMP_loop_dynamic_start(long start, long end, long incr, long chunk_size, l
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_dynamic_start, "GOMP_loop_dynamic_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_dynamic_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_dynamic_start(start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_dynamic_start(start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_dynamic_start(start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_dynamic_start(start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 void GOMP_loop_end(void)
@@ -178,8 +185,9 @@ bool GOMP_loop_end_cancel(void)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_end_cancel, "GOMP_loop_end_cancel");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_end_cancel.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_end_cancel();
-	lib_GOMP_loop_end_cancel();
+	bool ret = lib_GOMP_loop_end_cancel();
 	POST_GOMP_loop_end_cancel();
+	return ret;
 }
 
 void GOMP_loop_end_nowait(void)
@@ -198,8 +206,9 @@ bool GOMP_loop_guided_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_guided_next, "GOMP_loop_guided_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_guided_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_guided_next(istart, iend);
-	lib_GOMP_loop_guided_next(istart, iend);
+	bool ret = lib_GOMP_loop_guided_next(istart, iend);
 	POST_GOMP_loop_guided_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
@@ -208,8 +217,9 @@ bool GOMP_loop_guided_start(long start, long end, long incr, long chunk_size, lo
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_guided_start, "GOMP_loop_guided_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_guided_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_guided_start(start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_guided_start(start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_guided_start(start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_guided_start(start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_nonmonotonic_dynamic_next(long *istart, long *iend)
@@ -218,8 +228,9 @@ bool GOMP_loop_nonmonotonic_dynamic_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_nonmonotonic_dynamic_next, "GOMP_loop_nonmonotonic_dynamic_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_nonmonotonic_dynamic_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_nonmonotonic_dynamic_next(istart, iend);
-	lib_GOMP_loop_nonmonotonic_dynamic_next(istart, iend);
+	bool ret = lib_GOMP_loop_nonmonotonic_dynamic_next(istart, iend);
 	POST_GOMP_loop_nonmonotonic_dynamic_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_nonmonotonic_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
@@ -228,8 +239,9 @@ bool GOMP_loop_nonmonotonic_dynamic_start(long start, long end, long incr, long 
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_nonmonotonic_dynamic_start, "GOMP_loop_nonmonotonic_dynamic_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_nonmonotonic_dynamic_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_nonmonotonic_dynamic_start(start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_nonmonotonic_dynamic_start(start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_nonmonotonic_dynamic_start(start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_nonmonotonic_dynamic_start(start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_nonmonotonic_guided_next(long *istart, long *iend)
@@ -238,8 +250,9 @@ bool GOMP_loop_nonmonotonic_guided_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_nonmonotonic_guided_next, "GOMP_loop_nonmonotonic_guided_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_nonmonotonic_guided_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_nonmonotonic_guided_next(istart, iend);
-	lib_GOMP_loop_nonmonotonic_guided_next(istart, iend);
+	bool ret = lib_GOMP_loop_nonmonotonic_guided_next(istart, iend);
 	POST_GOMP_loop_nonmonotonic_guided_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_nonmonotonic_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
@@ -248,8 +261,9 @@ bool GOMP_loop_nonmonotonic_guided_start(long start, long end, long incr, long c
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_nonmonotonic_guided_start, "GOMP_loop_nonmonotonic_guided_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_nonmonotonic_guided_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_nonmonotonic_guided_start(start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_nonmonotonic_guided_start(start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_nonmonotonic_guided_start(start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_nonmonotonic_guided_start(start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ordered_dynamic_next(long *istart, long *iend)
@@ -258,8 +272,9 @@ bool GOMP_loop_ordered_dynamic_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ordered_dynamic_next, "GOMP_loop_ordered_dynamic_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ordered_dynamic_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ordered_dynamic_next(istart, iend);
-	lib_GOMP_loop_ordered_dynamic_next(istart, iend);
+	bool ret = lib_GOMP_loop_ordered_dynamic_next(istart, iend);
 	POST_GOMP_loop_ordered_dynamic_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ordered_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
@@ -268,8 +283,9 @@ bool GOMP_loop_ordered_dynamic_start(long start, long end, long incr, long chunk
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ordered_dynamic_start, "GOMP_loop_ordered_dynamic_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ordered_dynamic_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ordered_dynamic_start(start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ordered_dynamic_start(start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ordered_dynamic_start(start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ordered_dynamic_start(start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ordered_guided_next(long *istart, long *iend)
@@ -278,8 +294,9 @@ bool GOMP_loop_ordered_guided_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ordered_guided_next, "GOMP_loop_ordered_guided_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ordered_guided_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ordered_guided_next(istart, iend);
-	lib_GOMP_loop_ordered_guided_next(istart, iend);
+	bool ret = lib_GOMP_loop_ordered_guided_next(istart, iend);
 	POST_GOMP_loop_ordered_guided_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ordered_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
@@ -288,8 +305,9 @@ bool GOMP_loop_ordered_guided_start(long start, long end, long incr, long chunk_
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ordered_guided_start, "GOMP_loop_ordered_guided_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ordered_guided_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ordered_guided_start(start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ordered_guided_start(start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ordered_guided_start(start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ordered_guided_start(start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ordered_runtime_next(long *istart, long *iend)
@@ -298,8 +316,9 @@ bool GOMP_loop_ordered_runtime_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ordered_runtime_next, "GOMP_loop_ordered_runtime_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ordered_runtime_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ordered_runtime_next(istart, iend);
-	lib_GOMP_loop_ordered_runtime_next(istart, iend);
+	bool ret = lib_GOMP_loop_ordered_runtime_next(istart, iend);
 	POST_GOMP_loop_ordered_runtime_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ordered_runtime_start(long start, long end, long incr, long *istart, long *iend)
@@ -308,8 +327,9 @@ bool GOMP_loop_ordered_runtime_start(long start, long end, long incr, long *ista
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ordered_runtime_start, "GOMP_loop_ordered_runtime_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ordered_runtime_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ordered_runtime_start(start, end, incr, istart, iend);
-	lib_GOMP_loop_ordered_runtime_start(start, end, incr, istart, iend);
+	bool ret = lib_GOMP_loop_ordered_runtime_start(start, end, incr, istart, iend);
 	POST_GOMP_loop_ordered_runtime_start(start, end, incr, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ordered_static_next(long *istart, long *iend)
@@ -318,8 +338,9 @@ bool GOMP_loop_ordered_static_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ordered_static_next, "GOMP_loop_ordered_static_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ordered_static_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ordered_static_next(istart, iend);
-	lib_GOMP_loop_ordered_static_next(istart, iend);
+	bool ret = lib_GOMP_loop_ordered_static_next(istart, iend);
 	POST_GOMP_loop_ordered_static_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ordered_static_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
@@ -328,8 +349,9 @@ bool GOMP_loop_ordered_static_start(long start, long end, long incr, long chunk_
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ordered_static_start, "GOMP_loop_ordered_static_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ordered_static_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ordered_static_start(start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ordered_static_start(start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ordered_static_start(start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ordered_static_start(start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_runtime_next(long *istart, long *iend)
@@ -338,8 +360,9 @@ bool GOMP_loop_runtime_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_runtime_next, "GOMP_loop_runtime_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_runtime_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_runtime_next(istart, iend);
-	lib_GOMP_loop_runtime_next(istart, iend);
+	bool ret = lib_GOMP_loop_runtime_next(istart, iend);
 	POST_GOMP_loop_runtime_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_runtime_start(long start, long end, long incr, long *istart, long *iend)
@@ -348,8 +371,9 @@ bool GOMP_loop_runtime_start(long start, long end, long incr, long *istart, long
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_runtime_start, "GOMP_loop_runtime_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_runtime_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_runtime_start(start, end, incr, istart, iend);
-	lib_GOMP_loop_runtime_start(start, end, incr, istart, iend);
+	bool ret = lib_GOMP_loop_runtime_start(start, end, incr, istart, iend);
 	POST_GOMP_loop_runtime_start(start, end, incr, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_static_next(long *istart, long *iend)
@@ -358,8 +382,9 @@ bool GOMP_loop_static_next(long *istart, long *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_static_next, "GOMP_loop_static_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_static_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_static_next(istart, iend);
-	lib_GOMP_loop_static_next(istart, iend);
+	bool ret = lib_GOMP_loop_static_next(istart, iend);
 	POST_GOMP_loop_static_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_static_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
@@ -368,8 +393,9 @@ bool GOMP_loop_static_start(long start, long end, long incr, long chunk_size, lo
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_static_start, "GOMP_loop_static_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_static_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_static_start(start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_static_start(start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_static_start(start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_static_start(start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 void GOMP_parallel_loop_dynamic(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
@@ -481,8 +507,9 @@ bool GOMP_loop_ull_doacross_dynamic_start(unsigned ncounts, gomp_ull *counts, go
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_doacross_dynamic_start, "GOMP_loop_ull_doacross_dynamic_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_doacross_dynamic_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_doacross_dynamic_start(ncounts, counts, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_doacross_dynamic_start(ncounts, counts, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_doacross_dynamic_start(ncounts, counts, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_doacross_dynamic_start(ncounts, counts, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_doacross_guided_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -491,8 +518,9 @@ bool GOMP_loop_ull_doacross_guided_start(unsigned ncounts, gomp_ull *counts, gom
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_doacross_guided_start, "GOMP_loop_ull_doacross_guided_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_doacross_guided_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_doacross_guided_start(ncounts, counts, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_doacross_guided_start(ncounts, counts, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_doacross_guided_start(ncounts, counts, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_doacross_guided_start(ncounts, counts, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_doacross_runtime_start(unsigned ncounts, gomp_ull *counts, gomp_ull *istart, gomp_ull *iend)
@@ -501,8 +529,9 @@ bool GOMP_loop_ull_doacross_runtime_start(unsigned ncounts, gomp_ull *counts, go
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_doacross_runtime_start, "GOMP_loop_ull_doacross_runtime_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_doacross_runtime_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_doacross_runtime_start(ncounts, counts, istart, iend);
-	lib_GOMP_loop_ull_doacross_runtime_start(ncounts, counts, istart, iend);
+	bool ret = lib_GOMP_loop_ull_doacross_runtime_start(ncounts, counts, istart, iend);
 	POST_GOMP_loop_ull_doacross_runtime_start(ncounts, counts, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_doacross_static_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -511,8 +540,9 @@ bool GOMP_loop_ull_doacross_static_start(unsigned ncounts, gomp_ull *counts, gom
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_doacross_static_start, "GOMP_loop_ull_doacross_static_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_doacross_static_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_doacross_static_start(ncounts, counts, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_doacross_static_start(ncounts, counts, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_doacross_static_start(ncounts, counts, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_doacross_static_start(ncounts, counts, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_dynamic_next(gomp_ull *istart, gomp_ull *iend)
@@ -521,8 +551,9 @@ bool GOMP_loop_ull_dynamic_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_dynamic_next, "GOMP_loop_ull_dynamic_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_dynamic_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_dynamic_next(istart, iend);
-	lib_GOMP_loop_ull_dynamic_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_dynamic_next(istart, iend);
 	POST_GOMP_loop_ull_dynamic_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -531,8 +562,9 @@ bool GOMP_loop_ull_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_dynamic_start, "GOMP_loop_ull_dynamic_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_dynamic_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_guided_next(gomp_ull *istart, gomp_ull *iend)
@@ -541,8 +573,9 @@ bool GOMP_loop_ull_guided_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_guided_next, "GOMP_loop_ull_guided_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_guided_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_guided_next(istart, iend);
-	lib_GOMP_loop_ull_guided_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_guided_next(istart, iend);
 	POST_GOMP_loop_ull_guided_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -551,8 +584,9 @@ bool GOMP_loop_ull_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull 
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_guided_start, "GOMP_loop_ull_guided_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_guided_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_guided_start(up, start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_guided_start(up, start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_guided_start(up, start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_guided_start(up, start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_nonmonotonic_dynamic_next(gomp_ull *istart, gomp_ull *iend)
@@ -561,8 +595,9 @@ bool GOMP_loop_ull_nonmonotonic_dynamic_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_nonmonotonic_dynamic_next, "GOMP_loop_ull_nonmonotonic_dynamic_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_nonmonotonic_dynamic_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_nonmonotonic_dynamic_next(istart, iend);
-	lib_GOMP_loop_ull_nonmonotonic_dynamic_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_nonmonotonic_dynamic_next(istart, iend);
 	POST_GOMP_loop_ull_nonmonotonic_dynamic_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_nonmonotonic_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -571,8 +606,9 @@ bool GOMP_loop_ull_nonmonotonic_dynamic_start(bool up, gomp_ull start, gomp_ull 
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_nonmonotonic_dynamic_start, "GOMP_loop_ull_nonmonotonic_dynamic_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_nonmonotonic_dynamic_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_nonmonotonic_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_nonmonotonic_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_nonmonotonic_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_nonmonotonic_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_nonmonotonic_guided_next(gomp_ull *istart, gomp_ull *iend)
@@ -581,8 +617,9 @@ bool GOMP_loop_ull_nonmonotonic_guided_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_nonmonotonic_guided_next, "GOMP_loop_ull_nonmonotonic_guided_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_nonmonotonic_guided_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_nonmonotonic_guided_next(istart, iend);
-	lib_GOMP_loop_ull_nonmonotonic_guided_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_nonmonotonic_guided_next(istart, iend);
 	POST_GOMP_loop_ull_nonmonotonic_guided_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_nonmonotonic_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -591,8 +628,9 @@ bool GOMP_loop_ull_nonmonotonic_guided_start(bool up, gomp_ull start, gomp_ull e
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_nonmonotonic_guided_start, "GOMP_loop_ull_nonmonotonic_guided_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_nonmonotonic_guided_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_nonmonotonic_guided_start(up, start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_nonmonotonic_guided_start(up, start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_nonmonotonic_guided_start(up, start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_nonmonotonic_guided_start(up, start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_ordered_dynamic_next(gomp_ull *istart, gomp_ull *iend)
@@ -601,8 +639,9 @@ bool GOMP_loop_ull_ordered_dynamic_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_ordered_dynamic_next, "GOMP_loop_ull_ordered_dynamic_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_ordered_dynamic_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_ordered_dynamic_next(istart, iend);
-	lib_GOMP_loop_ull_ordered_dynamic_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_ordered_dynamic_next(istart, iend);
 	POST_GOMP_loop_ull_ordered_dynamic_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_ordered_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -611,8 +650,9 @@ bool GOMP_loop_ull_ordered_dynamic_start(bool up, gomp_ull start, gomp_ull end, 
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_ordered_dynamic_start, "GOMP_loop_ull_ordered_dynamic_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_ordered_dynamic_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_ordered_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_ordered_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_ordered_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_ordered_dynamic_start(up, start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_ordered_guided_next(gomp_ull *istart, gomp_ull *iend)
@@ -621,8 +661,9 @@ bool GOMP_loop_ull_ordered_guided_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_ordered_guided_next, "GOMP_loop_ull_ordered_guided_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_ordered_guided_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_ordered_guided_next(istart, iend);
-	lib_GOMP_loop_ull_ordered_guided_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_ordered_guided_next(istart, iend);
 	POST_GOMP_loop_ull_ordered_guided_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_ordered_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -631,8 +672,9 @@ bool GOMP_loop_ull_ordered_guided_start(bool up, gomp_ull start, gomp_ull end, g
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_ordered_guided_start, "GOMP_loop_ull_ordered_guided_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_ordered_guided_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_ordered_guided_start(up, start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_ordered_guided_start(up, start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_ordered_guided_start(up, start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_ordered_guided_start(up, start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_ordered_runtime_next(gomp_ull *istart, gomp_ull *iend)
@@ -641,8 +683,9 @@ bool GOMP_loop_ull_ordered_runtime_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_ordered_runtime_next, "GOMP_loop_ull_ordered_runtime_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_ordered_runtime_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_ordered_runtime_next(istart, iend);
-	lib_GOMP_loop_ull_ordered_runtime_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_ordered_runtime_next(istart, iend);
 	POST_GOMP_loop_ull_ordered_runtime_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_ordered_runtime_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull *istart, gomp_ull *iend)
@@ -651,8 +694,9 @@ bool GOMP_loop_ull_ordered_runtime_start(bool up, gomp_ull start, gomp_ull end, 
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_ordered_runtime_start, "GOMP_loop_ull_ordered_runtime_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_ordered_runtime_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_ordered_runtime_start(up, start, end, incr, istart, iend);
-	lib_GOMP_loop_ull_ordered_runtime_start(up, start, end, incr, istart, iend);
+	bool ret = lib_GOMP_loop_ull_ordered_runtime_start(up, start, end, incr, istart, iend);
 	POST_GOMP_loop_ull_ordered_runtime_start(up, start, end, incr, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_ordered_static_next(gomp_ull *istart, gomp_ull *iend)
@@ -661,8 +705,9 @@ bool GOMP_loop_ull_ordered_static_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_ordered_static_next, "GOMP_loop_ull_ordered_static_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_ordered_static_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_ordered_static_next(istart, iend);
-	lib_GOMP_loop_ull_ordered_static_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_ordered_static_next(istart, iend);
 	POST_GOMP_loop_ull_ordered_static_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_ordered_static_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -671,8 +716,9 @@ bool GOMP_loop_ull_ordered_static_start(bool up, gomp_ull start, gomp_ull end, g
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_ordered_static_start, "GOMP_loop_ull_ordered_static_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_ordered_static_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_ordered_static_start(up, start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_ordered_static_start(up, start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_ordered_static_start(up, start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_ordered_static_start(up, start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_runtime_next(gomp_ull *istart, gomp_ull *iend)
@@ -681,8 +727,9 @@ bool GOMP_loop_ull_runtime_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_runtime_next, "GOMP_loop_ull_runtime_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_runtime_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_runtime_next(istart, iend);
-	lib_GOMP_loop_ull_runtime_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_runtime_next(istart, iend);
 	POST_GOMP_loop_ull_runtime_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_runtime_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull *istart, gomp_ull *iend)
@@ -691,8 +738,9 @@ bool GOMP_loop_ull_runtime_start(bool up, gomp_ull start, gomp_ull end, gomp_ull
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_runtime_start, "GOMP_loop_ull_runtime_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_runtime_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_runtime_start(up, start, end, incr, istart, iend);
-	lib_GOMP_loop_ull_runtime_start(up, start, end, incr, istart, iend);
+	bool ret = lib_GOMP_loop_ull_runtime_start(up, start, end, incr, istart, iend);
 	POST_GOMP_loop_ull_runtime_start(up, start, end, incr, istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_static_next(gomp_ull *istart, gomp_ull *iend)
@@ -701,8 +749,9 @@ bool GOMP_loop_ull_static_next(gomp_ull *istart, gomp_ull *iend)
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_static_next, "GOMP_loop_ull_static_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_static_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_static_next(istart, iend);
-	lib_GOMP_loop_ull_static_next(istart, iend);
+	bool ret = lib_GOMP_loop_ull_static_next(istart, iend);
 	POST_GOMP_loop_ull_static_next(istart, iend);
+	return ret;
 }
 
 bool GOMP_loop_ull_static_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
@@ -711,8 +760,9 @@ bool GOMP_loop_ull_static_start(bool up, gomp_ull start, gomp_ull end, gomp_ull 
 	GET_RUNTIME_FUNCTION(lib_GOMP_loop_ull_static_start, "GOMP_loop_ull_static_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_loop_ull_static_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_loop_ull_static_start(up, start, end, incr, chunk_size, istart, iend);
-	lib_GOMP_loop_ull_static_start(up, start, end, incr, chunk_size, istart, iend);
+	bool ret = lib_GOMP_loop_ull_static_start(up, start, end, incr, chunk_size, istart, iend);
 	POST_GOMP_loop_ull_static_start(up, start, end, incr, chunk_size, istart, iend);
+	return ret;
 }
 
 /* ------------------------------------------------------------- */
@@ -787,8 +837,9 @@ bool GOMP_cancel(int which, bool do_cancel)
 	GET_RUNTIME_FUNCTION(lib_GOMP_cancel, "GOMP_cancel");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_cancel.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_cancel(which, do_cancel);
-	lib_GOMP_cancel(which, do_cancel);
+	bool ret = lib_GOMP_cancel(which, do_cancel);
 	POST_GOMP_cancel(which, do_cancel);
+	return ret;
 }
 
 bool GOMP_cancellation_point(int which)
@@ -797,8 +848,9 @@ bool GOMP_cancellation_point(int which)
 	GET_RUNTIME_FUNCTION(lib_GOMP_cancellation_point, "GOMP_cancellation_point");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_cancellation_point.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_cancellation_point(which);
-	lib_GOMP_cancellation_point(which);
+	bool ret = lib_GOMP_cancellation_point(which);
 	POST_GOMP_cancellation_point(which);
+	return ret;
 }
 
 void GOMP_parallel(void (*fn)(void *), void *data, unsigned num_threads, unsigned int flags)
@@ -870,8 +922,9 @@ bool GOMP_sections_end_cancel(void)
 	GET_RUNTIME_FUNCTION(lib_GOMP_sections_end_cancel, "GOMP_sections_end_cancel");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_sections_end_cancel.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_sections_end_cancel();
-	lib_GOMP_sections_end_cancel();
+	bool ret = lib_GOMP_sections_end_cancel();
 	POST_GOMP_sections_end_cancel();
+	return ret;
 }
 
 void GOMP_sections_end_nowait(void)
@@ -890,8 +943,9 @@ unsigned GOMP_sections_next(void)
 	GET_RUNTIME_FUNCTION(lib_GOMP_sections_next, "GOMP_sections_next");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_sections_next.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_sections_next();
-	lib_GOMP_sections_next();
+	unsigned ret = lib_GOMP_sections_next();
 	POST_GOMP_sections_next();
+	return ret;
 }
 
 unsigned GOMP_sections_start(unsigned count)
@@ -900,8 +954,9 @@ unsigned GOMP_sections_start(unsigned count)
 	GET_RUNTIME_FUNCTION(lib_GOMP_sections_start, "GOMP_sections_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_sections_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_sections_start(count);
-	lib_GOMP_sections_start(count);
+	unsigned ret = lib_GOMP_sections_start(count);
 	POST_GOMP_sections_start(count);
+	return ret;
 }
 
 /* ------------------------------------------------------------- */
@@ -923,8 +978,9 @@ void *GOMP_single_copy_start(void)
 	GET_RUNTIME_FUNCTION(lib_GOMP_single_copy_start, "GOMP_single_copy_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_single_copy_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_single_copy_start();
-	lib_GOMP_single_copy_start();
+	void *ret = lib_GOMP_single_copy_start();
 	POST_GOMP_single_copy_start();
+	return ret;
 }
 
 bool GOMP_single_start(void)
@@ -933,8 +989,9 @@ bool GOMP_single_start(void)
 	GET_RUNTIME_FUNCTION(lib_GOMP_single_start, "GOMP_single_start");
 	TRACE("[hookomp]: Thread [%lu] is executing GOMP_single_start.\n", (unsigned long int)pthread_self());
 	PRE_GOMP_single_start();
-	lib_GOMP_single_start();
+	bool ret = lib_GOMP_single_start();
 	POST_GOMP_single_start();
+	return ret;
 }
 
 /* ------------------------------------------------------------- */
@@ -1195,8 +1252,9 @@ int GOACC_get_num_threads(void)
 	GET_RUNTIME_FUNCTION(lib_GOACC_get_num_threads, "GOACC_get_num_threads");
 	TRACE("[hookomp]: Thread [%lu] is executing GOACC_get_num_threads.\n", (unsigned long int)pthread_self());
 	PRE_GOACC_get_num_threads();
-	lib_GOACC_get_num_threads();
+	int ret = lib_GOACC_get_num_threads();
 	POST_GOACC_get_num_threads();
+	return ret;
 }
 
 int GOACC_get_thread_num(void)
@@ -1205,8 +1263,9 @@ int GOACC_get_thread_num(void)
 	GET_RUNTIME_FUNCTION(lib_GOACC_get_thread_num, "GOACC_get_thread_num");
 	TRACE("[hookomp]: Thread [%lu] is executing GOACC_get_thread_num.\n", (unsigned long int)pthread_self());
 	PRE_GOACC_get_thread_num();
-	lib_GOACC_get_thread_num();
+	int ret = lib_GOACC_get_thread_num();
 	POST_GOACC_get_thread_num();
+	return ret;
 }
 
 void GOACC_parallel(int device, void (*fn)(void *), size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, int num_gangs, int num_workers, int vector_length, int async, int num_waits, ...)

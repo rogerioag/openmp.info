@@ -1,0 +1,97 @@
+
+;; Function main (main, funcdef_no=5, decl_uid=3269, cgraph_uid=5)
+
+
+OMP region tree
+
+bb 2: gimple_omp_parallel
+    bb 3: gimple_omp_for
+    bb 4: GIMPLE_OMP_CONTINUE
+    bb 5: GIMPLE_OMP_RETURN
+bb 6: GIMPLE_OMP_RETURN
+
+Merging blocks 2 and 12
+Merging blocks 2 and 7
+main ()
+{
+  _Bool D.3288;
+  long int .iend0.4;
+  int D.3287;
+  long int .istart0.3;
+  _Bool D.3284;
+  long int .iend0.2;
+  long int .istart0.1;
+  int i;
+  int i;
+  int D.3275;
+
+  <bb 2>:
+  __builtin_GOMP_parallel_loop_dynamic_start (main._omp_fn.0, 0B, 2, 0, 10, 1, 1);
+  main._omp_fn.0 (0B);
+  __builtin_GOMP_parallel_end ();
+  __builtin_puts (&"Fora da região paralela."[0]);
+  D.3275 = 0;
+
+<L0>:
+  return D.3275;
+
+}
+
+
+
+;; Function main._omp_fn.0 (main._omp_fn.0, funcdef_no=6, decl_uid=3277, cgraph_uid=6)
+
+main._omp_fn.0 (void * .omp_data_i)
+{
+  _Bool D.3298;
+  int D.3297;
+  long unsigned int D.3296;
+  int D.3295;
+  long int .iend0.4;
+  int i;
+  long int .istart0.3;
+  _Bool D.3291;
+  long int .iend0.2;
+  long int .istart0.1;
+
+  <bb 11>:
+
+  <bb 3>:
+  D.3291 = __builtin_GOMP_loop_dynamic_next (&.istart0.1, &.iend0.2);
+  if (D.3291 != 0)
+    goto <bb 9>;
+  else
+    goto <bb 5>;
+
+  <bb 9>:
+  .istart0.3 = .istart0.1;
+  i = (int) .istart0.3;
+  .iend0.4 = .iend0.2;
+  D.3295 = (int) .iend0.4;
+
+  <bb 4>:
+  D.3296 = pthread_self ();
+  D.3297 = omp_get_thread_num ();
+  printf ("omp thread: %lu, thread: %lu, iteration: %d\n", D.3297, D.3296, i);
+  i = i + 1;
+  if (i < D.3295)
+    goto <bb 4>;
+  else
+    goto <bb 10>;
+
+  <bb 10>:
+  D.3298 = __builtin_GOMP_loop_dynamic_next (&.istart0.1, &.iend0.2);
+  if (D.3298 != 0)
+    goto <bb 9>;
+  else
+    goto <bb 5>;
+
+  <bb 5>:
+  __builtin_GOMP_loop_end_nowait ();
+
+  <bb 6>:
+  return;
+
+}
+
+

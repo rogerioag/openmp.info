@@ -1,5 +1,5 @@
 
-;; Function main (main, funcdef_no=2, decl_uid=2978, cgraph_uid=2, symbol_order=4)
+;; Function main (main, funcdef_no=5, decl_uid=3034, cgraph_uid=5, symbol_order=7)
 
 
 OMP region tree
@@ -14,168 +14,166 @@ bb 2: gimple_omp_parallel
 bb 9: GIMPLE_OMP_RETURN
 
 Added new low gimple function main._omp_fn.0 to callgraph
-Introduced new external node (__builtin_GOMP_loop_dynamic_start/6).
-Introduced new external node (omp_get_thread_num/7).
-Introduced new external node (__builtin_GOMP_loop_dynamic_next/8).
-Introduced new external node (__builtin_GOMP_loop_end/9).
-Introduced new external node (__builtin_GOMP_loop_runtime_start/10).
-Introduced new external node (__builtin_GOMP_loop_runtime_next/11).
-Introduced new external node (__builtin_GOMP_loop_end_nowait/12).
+Introduced new external node (__builtin_GOMP_loop_dynamic_start/9).
+Introduced new external node (omp_get_thread_num/10).
+Introduced new external node (__builtin_GOMP_loop_dynamic_next/11).
+Introduced new external node (__builtin_GOMP_loop_end/12).
+Introduced new external node (__builtin_GOMP_loop_runtime_start/13).
+Introduced new external node (__builtin_GOMP_loop_runtime_next/14).
+Introduced new external node (__builtin_GOMP_loop_end_nowait/15).
 
-;; Function main._omp_fn.0 (main._omp_fn.0, funcdef_no=3, decl_uid=2992, cgraph_uid=3, symbol_order=5)
+;; Function main._omp_fn.0 (main._omp_fn.0, funcdef_no=6, decl_uid=3046, cgraph_uid=6, symbol_order=8)
 
 main._omp_fn.0 (struct .omp_data_s.0 & restrict .omp_data_i)
 {
   int loop_index [value-expr: .omp_data_i->loop_index];
-  _Bool D.3032;
-  int D.3031;
-  int D.3030;
+  _Bool D.3086;
+  int D.3085;
+  int D.3084;
   long int .iend0.5;
   int i;
   long int .istart0.4;
-  _Bool D.3026;
+  _Bool D.3080;
   long int .iend0.3;
   long int .istart0.2;
-  _Bool D.3023;
-  int D.3022;
-  int D.3021;
+  _Bool D.3077;
+  int D.3076;
+  int D.3075;
   long int .iend0.9;
   int i;
   long int .istart0.8;
-  _Bool D.3017;
+  _Bool D.3071;
   long int .iend0.7;
   long int .istart0.6;
 
-  <bb 19>:
+  <bb 19> [0.00%]:
 
-  <bb 3>:
+  <bb 3> [0.00%]:
   .omp_data_i->loop_index = 0;
-  D.3017 = __builtin_GOMP_loop_dynamic_start (0, 8, 1, 1, &.istart0.6, &.iend0.7);
-  if (D.3017 != 0)
-    goto <bb 17>;
+  D.3071 = __builtin_GOMP_loop_dynamic_start (0, 8, 1, 1, &.istart0.6, &.iend0.7);
+  if (D.3071 != 0)
+    goto <bb 17>; [0.00%]
   else
-    goto <bb 5>;
+    goto <bb 5>; [0.00%]
 
-  <bb 17>:
+  <bb 17> [0.00%]:
   .istart0.8 = .istart0.6;
   i = (int) .istart0.8;
   .iend0.9 = .iend0.7;
-  D.3021 = (int) .iend0.9;
+  D.3075 = (int) .iend0.9;
 
-  <bb 4>:
-  D.3022 = omp_get_thread_num ();
-  loop_0[i] = D.3022;
+  <bb 4> [0.00%]:
+  D.3076 = omp_get_thread_num ();
+  loop_0[i] = D.3076;
   i = i + 1;
-  if (i < D.3021)
-    goto <bb 4>;
+  if (i < D.3075)
+    goto <bb 4>; [87.50%]
   else
-    goto <bb 18>;
+    goto <bb 18>; [12.50%]
 
-  <bb 18>:
-  D.3023 = __builtin_GOMP_loop_dynamic_next (&.istart0.6, &.iend0.7);
-  if (D.3023 != 0)
-    goto <bb 17>;
+  <bb 18> [0.00%]:
+  D.3077 = __builtin_GOMP_loop_dynamic_next (&.istart0.6, &.iend0.7);
+  if (D.3077 != 0)
+    goto <bb 17>; [0.00%]
   else
-    goto <bb 5>;
+    goto <bb 5>; [0.00%]
 
-  <bb 5>:
+  <bb 5> [0.00%]:
   __builtin_GOMP_loop_end ();
 
-  <bb 6>:
+  <bb 6> [0.00%]:
   .omp_data_i->loop_index = 1;
-  D.3026 = __builtin_GOMP_loop_runtime_start (0, 8, 1, &.istart0.2, &.iend0.3);
-  if (D.3026 != 0)
-    goto <bb 15>;
+  D.3080 = __builtin_GOMP_loop_runtime_start (0, 8, 1, &.istart0.2, &.iend0.3);
+  if (D.3080 != 0)
+    goto <bb 15>; [0.00%]
   else
-    goto <bb 8>;
+    goto <bb 8>; [0.00%]
 
-  <bb 15>:
+  <bb 15> [0.00%]:
   .istart0.4 = .istart0.2;
   i = (int) .istart0.4;
   .iend0.5 = .iend0.3;
-  D.3030 = (int) .iend0.5;
+  D.3084 = (int) .iend0.5;
 
-  <bb 7>:
-  D.3031 = omp_get_thread_num ();
-  loop_1[i] = D.3031;
+  <bb 7> [0.00%]:
+  D.3085 = omp_get_thread_num ();
+  loop_1[i] = D.3085;
   i = i + 1;
-  if (i < D.3030)
-    goto <bb 7>;
+  if (i < D.3084)
+    goto <bb 7>; [87.50%]
   else
-    goto <bb 16>;
+    goto <bb 16>; [12.50%]
 
-  <bb 16>:
-  D.3032 = __builtin_GOMP_loop_runtime_next (&.istart0.2, &.iend0.3);
-  if (D.3032 != 0)
-    goto <bb 15>;
+  <bb 16> [0.00%]:
+  D.3086 = __builtin_GOMP_loop_runtime_next (&.istart0.2, &.iend0.3);
+  if (D.3086 != 0)
+    goto <bb 15>; [0.00%]
   else
-    goto <bb 8>;
+    goto <bb 8>; [0.00%]
 
-  <bb 8>:
+  <bb 8> [0.00%]:
   __builtin_GOMP_loop_end_nowait ();
 
-  <bb 9>:
+  <bb 9> [0.00%]:
   return;
 
 }
 
 
 
-;; Function main (main, funcdef_no=2, decl_uid=2978, cgraph_uid=2, symbol_order=4)
+;; Function main (main, funcdef_no=5, decl_uid=3034, cgraph_uid=5, symbol_order=7)
 
 Merging blocks 2 and 20
 Merging blocks 2 and 10
 main ()
 {
-  _Bool D.3014;
+  _Bool D.3068;
   long int .iend0.9;
-  int D.3013;
+  int D.3067;
   long int .istart0.8;
-  _Bool D.3010;
+  _Bool D.3064;
   long int .iend0.7;
   long int .istart0.6;
-  _Bool D.3007;
+  _Bool D.3061;
   long int .iend0.5;
-  int D.3006;
+  int D.3060;
   long int .istart0.4;
-  _Bool D.3003;
+  _Bool D.3057;
   long int .iend0.3;
   long int .istart0.2;
   int i;
   int i;
   int loop_index;
   int i;
-  int D.2990;
-  int D.2989;
-  int D.2988;
+  int D.3044;
   struct .omp_data_s.0 .omp_data_o.1;
 
-  <bb 2>:
+  <bb 2> [0.00%]:
   .omp_data_o.1.loop_index = loop_index;
   __builtin_GOMP_parallel (main._omp_fn.0, &.omp_data_o.1, 1, 0);
   loop_index = .omp_data_o.1.loop_index;
   .omp_data_o.1 = {CLOBBER};
-  __builtin_puts (&"Fora da região paralela."[0]);
+  __builtin_puts (&"Fora da regi\xc3\xa3o paralela."[0]);
   i = 0;
-  goto <bb 4>;
+  goto <bb 4>; [0.00%]
 
-  <bb 3>:
-  D.2988 = loop_1[i];
-  D.2989 = loop_0[i];
-  printf ("loop_0[%d]: %lu, loop_1[%d]: %lu\n", i, D.2989, i, D.2988);
+  <bb 3> [0.00%]:
+  _1 = loop_1[i];
+  _2 = loop_0[i];
+  printf ("loop_0[%d]: %lu, loop_1[%d]: %lu\n", i, _2, i, _1);
   i = i + 1;
 
-  <bb 4>:
+  <bb 4> [0.00%]:
   if (i <= 7)
-    goto <bb 3>;
+    goto <bb 3>; [0.00%]
   else
-    goto <bb 5>;
+    goto <bb 5>; [0.00%]
 
-  <bb 5>:
-  D.2990 = 0;
+  <bb 5> [0.00%]:
+  D.3044 = 0;
 
-<L3>:
-  return D.2990;
+<L3> [0.00%]:
+  return D.3044;
 
 }
 

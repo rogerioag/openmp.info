@@ -15,8 +15,17 @@ for tag in tags:
     print('\tGET_RUNTIME_FUNCTION(lib_%s, "%s");' % (tag.name, tag.name))
     print('\tTRACE("[hookomp]: Thread [%%lu] is executing %s.\\n", (unsigned long int)pthread_self());' % tag.name)
     print('\tPRE_%s%s;' % (tag.name, tag.call))
-    print('\tlib_%s%s;' % (tag.name, tag.call))
+
+    if tag.return_type == 'void':
+        print('\tlib_%s%s;' % (tag.name, tag.call))
+    else:
+        print('\t%s ret = lib_%s%s;' % (tag.return_type, tag.name, tag.call))  
+
     print('\tPOST_%s%s;' % (tag.name, tag.call))
+
+    if tag.return_type != 'void':
+        print('\treturn ret;')
+
     print('}\n')
 
 print('\n\n///GENERATED %d FUNCTIONS' % len(tags))
