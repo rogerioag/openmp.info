@@ -4,6 +4,33 @@
 typedef unsigned long long gomp_ull;
 typedef _Bool bool;
 typedef long TYPE;
+
+#define NUM_FUNCTIONS 119
+
+// Keep the partial counters.
+unsigned long int partial_count[NUM_FUNCTIONS];
+
+unsigned long int accum_count[NUM_FUNCTIONS];
+
+enum omp_idx_function {idx_GOMP_atomic_end, ...} omp_idx_function;
+
+partial_count[num_GOMP_atomic_end]++;
+
+// No final de cada região paralela, imprime o partial_count coletado na região paralela, acumula em accum_count, zera o partial_count e imprime o accum_count.
+
+
+void accumulate_results(){
+
+	for(idx=0;idx<NUM_FUNCTIONS;idx++){
+		// accum_count[idx] += partial_count[num_GOMP_atomic_end];
+		// partial_count[num_GOMP_atomic_end] = 0;	
+		accum_count[idx] += partial_count[idx];
+	    partial_count[idx] = 0;
+	}
+	
+}
+
+
 // Variables
 int num_GOMP_atomic_end = 0;
 int num_GOMP_atomic_start = 0;
@@ -125,6 +152,9 @@ int num_GOACC_parallel = 0;
 int num_GOACC_parallel_keyed = 0;
 int num_GOACC_update = 0;
 int num_GOACC_wait = 0;
+
+
+
 
 // print_results
 void print_results(void)
@@ -251,11 +281,138 @@ void print_results(void)
 	printf("Number of GOACC_wait: %d\n", num_GOACC_wait);
 }
 
+void print_results_csv_accum(void)
+{
+	printf("Number of GOMP_atomic_end, Number of GOMP_atomic_start...");
+	printf("%d, %d...\n", accum_count[num_GOMP_atomic_end], accum_count[num_GOMP_atomic_start],...);
+
+	printf("Number of GOMP_atomic_end: %d\n", num_GOMP_atomic_end);
+	printf("Number of GOMP_atomic_start: %d\n", num_GOMP_atomic_start);
+	printf("Number of GOMP_barrier: %d\n", num_GOMP_barrier);
+	printf("Number of GOMP_barrier_cancel: %d\n", num_GOMP_barrier_cancel);
+	printf("Number of GOMP_critical_end: %d\n", num_GOMP_critical_end);
+	printf("Number of GOMP_critical_name_end: %d\n", num_GOMP_critical_name_end);
+	printf("Number of GOMP_critical_name_start: %d\n", num_GOMP_critical_name_start);
+	printf("Number of GOMP_critical_start: %d\n", num_GOMP_critical_start);
+	printf("Number of GOMP_loop_doacross_dynamic_start: %d\n", num_GOMP_loop_doacross_dynamic_start);
+	printf("Number of GOMP_loop_doacross_guided_start: %d\n", num_GOMP_loop_doacross_guided_start);
+	printf("Number of GOMP_loop_doacross_runtime_start: %d\n", num_GOMP_loop_doacross_runtime_start);
+	printf("Number of GOMP_loop_doacross_static_start: %d\n", num_GOMP_loop_doacross_static_start);
+	printf("Number of GOMP_loop_dynamic_next: %d\n", num_GOMP_loop_dynamic_next);
+	printf("Number of GOMP_loop_dynamic_start: %d\n", num_GOMP_loop_dynamic_start);
+	printf("Number of GOMP_loop_end: %d\n", num_GOMP_loop_end);
+	printf("Number of GOMP_loop_end_cancel: %d\n", num_GOMP_loop_end_cancel);
+	printf("Number of GOMP_loop_end_nowait: %d\n", num_GOMP_loop_end_nowait);
+	printf("Number of GOMP_loop_guided_next: %d\n", num_GOMP_loop_guided_next);
+	printf("Number of GOMP_loop_guided_start: %d\n", num_GOMP_loop_guided_start);
+	printf("Number of GOMP_loop_nonmonotonic_dynamic_next: %d\n", num_GOMP_loop_nonmonotonic_dynamic_next);
+	printf("Number of GOMP_loop_nonmonotonic_dynamic_start: %d\n", num_GOMP_loop_nonmonotonic_dynamic_start);
+	printf("Number of GOMP_loop_nonmonotonic_guided_next: %d\n", num_GOMP_loop_nonmonotonic_guided_next);
+	printf("Number of GOMP_loop_nonmonotonic_guided_start: %d\n", num_GOMP_loop_nonmonotonic_guided_start);
+	printf("Number of GOMP_loop_ordered_dynamic_next: %d\n", num_GOMP_loop_ordered_dynamic_next);
+	printf("Number of GOMP_loop_ordered_dynamic_start: %d\n", num_GOMP_loop_ordered_dynamic_start);
+	printf("Number of GOMP_loop_ordered_guided_next: %d\n", num_GOMP_loop_ordered_guided_next);
+	printf("Number of GOMP_loop_ordered_guided_start: %d\n", num_GOMP_loop_ordered_guided_start);
+	printf("Number of GOMP_loop_ordered_runtime_next: %d\n", num_GOMP_loop_ordered_runtime_next);
+	printf("Number of GOMP_loop_ordered_runtime_start: %d\n", num_GOMP_loop_ordered_runtime_start);
+	printf("Number of GOMP_loop_ordered_static_next: %d\n", num_GOMP_loop_ordered_static_next);
+	printf("Number of GOMP_loop_ordered_static_start: %d\n", num_GOMP_loop_ordered_static_start);
+	printf("Number of GOMP_loop_runtime_next: %d\n", num_GOMP_loop_runtime_next);
+	printf("Number of GOMP_loop_runtime_start: %d\n", num_GOMP_loop_runtime_start);
+	printf("Number of GOMP_loop_static_next: %d\n", num_GOMP_loop_static_next);
+	printf("Number of GOMP_loop_static_start: %d\n", num_GOMP_loop_static_start);
+	printf("Number of GOMP_parallel_loop_dynamic: %d\n", num_GOMP_parallel_loop_dynamic);
+	printf("Number of GOMP_parallel_loop_dynamic_start: %d\n", num_GOMP_parallel_loop_dynamic_start);
+	printf("Number of GOMP_parallel_loop_guided: %d\n", num_GOMP_parallel_loop_guided);
+	printf("Number of GOMP_parallel_loop_guided_start: %d\n", num_GOMP_parallel_loop_guided_start);
+	printf("Number of GOMP_parallel_loop_nonmonotonic_dynamic: %d\n", num_GOMP_parallel_loop_nonmonotonic_dynamic);
+	printf("Number of GOMP_parallel_loop_nonmonotonic_guided: %d\n", num_GOMP_parallel_loop_nonmonotonic_guided);
+	printf("Number of GOMP_parallel_loop_runtime: %d\n", num_GOMP_parallel_loop_runtime);
+	printf("Number of GOMP_parallel_loop_runtime_start: %d\n", num_GOMP_parallel_loop_runtime_start);
+	printf("Number of GOMP_parallel_loop_static: %d\n", num_GOMP_parallel_loop_static);
+	printf("Number of GOMP_parallel_loop_static_start: %d\n", num_GOMP_parallel_loop_static_start);
+	printf("Number of GOMP_loop_ull_doacross_dynamic_start: %d\n", num_GOMP_loop_ull_doacross_dynamic_start);
+	printf("Number of GOMP_loop_ull_doacross_guided_start: %d\n", num_GOMP_loop_ull_doacross_guided_start);
+	printf("Number of GOMP_loop_ull_doacross_runtime_start: %d\n", num_GOMP_loop_ull_doacross_runtime_start);
+	printf("Number of GOMP_loop_ull_doacross_static_start: %d\n", num_GOMP_loop_ull_doacross_static_start);
+	printf("Number of GOMP_loop_ull_dynamic_next: %d\n", num_GOMP_loop_ull_dynamic_next);
+	printf("Number of GOMP_loop_ull_dynamic_start: %d\n", num_GOMP_loop_ull_dynamic_start);
+	printf("Number of GOMP_loop_ull_guided_next: %d\n", num_GOMP_loop_ull_guided_next);
+	printf("Number of GOMP_loop_ull_guided_start: %d\n", num_GOMP_loop_ull_guided_start);
+	printf("Number of GOMP_loop_ull_nonmonotonic_dynamic_next: %d\n", num_GOMP_loop_ull_nonmonotonic_dynamic_next);
+	printf("Number of GOMP_loop_ull_nonmonotonic_dynamic_start: %d\n", num_GOMP_loop_ull_nonmonotonic_dynamic_start);
+	printf("Number of GOMP_loop_ull_nonmonotonic_guided_next: %d\n", num_GOMP_loop_ull_nonmonotonic_guided_next);
+	printf("Number of GOMP_loop_ull_nonmonotonic_guided_start: %d\n", num_GOMP_loop_ull_nonmonotonic_guided_start);
+	printf("Number of GOMP_loop_ull_ordered_dynamic_next: %d\n", num_GOMP_loop_ull_ordered_dynamic_next);
+	printf("Number of GOMP_loop_ull_ordered_dynamic_start: %d\n", num_GOMP_loop_ull_ordered_dynamic_start);
+	printf("Number of GOMP_loop_ull_ordered_guided_next: %d\n", num_GOMP_loop_ull_ordered_guided_next);
+	printf("Number of GOMP_loop_ull_ordered_guided_start: %d\n", num_GOMP_loop_ull_ordered_guided_start);
+	printf("Number of GOMP_loop_ull_ordered_runtime_next: %d\n", num_GOMP_loop_ull_ordered_runtime_next);
+	printf("Number of GOMP_loop_ull_ordered_runtime_start: %d\n", num_GOMP_loop_ull_ordered_runtime_start);
+	printf("Number of GOMP_loop_ull_ordered_static_next: %d\n", num_GOMP_loop_ull_ordered_static_next);
+	printf("Number of GOMP_loop_ull_ordered_static_start: %d\n", num_GOMP_loop_ull_ordered_static_start);
+	printf("Number of GOMP_loop_ull_runtime_next: %d\n", num_GOMP_loop_ull_runtime_next);
+	printf("Number of GOMP_loop_ull_runtime_start: %d\n", num_GOMP_loop_ull_runtime_start);
+	printf("Number of GOMP_loop_ull_static_next: %d\n", num_GOMP_loop_ull_static_next);
+	printf("Number of GOMP_loop_ull_static_start: %d\n", num_GOMP_loop_ull_static_start);
+	printf("Number of GOMP_doacross_post: %d\n", num_GOMP_doacross_post);
+	printf("Number of GOMP_doacross_ull_post: %d\n", num_GOMP_doacross_ull_post);
+	printf("Number of GOMP_doacross_ull_wait: %d\n", num_GOMP_doacross_ull_wait);
+	printf("Number of GOMP_doacross_wait: %d\n", num_GOMP_doacross_wait);
+	printf("Number of GOMP_ordered_end: %d\n", num_GOMP_ordered_end);
+	printf("Number of GOMP_ordered_start: %d\n", num_GOMP_ordered_start);
+	printf("Number of GOMP_cancel: %d\n", num_GOMP_cancel);
+	printf("Number of GOMP_cancellation_point: %d\n", num_GOMP_cancellation_point);
+	printf("Number of GOMP_parallel: %d\n", num_GOMP_parallel);
+	printf("Number of GOMP_parallel_end: %d\n", num_GOMP_parallel_end);
+	printf("Number of GOMP_parallel_start: %d\n", num_GOMP_parallel_start);
+	printf("Number of GOMP_parallel_sections: %d\n", num_GOMP_parallel_sections);
+	printf("Number of GOMP_parallel_sections_start: %d\n", num_GOMP_parallel_sections_start);
+	printf("Number of GOMP_sections_end: %d\n", num_GOMP_sections_end);
+	printf("Number of GOMP_sections_end_cancel: %d\n", num_GOMP_sections_end_cancel);
+	printf("Number of GOMP_sections_end_nowait: %d\n", num_GOMP_sections_end_nowait);
+	printf("Number of GOMP_sections_next: %d\n", num_GOMP_sections_next);
+	printf("Number of GOMP_sections_start: %d\n", num_GOMP_sections_start);
+	printf("Number of GOMP_single_copy_end: %d\n", num_GOMP_single_copy_end);
+	printf("Number of GOMP_single_copy_start: %d\n", num_GOMP_single_copy_start);
+	printf("Number of GOMP_single_start: %d\n", num_GOMP_single_start);
+	printf("Number of GOMP_PLUGIN_target_task_completion: %d\n", num_GOMP_PLUGIN_target_task_completion);
+	printf("Number of GOMP_task: %d\n", num_GOMP_task);
+	printf("Number of GOMP_taskgroup_end: %d\n", num_GOMP_taskgroup_end);
+	printf("Number of GOMP_taskgroup_start: %d\n", num_GOMP_taskgroup_start);
+	printf("Number of GOMP_taskwait: %d\n", num_GOMP_taskwait);
+	printf("Number of GOMP_taskyield: %d\n", num_GOMP_taskyield);
+	printf("Number of GOMP_offload_register: %d\n", num_GOMP_offload_register);
+	printf("Number of GOMP_offload_register_ver: %d\n", num_GOMP_offload_register_ver);
+	printf("Number of GOMP_offload_unregister: %d\n", num_GOMP_offload_unregister);
+	printf("Number of GOMP_offload_unregister_ver: %d\n", num_GOMP_offload_unregister_ver);
+	printf("Number of GOMP_target: %d\n", num_GOMP_target);
+	printf("Number of GOMP_target_data: %d\n", num_GOMP_target_data);
+	printf("Number of GOMP_target_data_ext: %d\n", num_GOMP_target_data_ext);
+	printf("Number of GOMP_target_end_data: %d\n", num_GOMP_target_end_data);
+	printf("Number of GOMP_target_enter_exit_data: %d\n", num_GOMP_target_enter_exit_data);
+	printf("Number of GOMP_target_ext: %d\n", num_GOMP_target_ext);
+	printf("Number of GOMP_target_update: %d\n", num_GOMP_target_update);
+	printf("Number of GOMP_target_update_ext: %d\n", num_GOMP_target_update_ext);
+	printf("Number of GOMP_teams: %d\n", num_GOMP_teams);
+	printf("Number of GOMP_taskloop: %d\n", num_GOMP_taskloop);
+	printf("Number of GOACC_data_end: %d\n", num_GOACC_data_end);
+	printf("Number of GOACC_data_start: %d\n", num_GOACC_data_start);
+	printf("Number of GOACC_declare: %d\n", num_GOACC_declare);
+	printf("Number of GOACC_enter_exit_data: %d\n", num_GOACC_enter_exit_data);
+	printf("Number of GOACC_get_num_threads: %d\n", num_GOACC_get_num_threads);
+	printf("Number of GOACC_get_thread_num: %d\n", num_GOACC_get_thread_num);
+	printf("Number of GOACC_parallel: %d\n", num_GOACC_parallel);
+	printf("Number of GOACC_parallel_keyed: %d\n", num_GOACC_parallel_keyed);
+	printf("Number of GOACC_update: %d\n", num_GOACC_update);
+	printf("Number of GOACC_wait: %d\n", num_GOACC_wait);
+}
+
 // HOOKS
 void PRE_GOMP_atomic_end(void)
 {
 	PRINT_FUNC_NAME;
-	num_GOMP_atomic_end++;
+	partial_count[idx_GOMP_atomic_end]++;
 }
 
 void POST_GOMP_atomic_end(void)
@@ -1114,6 +1271,8 @@ void PRE_GOMP_parallel_end(void)
 {
 	PRINT_FUNC_NAME;
 	num_GOMP_parallel_end++;
+
+	accumulate_results();
 }
 
 void POST_GOMP_parallel_end(void)
