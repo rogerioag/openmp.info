@@ -8,6 +8,12 @@ import pycparser
 parser = pycparser.CParser()
 Function = namedtuple('Function', 'file name return_type signature call')
 
+# Obs.: necessário desinstalar o ctags caso estiver instalado no sistema
+# Compilar o ctags que está na pasta
+#  ./autogen.sh
+#  ./configure
+#  make
+#  sudo make install
 
 def parse():
     functions = []
@@ -49,10 +55,13 @@ def parse():
 
         tags = proc.stdout.readlines()
         for tag in tags:
+
             fields = tag.split('\t')
             func_name = fields[0]
+            
+            if (func_name.startswith('GOMP_') or func_name.startswith('GOACC_')) and func_name not in [x.name for x in all_tags] and len(fields) > 4 :
 
-            if (func_name.startswith('GOMP_') or func_name.startswith('GOACC_')) and func_name not in [x.name for x in all_tags] and len(fields) > 4:
+  
                 return_type = fields[3].replace('typeref:typename:', '')
                 signature = fields[4].replace(
                     'signature:', '').replace('\n', '')
@@ -76,5 +85,6 @@ def parse():
                             args_str += c[1].name + ', '
                 args_str = '(' + args_str[:-2] + ')'
 
-                all_tags.append(Function(f, func_name, return_type, signature, args_str))
+                all_tags.append(
+                    Function(f, func_name, return_type, signature, args_str))
     return all_tags

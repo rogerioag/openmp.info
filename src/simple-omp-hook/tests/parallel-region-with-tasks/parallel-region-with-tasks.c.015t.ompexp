@@ -1,5 +1,5 @@
 
-;; Function main (main, funcdef_no=5, decl_uid=3321, cgraph_uid=5)
+;; Function main (main, funcdef_no=2, decl_uid=3320, cgraph_uid=2)
 
 
 OMP region tree
@@ -22,22 +22,22 @@ Merging blocks 4 and 27
 Merging blocks 4 and 18
 main (int argc, char * * argv)
 {
-  _Bool D.3389;
+  _Bool D.3388;
   int x;
   int id;
-  int D.3366;
+  int D.3365;
   struct _IO_FILE * stdout.9;
-  int D.3364;
-  long int D.3363;
-  long unsigned int D.3362;
+  int D.3363;
+  long int D.3362;
+  long unsigned int D.3361;
   struct _IO_FILE * stdout.1;
-  int D.3334;
-  long int D.3333;
-  long unsigned int D.3332;
-  char * D.3331;
-  char * * D.3330;
+  int D.3333;
+  long int D.3332;
+  long unsigned int D.3331;
+  char * D.3330;
+  char * * D.3329;
   struct _IO_FILE * stderr.0;
-  char * D.3328;
+  char * D.3327;
   struct .omp_data_s.10 .omp_data_o.15;
 
   <bb 2>:
@@ -47,127 +47,127 @@ main (int argc, char * * argv)
     goto <bb 4>;
 
   <bb 3>:
-  D.3328 = *argv;
+  D.3327 = *argv;
   stderr.0 = stderr;
-  fprintf (stderr.0, "Uso: %s <x>\n", D.3328);
+  fprintf (stderr.0, "Uso: %s <x>\n", D.3327);
   exit (0);
 
   <bb 4>:
   id = 0;
-  D.3330 = argv + 8;
-  D.3331 = *D.3330;
-  x = atoi (D.3331);
-  D.3332 = pthread_self ();
-  D.3333 = (long int) D.3332;
-  D.3334 = omp_get_thread_num ();
+  D.3329 = argv + 8;
+  D.3330 = *D.3329;
+  x = atoi (D.3330);
+  D.3331 = pthread_self ();
+  D.3332 = (long int) D.3331;
+  D.3333 = omp_get_thread_num ();
   stdout.1 = stdout;
-  fprintf (stdout.1, "Thread[%lu,%lu]: Antes da região paralela.\n", D.3334, D.3333);
+  fprintf (stdout.1, "Thread[%lu,%lu]: Antes da região paralela.\n", D.3333, D.3332);
   .omp_data_o.15.x = x;
   __builtin_GOMP_parallel_start (main._omp_fn.0, &.omp_data_o.15, 4);
   main._omp_fn.0 (&.omp_data_o.15);
   __builtin_GOMP_parallel_end ();
-  D.3362 = pthread_self ();
-  D.3363 = (long int) D.3362;
-  D.3364 = omp_get_thread_num ();
+  D.3361 = pthread_self ();
+  D.3362 = (long int) D.3361;
+  D.3363 = omp_get_thread_num ();
   stdout.9 = stdout;
-  fprintf (stdout.9, "Thread[%lu,%lu]: Depois da região paralela.\n", D.3364, D.3363);
-  D.3366 = 0;
+  fprintf (stdout.9, "Thread[%lu,%lu]: Depois da região paralela.\n", D.3363, D.3362);
+  D.3365 = 0;
 
 <L4>:
-  return D.3366;
+  return D.3365;
 
 }
 
 
 
-;; Function main._omp_fn.3 (main._omp_fn.3, funcdef_no=9, decl_uid=3384, cgraph_uid=16)
+;; Function main._omp_fn.3 (main._omp_fn.3, funcdef_no=6, decl_uid=3383, cgraph_uid=13)
 
 main._omp_fn.3 (void * .omp_data_i)
 {
   struct _IO_FILE * stdout.8;
-  int D.3394;
-  long int D.3393;
-  long unsigned int D.3392;
+  int D.3393;
+  long int D.3392;
+  long unsigned int D.3391;
 
   <bb 20>:
 
   <bb 14>:
-  D.3392 = pthread_self ();
-  D.3393 = (long int) D.3392;
-  D.3394 = omp_get_thread_num ();
+  D.3391 = pthread_self ();
+  D.3392 = (long int) D.3391;
+  D.3393 = omp_get_thread_num ();
   stdout.8 = stdout;
-  fprintf (stdout.8, "    Thread[%lu,%lu]: Trabalhando na task 3.\n", D.3394, D.3393);
+  fprintf (stdout.8, "    Thread[%lu,%lu]: Trabalhando na task 3.\n", D.3393, D.3392);
   return;
 
 }
 
 
 
-;; Function main._omp_fn.2 (main._omp_fn.2, funcdef_no=8, decl_uid=3380, cgraph_uid=14)
+;; Function main._omp_fn.2 (main._omp_fn.2, funcdef_no=5, decl_uid=3379, cgraph_uid=11)
 
 main._omp_fn.2 (void * .omp_data_i)
 {
   struct _IO_FILE * stdout.5;
-  int D.3398;
-  long int D.3397;
-  long unsigned int D.3396;
+  int D.3397;
+  long int D.3396;
+  long unsigned int D.3395;
 
   <bb 22>:
 
   <bb 11>:
-  D.3396 = pthread_self ();
-  D.3397 = (long int) D.3396;
-  D.3398 = omp_get_thread_num ();
+  D.3395 = pthread_self ();
+  D.3396 = (long int) D.3395;
+  D.3397 = omp_get_thread_num ();
   stdout.5 = stdout;
-  fprintf (stdout.5, "    Thread[%lu,%lu]: Trabalhando na task 2.\n", D.3398, D.3397);
+  fprintf (stdout.5, "    Thread[%lu,%lu]: Trabalhando na task 2.\n", D.3397, D.3396);
   return;
 
 }
 
 
 
-;; Function main._omp_fn.1 (main._omp_fn.1, funcdef_no=7, decl_uid=3376, cgraph_uid=13)
+;; Function main._omp_fn.1 (main._omp_fn.1, funcdef_no=4, decl_uid=3375, cgraph_uid=10)
 
 main._omp_fn.1 (void * .omp_data_i)
 {
   struct _IO_FILE * stdout.4;
-  int D.3402;
-  long int D.3401;
-  long unsigned int D.3400;
+  int D.3401;
+  long int D.3400;
+  long unsigned int D.3399;
 
   <bb 24>:
 
   <bb 8>:
-  D.3400 = pthread_self ();
-  D.3401 = (long int) D.3400;
-  D.3402 = omp_get_thread_num ();
+  D.3399 = pthread_self ();
+  D.3400 = (long int) D.3399;
+  D.3401 = omp_get_thread_num ();
   stdout.4 = stdout;
-  fprintf (stdout.4, "    Thread[%lu,%lu]: Trabalhando na task 1.\n", D.3402, D.3401);
+  fprintf (stdout.4, "    Thread[%lu,%lu]: Trabalhando na task 1.\n", D.3401, D.3400);
   return;
 
 }
 
 
 
-;; Function main._omp_fn.0 (main._omp_fn.0, funcdef_no=6, decl_uid=3368, cgraph_uid=11)
+;; Function main._omp_fn.0 (main._omp_fn.0, funcdef_no=3, decl_uid=3367, cgraph_uid=8)
 
 main._omp_fn.0 (struct .omp_data_s.10 & restrict .omp_data_i)
 {
   struct _IO_FILE * stdout.7;
-  long int D.3419;
-  long unsigned int D.3418;
+  long int D.3418;
+  long unsigned int D.3417;
   struct _IO_FILE * stdout.6;
-  long int D.3416;
-  long unsigned int D.3415;
-  _Bool D.3414;
+  long int D.3415;
+  long unsigned int D.3414;
   _Bool D.3413;
+  _Bool D.3412;
   struct _IO_FILE * stdout.3;
-  long int D.3411;
-  long unsigned int D.3410;
-  _Bool D.3409;
+  long int D.3410;
+  long unsigned int D.3409;
+  _Bool D.3408;
   struct _IO_FILE * stdout.2;
-  long int D.3407;
-  long unsigned int D.3406;
+  long int D.3406;
+  long unsigned int D.3405;
   int id;
   int x;
 
@@ -176,14 +176,14 @@ main._omp_fn.0 (struct .omp_data_s.10 & restrict .omp_data_i)
   <bb 5>:
   x = .omp_data_i->x;
   id = omp_get_thread_num ();
-  D.3406 = pthread_self ();
-  D.3407 = (long int) D.3406;
+  D.3405 = pthread_self ();
+  D.3406 = (long int) D.3405;
   stdout.2 = stdout;
-  fprintf (stdout.2, "  Thread[%lu,%lu]: Todas as threads executam.\n", id, D.3407);
+  fprintf (stdout.2, "  Thread[%lu,%lu]: Todas as threads executam.\n", id, D.3406);
 
   <bb 6>:
-  D.3409 = __builtin_GOMP_single_start ();
-  if (D.3409 == 1)
+  D.3408 = __builtin_GOMP_single_start ();
+  if (D.3408 == 1)
     goto <bb 7>;
   else
     goto <bb 16>;
@@ -194,35 +194,35 @@ main._omp_fn.0 (struct .omp_data_s.10 & restrict .omp_data_i)
   return;
 
   <bb 7>:
-  D.3410 = pthread_self ();
-  D.3411 = (long int) D.3410;
+  D.3409 = pthread_self ();
+  D.3410 = (long int) D.3409;
   stdout.3 = stdout;
-  fprintf (stdout.3, "  Thread[%lu,%lu]: Antes de criar tasks.\n", id, D.3411);
-  D.3413 = x > 10;
+  fprintf (stdout.3, "  Thread[%lu,%lu]: Antes de criar tasks.\n", id, D.3410);
+  D.3412 = x > 10;
 
   <bb 25>:
-  __builtin_GOMP_task (main._omp_fn.1, 0B, 0B, 0, 1, D.3413, 0);
+  __builtin_GOMP_task (main._omp_fn.1, 0B, 0B, 0, 1, D.3412, 0);
 
   <bb 9>:
 
   <bb 10>:
-  D.3414 = x > 20;
+  D.3413 = x > 20;
 
   <bb 23>:
-  __builtin_GOMP_task (main._omp_fn.2, 0B, 0B, 0, 1, D.3414, 0);
+  __builtin_GOMP_task (main._omp_fn.2, 0B, 0B, 0, 1, D.3413, 0);
 
   <bb 12>:
 
   <bb 13>:
-  D.3415 = pthread_self ();
-  D.3416 = (long int) D.3415;
+  D.3414 = pthread_self ();
+  D.3415 = (long int) D.3414;
   stdout.6 = stdout;
-  fprintf (stdout.6, "    Thread[%lu,%lu]: Antes do taskwait.\n", id, D.3416);
+  fprintf (stdout.6, "    Thread[%lu,%lu]: Antes do taskwait.\n", id, D.3415);
   __builtin_GOMP_taskwait ();
-  D.3418 = pthread_self ();
-  D.3419 = (long int) D.3418;
+  D.3417 = pthread_self ();
+  D.3418 = (long int) D.3417;
   stdout.7 = stdout;
-  fprintf (stdout.7, "    Thread[%lu,%lu]: Depois do taskwait.\n", id, D.3419);
+  fprintf (stdout.7, "    Thread[%lu,%lu]: Depois do taskwait.\n", id, D.3418);
 
   <bb 21>:
   __builtin_GOMP_task (main._omp_fn.3, 0B, 0B, 0, 1, 1, 0);

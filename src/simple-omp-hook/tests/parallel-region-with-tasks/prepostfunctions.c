@@ -4,1732 +4,1113 @@
 typedef unsigned long long gomp_ull;
 typedef _Bool bool;
 typedef long TYPE;
-
-#define NUM_FUNCTIONS 119
-
+#define NUM_FUNCTIONS 120
 // Keep the partial counters.
 unsigned long int partial_count[NUM_FUNCTIONS];
-
 unsigned long int accum_count[NUM_FUNCTIONS];
-
-enum omp_idx_function {idx_GOMP_atomic_end, ...} omp_idx_function;
-
-partial_count[num_GOMP_atomic_end]++;
-
-// No final de cada região paralela, imprime o partial_count coletado na região paralela, acumula em accum_count, zera o partial_count e imprime o accum_count.
+enum omp_idx_function {idx_GOMP_atomic_end,idx_GOMP_atomic_start,idx_GOMP_barrier,idx_GOMP_barrier_cancel,idx_GOMP_critical_end,idx_GOMP_critical_name_end,idx_GOMP_critical_name_start,idx_GOMP_critical_start,idx_GOMP_loop_doacross_dynamic_start,idx_GOMP_loop_doacross_guided_start,idx_GOMP_loop_doacross_runtime_start,idx_GOMP_loop_doacross_static_start,idx_GOMP_loop_dynamic_next,idx_GOMP_loop_dynamic_start,idx_GOMP_loop_end,idx_GOMP_loop_end_cancel,idx_GOMP_loop_end_nowait,idx_GOMP_loop_guided_next,idx_GOMP_loop_guided_start,idx_GOMP_loop_nonmonotonic_dynamic_next,idx_GOMP_loop_nonmonotonic_dynamic_start,idx_GOMP_loop_nonmonotonic_guided_next,idx_GOMP_loop_nonmonotonic_guided_start,idx_GOMP_loop_ordered_dynamic_next,idx_GOMP_loop_ordered_dynamic_start,idx_GOMP_loop_ordered_guided_next,idx_GOMP_loop_ordered_guided_start,idx_GOMP_loop_ordered_runtime_next,idx_GOMP_loop_ordered_runtime_start,idx_GOMP_loop_ordered_static_next,idx_GOMP_loop_ordered_static_start,idx_GOMP_loop_runtime_next,idx_GOMP_loop_runtime_start,idx_GOMP_loop_static_next,idx_GOMP_loop_static_start,idx_GOMP_parallel_loop_dynamic,idx_GOMP_parallel_loop_dynamic_start,idx_GOMP_parallel_loop_guided,idx_GOMP_parallel_loop_guided_start,idx_GOMP_parallel_loop_nonmonotonic_dynamic,idx_GOMP_parallel_loop_nonmonotonic_guided,idx_GOMP_parallel_loop_runtime,idx_GOMP_parallel_loop_runtime_start,idx_GOMP_parallel_loop_static,idx_GOMP_parallel_loop_static_start,idx_GOMP_loop_ull_doacross_dynamic_start,idx_GOMP_loop_ull_doacross_guided_start,idx_GOMP_loop_ull_doacross_runtime_start,idx_GOMP_loop_ull_doacross_static_start,idx_GOMP_loop_ull_dynamic_next,idx_GOMP_loop_ull_dynamic_start,idx_GOMP_loop_ull_guided_next,idx_GOMP_loop_ull_guided_start,idx_GOMP_loop_ull_nonmonotonic_dynamic_next,idx_GOMP_loop_ull_nonmonotonic_dynamic_start,idx_GOMP_loop_ull_nonmonotonic_guided_next,idx_GOMP_loop_ull_nonmonotonic_guided_start,idx_GOMP_loop_ull_ordered_dynamic_next,idx_GOMP_loop_ull_ordered_dynamic_start,idx_GOMP_loop_ull_ordered_guided_next,idx_GOMP_loop_ull_ordered_guided_start,idx_GOMP_loop_ull_ordered_runtime_next,idx_GOMP_loop_ull_ordered_runtime_start,idx_GOMP_loop_ull_ordered_static_next,idx_GOMP_loop_ull_ordered_static_start,idx_GOMP_loop_ull_runtime_next,idx_GOMP_loop_ull_runtime_start,idx_GOMP_loop_ull_static_next,idx_GOMP_loop_ull_static_start,idx_GOMP_doacross_post,idx_GOMP_doacross_ull_post,idx_GOMP_doacross_ull_wait,idx_GOMP_doacross_wait,idx_GOMP_ordered_end,idx_GOMP_ordered_start,idx_GOMP_cancel,idx_GOMP_cancellation_point,idx_GOMP_parallel,idx_GOMP_parallel_end,idx_GOMP_parallel_start,idx_GOMP_parallel_sections,idx_GOMP_parallel_sections_start,idx_GOMP_sections_end,idx_GOMP_sections_end_cancel,idx_GOMP_sections_end_nowait,idx_GOMP_sections_next,idx_GOMP_sections_start,idx_GOMP_single_copy_end,idx_GOMP_single_copy_start,idx_GOMP_single_start,idx_GOMP_PLUGIN_target_task_completion,idx_GOMP_task,idx_GOMP_taskgroup_end,idx_GOMP_taskgroup_start,idx_GOMP_taskwait,idx_GOMP_taskyield,idx_GOMP_offload_register,idx_GOMP_offload_register_ver,idx_GOMP_offload_unregister,idx_GOMP_offload_unregister_ver,idx_GOMP_target,idx_GOMP_target_data,idx_GOMP_target_data_ext,idx_GOMP_target_end_data,idx_GOMP_target_enter_exit_data,idx_GOMP_target_ext,idx_GOMP_target_update,idx_GOMP_target_update_ext,idx_GOMP_teams,idx_GOMP_taskloop,idx_GOACC_data_end,idx_GOACC_data_start,idx_GOACC_declare,idx_GOACC_enter_exit_data,idx_GOACC_get_num_threads,idx_GOACC_get_thread_num,idx_GOACC_parallel,idx_GOACC_parallel_keyed,idx_GOACC_update,idx_GOACC_wait} omp_idx_function;
 
 
-void accumulate_results(){
-
-	for(idx=0;idx<NUM_FUNCTIONS;idx++){
-		// accum_count[idx] += partial_count[num_GOMP_atomic_end];
-		// partial_count[num_GOMP_atomic_end] = 0;	
-		accum_count[idx] += partial_count[idx];
-	    partial_count[idx] = 0;
-	}
-	
+void print_results_csv_partial(void) {
+	printf("Number of GOMP_atomic_end, Number of GOMP_atomic_start, Number of GOMP_barrier, Number of GOMP_barrier_cancel, Number of GOMP_critical_end, Number of GOMP_critical_name_end, Number of GOMP_critical_name_start, Number of GOMP_critical_start, Number of GOMP_loop_doacross_dynamic_start, Number of GOMP_loop_doacross_guided_start, Number of GOMP_loop_doacross_runtime_start, Number of GOMP_loop_doacross_static_start, Number of GOMP_loop_dynamic_next, Number of GOMP_loop_dynamic_start, Number of GOMP_loop_end, Number of GOMP_loop_end_cancel, Number of GOMP_loop_end_nowait, Number of GOMP_loop_guided_next, Number of GOMP_loop_guided_start, Number of GOMP_loop_nonmonotonic_dynamic_next, Number of GOMP_loop_nonmonotonic_dynamic_start, Number of GOMP_loop_nonmonotonic_guided_next, Number of GOMP_loop_nonmonotonic_guided_start, Number of GOMP_loop_ordered_dynamic_next, Number of GOMP_loop_ordered_dynamic_start, Number of GOMP_loop_ordered_guided_next, Number of GOMP_loop_ordered_guided_start, Number of GOMP_loop_ordered_runtime_next, Number of GOMP_loop_ordered_runtime_start, Number of GOMP_loop_ordered_static_next, Number of GOMP_loop_ordered_static_start, Number of GOMP_loop_runtime_next, Number of GOMP_loop_runtime_start, Number of GOMP_loop_static_next, Number of GOMP_loop_static_start, Number of GOMP_parallel_loop_dynamic, Number of GOMP_parallel_loop_dynamic_start, Number of GOMP_parallel_loop_guided, Number of GOMP_parallel_loop_guided_start, Number of GOMP_parallel_loop_nonmonotonic_dynamic, Number of GOMP_parallel_loop_nonmonotonic_guided, Number of GOMP_parallel_loop_runtime, Number of GOMP_parallel_loop_runtime_start, Number of GOMP_parallel_loop_static, Number of GOMP_parallel_loop_static_start, Number of GOMP_loop_ull_doacross_dynamic_start, Number of GOMP_loop_ull_doacross_guided_start, Number of GOMP_loop_ull_doacross_runtime_start, Number of GOMP_loop_ull_doacross_static_start, Number of GOMP_loop_ull_dynamic_next, Number of GOMP_loop_ull_dynamic_start, Number of GOMP_loop_ull_guided_next, Number of GOMP_loop_ull_guided_start, Number of GOMP_loop_ull_nonmonotonic_dynamic_next, Number of GOMP_loop_ull_nonmonotonic_dynamic_start, Number of GOMP_loop_ull_nonmonotonic_guided_next, Number of GOMP_loop_ull_nonmonotonic_guided_start, Number of GOMP_loop_ull_ordered_dynamic_next, Number of GOMP_loop_ull_ordered_dynamic_start, Number of GOMP_loop_ull_ordered_guided_next, Number of GOMP_loop_ull_ordered_guided_start, Number of GOMP_loop_ull_ordered_runtime_next, Number of GOMP_loop_ull_ordered_runtime_start, Number of GOMP_loop_ull_ordered_static_next, Number of GOMP_loop_ull_ordered_static_start, Number of GOMP_loop_ull_runtime_next, Number of GOMP_loop_ull_runtime_start, Number of GOMP_loop_ull_static_next, Number of GOMP_loop_ull_static_start, Number of GOMP_doacross_post, Number of GOMP_doacross_ull_post, Number of GOMP_doacross_ull_wait, Number of GOMP_doacross_wait, Number of GOMP_ordered_end, Number of GOMP_ordered_start, Number of GOMP_cancel, Number of GOMP_cancellation_point, Number of GOMP_parallel, Number of GOMP_parallel_end, Number of GOMP_parallel_start, Number of GOMP_parallel_sections, Number of GOMP_parallel_sections_start, Number of GOMP_sections_end, Number of GOMP_sections_end_cancel, Number of GOMP_sections_end_nowait, Number of GOMP_sections_next, Number of GOMP_sections_start, Number of GOMP_single_copy_end, Number of GOMP_single_copy_start, Number of GOMP_single_start, Number of GOMP_PLUGIN_target_task_completion, Number of GOMP_task, Number of GOMP_taskgroup_end, Number of GOMP_taskgroup_start, Number of GOMP_taskwait, Number of GOMP_taskyield, Number of GOMP_offload_register, Number of GOMP_offload_register_ver, Number of GOMP_offload_unregister, Number of GOMP_offload_unregister_ver, Number of GOMP_target, Number of GOMP_target_data, Number of GOMP_target_data_ext, Number of GOMP_target_end_data, Number of GOMP_target_enter_exit_data, Number of GOMP_target_ext, Number of GOMP_target_update, Number of GOMP_target_update_ext, Number of GOMP_teams, Number of GOMP_taskloop, Number of GOACC_data_end, Number of GOACC_data_start, Number of GOACC_declare, Number of GOACC_enter_exit_data, Number of GOACC_get_num_threads, Number of GOACC_get_thread_num, Number of GOACC_parallel, Number of GOACC_parallel_keyed, Number of GOACC_update, Number of GOACC_wait");
+	printf("%lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu", partial_count[idx_GOMP_atomic_end], partial_count[idx_GOMP_atomic_start], partial_count[idx_GOMP_barrier], partial_count[idx_GOMP_barrier_cancel], partial_count[idx_GOMP_critical_end], partial_count[idx_GOMP_critical_name_end], partial_count[idx_GOMP_critical_name_start], partial_count[idx_GOMP_critical_start], partial_count[idx_GOMP_loop_doacross_dynamic_start], partial_count[idx_GOMP_loop_doacross_guided_start], partial_count[idx_GOMP_loop_doacross_runtime_start], partial_count[idx_GOMP_loop_doacross_static_start], partial_count[idx_GOMP_loop_dynamic_next], partial_count[idx_GOMP_loop_dynamic_start], partial_count[idx_GOMP_loop_end], partial_count[idx_GOMP_loop_end_cancel], partial_count[idx_GOMP_loop_end_nowait], partial_count[idx_GOMP_loop_guided_next], partial_count[idx_GOMP_loop_guided_start], partial_count[idx_GOMP_loop_nonmonotonic_dynamic_next], partial_count[idx_GOMP_loop_nonmonotonic_dynamic_start], partial_count[idx_GOMP_loop_nonmonotonic_guided_next], partial_count[idx_GOMP_loop_nonmonotonic_guided_start], partial_count[idx_GOMP_loop_ordered_dynamic_next], partial_count[idx_GOMP_loop_ordered_dynamic_start], partial_count[idx_GOMP_loop_ordered_guided_next], partial_count[idx_GOMP_loop_ordered_guided_start], partial_count[idx_GOMP_loop_ordered_runtime_next], partial_count[idx_GOMP_loop_ordered_runtime_start], partial_count[idx_GOMP_loop_ordered_static_next], partial_count[idx_GOMP_loop_ordered_static_start], partial_count[idx_GOMP_loop_runtime_next], partial_count[idx_GOMP_loop_runtime_start], partial_count[idx_GOMP_loop_static_next], partial_count[idx_GOMP_loop_static_start], partial_count[idx_GOMP_parallel_loop_dynamic], partial_count[idx_GOMP_parallel_loop_dynamic_start], partial_count[idx_GOMP_parallel_loop_guided], partial_count[idx_GOMP_parallel_loop_guided_start], partial_count[idx_GOMP_parallel_loop_nonmonotonic_dynamic], partial_count[idx_GOMP_parallel_loop_nonmonotonic_guided], partial_count[idx_GOMP_parallel_loop_runtime], partial_count[idx_GOMP_parallel_loop_runtime_start], partial_count[idx_GOMP_parallel_loop_static], partial_count[idx_GOMP_parallel_loop_static_start], partial_count[idx_GOMP_loop_ull_doacross_dynamic_start], partial_count[idx_GOMP_loop_ull_doacross_guided_start], partial_count[idx_GOMP_loop_ull_doacross_runtime_start], partial_count[idx_GOMP_loop_ull_doacross_static_start], partial_count[idx_GOMP_loop_ull_dynamic_next], partial_count[idx_GOMP_loop_ull_dynamic_start], partial_count[idx_GOMP_loop_ull_guided_next], partial_count[idx_GOMP_loop_ull_guided_start], partial_count[idx_GOMP_loop_ull_nonmonotonic_dynamic_next], partial_count[idx_GOMP_loop_ull_nonmonotonic_dynamic_start], partial_count[idx_GOMP_loop_ull_nonmonotonic_guided_next], partial_count[idx_GOMP_loop_ull_nonmonotonic_guided_start], partial_count[idx_GOMP_loop_ull_ordered_dynamic_next], partial_count[idx_GOMP_loop_ull_ordered_dynamic_start], partial_count[idx_GOMP_loop_ull_ordered_guided_next], partial_count[idx_GOMP_loop_ull_ordered_guided_start], partial_count[idx_GOMP_loop_ull_ordered_runtime_next], partial_count[idx_GOMP_loop_ull_ordered_runtime_start], partial_count[idx_GOMP_loop_ull_ordered_static_next], partial_count[idx_GOMP_loop_ull_ordered_static_start], partial_count[idx_GOMP_loop_ull_runtime_next], partial_count[idx_GOMP_loop_ull_runtime_start], partial_count[idx_GOMP_loop_ull_static_next], partial_count[idx_GOMP_loop_ull_static_start], partial_count[idx_GOMP_doacross_post], partial_count[idx_GOMP_doacross_ull_post], partial_count[idx_GOMP_doacross_ull_wait], partial_count[idx_GOMP_doacross_wait], partial_count[idx_GOMP_ordered_end], partial_count[idx_GOMP_ordered_start], partial_count[idx_GOMP_cancel], partial_count[idx_GOMP_cancellation_point], partial_count[idx_GOMP_parallel], partial_count[idx_GOMP_parallel_end], partial_count[idx_GOMP_parallel_start], partial_count[idx_GOMP_parallel_sections], partial_count[idx_GOMP_parallel_sections_start], partial_count[idx_GOMP_sections_end], partial_count[idx_GOMP_sections_end_cancel], partial_count[idx_GOMP_sections_end_nowait], partial_count[idx_GOMP_sections_next], partial_count[idx_GOMP_sections_start], partial_count[idx_GOMP_single_copy_end], partial_count[idx_GOMP_single_copy_start], partial_count[idx_GOMP_single_start], partial_count[idx_GOMP_PLUGIN_target_task_completion], partial_count[idx_GOMP_task], partial_count[idx_GOMP_taskgroup_end], partial_count[idx_GOMP_taskgroup_start], partial_count[idx_GOMP_taskwait], partial_count[idx_GOMP_taskyield], partial_count[idx_GOMP_offload_register], partial_count[idx_GOMP_offload_register_ver], partial_count[idx_GOMP_offload_unregister], partial_count[idx_GOMP_offload_unregister_ver], partial_count[idx_GOMP_target], partial_count[idx_GOMP_target_data], partial_count[idx_GOMP_target_data_ext], partial_count[idx_GOMP_target_end_data], partial_count[idx_GOMP_target_enter_exit_data], partial_count[idx_GOMP_target_ext], partial_count[idx_GOMP_target_update], partial_count[idx_GOMP_target_update_ext], partial_count[idx_GOMP_teams], partial_count[idx_GOMP_taskloop], partial_count[idx_GOACC_data_end], partial_count[idx_GOACC_data_start], partial_count[idx_GOACC_declare], partial_count[idx_GOACC_enter_exit_data], partial_count[idx_GOACC_get_num_threads], partial_count[idx_GOACC_get_thread_num], partial_count[idx_GOACC_parallel], partial_count[idx_GOACC_parallel_keyed], partial_count[idx_GOACC_update], partial_count[idx_GOACC_wait]);
 }
 
 
-// Variables
-int num_GOMP_atomic_end = 0;
-int num_GOMP_atomic_start = 0;
-int num_GOMP_barrier = 0;
-int num_GOMP_barrier_cancel = 0;
-int num_GOMP_critical_end = 0;
-int num_GOMP_critical_name_end = 0;
-int num_GOMP_critical_name_start = 0;
-int num_GOMP_critical_start = 0;
-int num_GOMP_loop_doacross_dynamic_start = 0;
-int num_GOMP_loop_doacross_guided_start = 0;
-int num_GOMP_loop_doacross_runtime_start = 0;
-int num_GOMP_loop_doacross_static_start = 0;
-int num_GOMP_loop_dynamic_next = 0;
-int num_GOMP_loop_dynamic_start = 0;
-int num_GOMP_loop_end = 0;
-int num_GOMP_loop_end_cancel = 0;
-int num_GOMP_loop_end_nowait = 0;
-int num_GOMP_loop_guided_next = 0;
-int num_GOMP_loop_guided_start = 0;
-int num_GOMP_loop_nonmonotonic_dynamic_next = 0;
-int num_GOMP_loop_nonmonotonic_dynamic_start = 0;
-int num_GOMP_loop_nonmonotonic_guided_next = 0;
-int num_GOMP_loop_nonmonotonic_guided_start = 0;
-int num_GOMP_loop_ordered_dynamic_next = 0;
-int num_GOMP_loop_ordered_dynamic_start = 0;
-int num_GOMP_loop_ordered_guided_next = 0;
-int num_GOMP_loop_ordered_guided_start = 0;
-int num_GOMP_loop_ordered_runtime_next = 0;
-int num_GOMP_loop_ordered_runtime_start = 0;
-int num_GOMP_loop_ordered_static_next = 0;
-int num_GOMP_loop_ordered_static_start = 0;
-int num_GOMP_loop_runtime_next = 0;
-int num_GOMP_loop_runtime_start = 0;
-int num_GOMP_loop_static_next = 0;
-int num_GOMP_loop_static_start = 0;
-int num_GOMP_parallel_loop_dynamic = 0;
-int num_GOMP_parallel_loop_dynamic_start = 0;
-int num_GOMP_parallel_loop_guided = 0;
-int num_GOMP_parallel_loop_guided_start = 0;
-int num_GOMP_parallel_loop_nonmonotonic_dynamic = 0;
-int num_GOMP_parallel_loop_nonmonotonic_guided = 0;
-int num_GOMP_parallel_loop_runtime = 0;
-int num_GOMP_parallel_loop_runtime_start = 0;
-int num_GOMP_parallel_loop_static = 0;
-int num_GOMP_parallel_loop_static_start = 0;
-int num_GOMP_loop_ull_doacross_dynamic_start = 0;
-int num_GOMP_loop_ull_doacross_guided_start = 0;
-int num_GOMP_loop_ull_doacross_runtime_start = 0;
-int num_GOMP_loop_ull_doacross_static_start = 0;
-int num_GOMP_loop_ull_dynamic_next = 0;
-int num_GOMP_loop_ull_dynamic_start = 0;
-int num_GOMP_loop_ull_guided_next = 0;
-int num_GOMP_loop_ull_guided_start = 0;
-int num_GOMP_loop_ull_nonmonotonic_dynamic_next = 0;
-int num_GOMP_loop_ull_nonmonotonic_dynamic_start = 0;
-int num_GOMP_loop_ull_nonmonotonic_guided_next = 0;
-int num_GOMP_loop_ull_nonmonotonic_guided_start = 0;
-int num_GOMP_loop_ull_ordered_dynamic_next = 0;
-int num_GOMP_loop_ull_ordered_dynamic_start = 0;
-int num_GOMP_loop_ull_ordered_guided_next = 0;
-int num_GOMP_loop_ull_ordered_guided_start = 0;
-int num_GOMP_loop_ull_ordered_runtime_next = 0;
-int num_GOMP_loop_ull_ordered_runtime_start = 0;
-int num_GOMP_loop_ull_ordered_static_next = 0;
-int num_GOMP_loop_ull_ordered_static_start = 0;
-int num_GOMP_loop_ull_runtime_next = 0;
-int num_GOMP_loop_ull_runtime_start = 0;
-int num_GOMP_loop_ull_static_next = 0;
-int num_GOMP_loop_ull_static_start = 0;
-int num_GOMP_doacross_post = 0;
-int num_GOMP_doacross_ull_post = 0;
-int num_GOMP_doacross_ull_wait = 0;
-int num_GOMP_doacross_wait = 0;
-int num_GOMP_ordered_end = 0;
-int num_GOMP_ordered_start = 0;
-int num_GOMP_cancel = 0;
-int num_GOMP_cancellation_point = 0;
-int num_GOMP_parallel = 0;
-int num_GOMP_parallel_end = 0;
-int num_GOMP_parallel_start = 0;
-int num_GOMP_parallel_sections = 0;
-int num_GOMP_parallel_sections_start = 0;
-int num_GOMP_sections_end = 0;
-int num_GOMP_sections_end_cancel = 0;
-int num_GOMP_sections_end_nowait = 0;
-int num_GOMP_sections_next = 0;
-int num_GOMP_sections_start = 0;
-int num_GOMP_single_copy_end = 0;
-int num_GOMP_single_copy_start = 0;
-int num_GOMP_single_start = 0;
-int num_GOMP_PLUGIN_target_task_completion = 0;
-int num_GOMP_task = 0;
-int num_GOMP_taskgroup_end = 0;
-int num_GOMP_taskgroup_start = 0;
-int num_GOMP_taskwait = 0;
-int num_GOMP_taskyield = 0;
-int num_GOMP_offload_register = 0;
-int num_GOMP_offload_register_ver = 0;
-int num_GOMP_offload_unregister = 0;
-int num_GOMP_offload_unregister_ver = 0;
-int num_GOMP_target = 0;
-int num_GOMP_target_data = 0;
-int num_GOMP_target_data_ext = 0;
-int num_GOMP_target_end_data = 0;
-int num_GOMP_target_enter_exit_data = 0;
-int num_GOMP_target_ext = 0;
-int num_GOMP_target_update = 0;
-int num_GOMP_target_update_ext = 0;
-int num_GOMP_teams = 0;
-int num_GOMP_taskloop = 0;
-int num_GOACC_data_end = 0;
-int num_GOACC_data_start = 0;
-int num_GOACC_declare = 0;
-int num_GOACC_enter_exit_data = 0;
-int num_GOACC_get_num_threads = 0;
-int num_GOACC_get_thread_num = 0;
-int num_GOACC_parallel = 0;
-int num_GOACC_parallel_keyed = 0;
-int num_GOACC_update = 0;
-int num_GOACC_wait = 0;
-
-
-
-
-// print_results
-void print_results(void)
-{
-	printf("Number of GOMP_atomic_end: %d\n", num_GOMP_atomic_end);
-	printf("Number of GOMP_atomic_start: %d\n", num_GOMP_atomic_start);
-	printf("Number of GOMP_barrier: %d\n", num_GOMP_barrier);
-	printf("Number of GOMP_barrier_cancel: %d\n", num_GOMP_barrier_cancel);
-	printf("Number of GOMP_critical_end: %d\n", num_GOMP_critical_end);
-	printf("Number of GOMP_critical_name_end: %d\n", num_GOMP_critical_name_end);
-	printf("Number of GOMP_critical_name_start: %d\n", num_GOMP_critical_name_start);
-	printf("Number of GOMP_critical_start: %d\n", num_GOMP_critical_start);
-	printf("Number of GOMP_loop_doacross_dynamic_start: %d\n", num_GOMP_loop_doacross_dynamic_start);
-	printf("Number of GOMP_loop_doacross_guided_start: %d\n", num_GOMP_loop_doacross_guided_start);
-	printf("Number of GOMP_loop_doacross_runtime_start: %d\n", num_GOMP_loop_doacross_runtime_start);
-	printf("Number of GOMP_loop_doacross_static_start: %d\n", num_GOMP_loop_doacross_static_start);
-	printf("Number of GOMP_loop_dynamic_next: %d\n", num_GOMP_loop_dynamic_next);
-	printf("Number of GOMP_loop_dynamic_start: %d\n", num_GOMP_loop_dynamic_start);
-	printf("Number of GOMP_loop_end: %d\n", num_GOMP_loop_end);
-	printf("Number of GOMP_loop_end_cancel: %d\n", num_GOMP_loop_end_cancel);
-	printf("Number of GOMP_loop_end_nowait: %d\n", num_GOMP_loop_end_nowait);
-	printf("Number of GOMP_loop_guided_next: %d\n", num_GOMP_loop_guided_next);
-	printf("Number of GOMP_loop_guided_start: %d\n", num_GOMP_loop_guided_start);
-	printf("Number of GOMP_loop_nonmonotonic_dynamic_next: %d\n", num_GOMP_loop_nonmonotonic_dynamic_next);
-	printf("Number of GOMP_loop_nonmonotonic_dynamic_start: %d\n", num_GOMP_loop_nonmonotonic_dynamic_start);
-	printf("Number of GOMP_loop_nonmonotonic_guided_next: %d\n", num_GOMP_loop_nonmonotonic_guided_next);
-	printf("Number of GOMP_loop_nonmonotonic_guided_start: %d\n", num_GOMP_loop_nonmonotonic_guided_start);
-	printf("Number of GOMP_loop_ordered_dynamic_next: %d\n", num_GOMP_loop_ordered_dynamic_next);
-	printf("Number of GOMP_loop_ordered_dynamic_start: %d\n", num_GOMP_loop_ordered_dynamic_start);
-	printf("Number of GOMP_loop_ordered_guided_next: %d\n", num_GOMP_loop_ordered_guided_next);
-	printf("Number of GOMP_loop_ordered_guided_start: %d\n", num_GOMP_loop_ordered_guided_start);
-	printf("Number of GOMP_loop_ordered_runtime_next: %d\n", num_GOMP_loop_ordered_runtime_next);
-	printf("Number of GOMP_loop_ordered_runtime_start: %d\n", num_GOMP_loop_ordered_runtime_start);
-	printf("Number of GOMP_loop_ordered_static_next: %d\n", num_GOMP_loop_ordered_static_next);
-	printf("Number of GOMP_loop_ordered_static_start: %d\n", num_GOMP_loop_ordered_static_start);
-	printf("Number of GOMP_loop_runtime_next: %d\n", num_GOMP_loop_runtime_next);
-	printf("Number of GOMP_loop_runtime_start: %d\n", num_GOMP_loop_runtime_start);
-	printf("Number of GOMP_loop_static_next: %d\n", num_GOMP_loop_static_next);
-	printf("Number of GOMP_loop_static_start: %d\n", num_GOMP_loop_static_start);
-	printf("Number of GOMP_parallel_loop_dynamic: %d\n", num_GOMP_parallel_loop_dynamic);
-	printf("Number of GOMP_parallel_loop_dynamic_start: %d\n", num_GOMP_parallel_loop_dynamic_start);
-	printf("Number of GOMP_parallel_loop_guided: %d\n", num_GOMP_parallel_loop_guided);
-	printf("Number of GOMP_parallel_loop_guided_start: %d\n", num_GOMP_parallel_loop_guided_start);
-	printf("Number of GOMP_parallel_loop_nonmonotonic_dynamic: %d\n", num_GOMP_parallel_loop_nonmonotonic_dynamic);
-	printf("Number of GOMP_parallel_loop_nonmonotonic_guided: %d\n", num_GOMP_parallel_loop_nonmonotonic_guided);
-	printf("Number of GOMP_parallel_loop_runtime: %d\n", num_GOMP_parallel_loop_runtime);
-	printf("Number of GOMP_parallel_loop_runtime_start: %d\n", num_GOMP_parallel_loop_runtime_start);
-	printf("Number of GOMP_parallel_loop_static: %d\n", num_GOMP_parallel_loop_static);
-	printf("Number of GOMP_parallel_loop_static_start: %d\n", num_GOMP_parallel_loop_static_start);
-	printf("Number of GOMP_loop_ull_doacross_dynamic_start: %d\n", num_GOMP_loop_ull_doacross_dynamic_start);
-	printf("Number of GOMP_loop_ull_doacross_guided_start: %d\n", num_GOMP_loop_ull_doacross_guided_start);
-	printf("Number of GOMP_loop_ull_doacross_runtime_start: %d\n", num_GOMP_loop_ull_doacross_runtime_start);
-	printf("Number of GOMP_loop_ull_doacross_static_start: %d\n", num_GOMP_loop_ull_doacross_static_start);
-	printf("Number of GOMP_loop_ull_dynamic_next: %d\n", num_GOMP_loop_ull_dynamic_next);
-	printf("Number of GOMP_loop_ull_dynamic_start: %d\n", num_GOMP_loop_ull_dynamic_start);
-	printf("Number of GOMP_loop_ull_guided_next: %d\n", num_GOMP_loop_ull_guided_next);
-	printf("Number of GOMP_loop_ull_guided_start: %d\n", num_GOMP_loop_ull_guided_start);
-	printf("Number of GOMP_loop_ull_nonmonotonic_dynamic_next: %d\n", num_GOMP_loop_ull_nonmonotonic_dynamic_next);
-	printf("Number of GOMP_loop_ull_nonmonotonic_dynamic_start: %d\n", num_GOMP_loop_ull_nonmonotonic_dynamic_start);
-	printf("Number of GOMP_loop_ull_nonmonotonic_guided_next: %d\n", num_GOMP_loop_ull_nonmonotonic_guided_next);
-	printf("Number of GOMP_loop_ull_nonmonotonic_guided_start: %d\n", num_GOMP_loop_ull_nonmonotonic_guided_start);
-	printf("Number of GOMP_loop_ull_ordered_dynamic_next: %d\n", num_GOMP_loop_ull_ordered_dynamic_next);
-	printf("Number of GOMP_loop_ull_ordered_dynamic_start: %d\n", num_GOMP_loop_ull_ordered_dynamic_start);
-	printf("Number of GOMP_loop_ull_ordered_guided_next: %d\n", num_GOMP_loop_ull_ordered_guided_next);
-	printf("Number of GOMP_loop_ull_ordered_guided_start: %d\n", num_GOMP_loop_ull_ordered_guided_start);
-	printf("Number of GOMP_loop_ull_ordered_runtime_next: %d\n", num_GOMP_loop_ull_ordered_runtime_next);
-	printf("Number of GOMP_loop_ull_ordered_runtime_start: %d\n", num_GOMP_loop_ull_ordered_runtime_start);
-	printf("Number of GOMP_loop_ull_ordered_static_next: %d\n", num_GOMP_loop_ull_ordered_static_next);
-	printf("Number of GOMP_loop_ull_ordered_static_start: %d\n", num_GOMP_loop_ull_ordered_static_start);
-	printf("Number of GOMP_loop_ull_runtime_next: %d\n", num_GOMP_loop_ull_runtime_next);
-	printf("Number of GOMP_loop_ull_runtime_start: %d\n", num_GOMP_loop_ull_runtime_start);
-	printf("Number of GOMP_loop_ull_static_next: %d\n", num_GOMP_loop_ull_static_next);
-	printf("Number of GOMP_loop_ull_static_start: %d\n", num_GOMP_loop_ull_static_start);
-	printf("Number of GOMP_doacross_post: %d\n", num_GOMP_doacross_post);
-	printf("Number of GOMP_doacross_ull_post: %d\n", num_GOMP_doacross_ull_post);
-	printf("Number of GOMP_doacross_ull_wait: %d\n", num_GOMP_doacross_ull_wait);
-	printf("Number of GOMP_doacross_wait: %d\n", num_GOMP_doacross_wait);
-	printf("Number of GOMP_ordered_end: %d\n", num_GOMP_ordered_end);
-	printf("Number of GOMP_ordered_start: %d\n", num_GOMP_ordered_start);
-	printf("Number of GOMP_cancel: %d\n", num_GOMP_cancel);
-	printf("Number of GOMP_cancellation_point: %d\n", num_GOMP_cancellation_point);
-	printf("Number of GOMP_parallel: %d\n", num_GOMP_parallel);
-	printf("Number of GOMP_parallel_end: %d\n", num_GOMP_parallel_end);
-	printf("Number of GOMP_parallel_start: %d\n", num_GOMP_parallel_start);
-	printf("Number of GOMP_parallel_sections: %d\n", num_GOMP_parallel_sections);
-	printf("Number of GOMP_parallel_sections_start: %d\n", num_GOMP_parallel_sections_start);
-	printf("Number of GOMP_sections_end: %d\n", num_GOMP_sections_end);
-	printf("Number of GOMP_sections_end_cancel: %d\n", num_GOMP_sections_end_cancel);
-	printf("Number of GOMP_sections_end_nowait: %d\n", num_GOMP_sections_end_nowait);
-	printf("Number of GOMP_sections_next: %d\n", num_GOMP_sections_next);
-	printf("Number of GOMP_sections_start: %d\n", num_GOMP_sections_start);
-	printf("Number of GOMP_single_copy_end: %d\n", num_GOMP_single_copy_end);
-	printf("Number of GOMP_single_copy_start: %d\n", num_GOMP_single_copy_start);
-	printf("Number of GOMP_single_start: %d\n", num_GOMP_single_start);
-	printf("Number of GOMP_PLUGIN_target_task_completion: %d\n", num_GOMP_PLUGIN_target_task_completion);
-	printf("Number of GOMP_task: %d\n", num_GOMP_task);
-	printf("Number of GOMP_taskgroup_end: %d\n", num_GOMP_taskgroup_end);
-	printf("Number of GOMP_taskgroup_start: %d\n", num_GOMP_taskgroup_start);
-	printf("Number of GOMP_taskwait: %d\n", num_GOMP_taskwait);
-	printf("Number of GOMP_taskyield: %d\n", num_GOMP_taskyield);
-	printf("Number of GOMP_offload_register: %d\n", num_GOMP_offload_register);
-	printf("Number of GOMP_offload_register_ver: %d\n", num_GOMP_offload_register_ver);
-	printf("Number of GOMP_offload_unregister: %d\n", num_GOMP_offload_unregister);
-	printf("Number of GOMP_offload_unregister_ver: %d\n", num_GOMP_offload_unregister_ver);
-	printf("Number of GOMP_target: %d\n", num_GOMP_target);
-	printf("Number of GOMP_target_data: %d\n", num_GOMP_target_data);
-	printf("Number of GOMP_target_data_ext: %d\n", num_GOMP_target_data_ext);
-	printf("Number of GOMP_target_end_data: %d\n", num_GOMP_target_end_data);
-	printf("Number of GOMP_target_enter_exit_data: %d\n", num_GOMP_target_enter_exit_data);
-	printf("Number of GOMP_target_ext: %d\n", num_GOMP_target_ext);
-	printf("Number of GOMP_target_update: %d\n", num_GOMP_target_update);
-	printf("Number of GOMP_target_update_ext: %d\n", num_GOMP_target_update_ext);
-	printf("Number of GOMP_teams: %d\n", num_GOMP_teams);
-	printf("Number of GOMP_taskloop: %d\n", num_GOMP_taskloop);
-	printf("Number of GOACC_data_end: %d\n", num_GOACC_data_end);
-	printf("Number of GOACC_data_start: %d\n", num_GOACC_data_start);
-	printf("Number of GOACC_declare: %d\n", num_GOACC_declare);
-	printf("Number of GOACC_enter_exit_data: %d\n", num_GOACC_enter_exit_data);
-	printf("Number of GOACC_get_num_threads: %d\n", num_GOACC_get_num_threads);
-	printf("Number of GOACC_get_thread_num: %d\n", num_GOACC_get_thread_num);
-	printf("Number of GOACC_parallel: %d\n", num_GOACC_parallel);
-	printf("Number of GOACC_parallel_keyed: %d\n", num_GOACC_parallel_keyed);
-	printf("Number of GOACC_update: %d\n", num_GOACC_update);
-	printf("Number of GOACC_wait: %d\n", num_GOACC_wait);
+void print_results_csv_accum(void) {
+	printf("Number of GOMP_atomic_end, Number of GOMP_atomic_start, Number of GOMP_barrier, Number of GOMP_barrier_cancel, Number of GOMP_critical_end, Number of GOMP_critical_name_end, Number of GOMP_critical_name_start, Number of GOMP_critical_start, Number of GOMP_loop_doacross_dynamic_start, Number of GOMP_loop_doacross_guided_start, Number of GOMP_loop_doacross_runtime_start, Number of GOMP_loop_doacross_static_start, Number of GOMP_loop_dynamic_next, Number of GOMP_loop_dynamic_start, Number of GOMP_loop_end, Number of GOMP_loop_end_cancel, Number of GOMP_loop_end_nowait, Number of GOMP_loop_guided_next, Number of GOMP_loop_guided_start, Number of GOMP_loop_nonmonotonic_dynamic_next, Number of GOMP_loop_nonmonotonic_dynamic_start, Number of GOMP_loop_nonmonotonic_guided_next, Number of GOMP_loop_nonmonotonic_guided_start, Number of GOMP_loop_ordered_dynamic_next, Number of GOMP_loop_ordered_dynamic_start, Number of GOMP_loop_ordered_guided_next, Number of GOMP_loop_ordered_guided_start, Number of GOMP_loop_ordered_runtime_next, Number of GOMP_loop_ordered_runtime_start, Number of GOMP_loop_ordered_static_next, Number of GOMP_loop_ordered_static_start, Number of GOMP_loop_runtime_next, Number of GOMP_loop_runtime_start, Number of GOMP_loop_static_next, Number of GOMP_loop_static_start, Number of GOMP_parallel_loop_dynamic, Number of GOMP_parallel_loop_dynamic_start, Number of GOMP_parallel_loop_guided, Number of GOMP_parallel_loop_guided_start, Number of GOMP_parallel_loop_nonmonotonic_dynamic, Number of GOMP_parallel_loop_nonmonotonic_guided, Number of GOMP_parallel_loop_runtime, Number of GOMP_parallel_loop_runtime_start, Number of GOMP_parallel_loop_static, Number of GOMP_parallel_loop_static_start, Number of GOMP_loop_ull_doacross_dynamic_start, Number of GOMP_loop_ull_doacross_guided_start, Number of GOMP_loop_ull_doacross_runtime_start, Number of GOMP_loop_ull_doacross_static_start, Number of GOMP_loop_ull_dynamic_next, Number of GOMP_loop_ull_dynamic_start, Number of GOMP_loop_ull_guided_next, Number of GOMP_loop_ull_guided_start, Number of GOMP_loop_ull_nonmonotonic_dynamic_next, Number of GOMP_loop_ull_nonmonotonic_dynamic_start, Number of GOMP_loop_ull_nonmonotonic_guided_next, Number of GOMP_loop_ull_nonmonotonic_guided_start, Number of GOMP_loop_ull_ordered_dynamic_next, Number of GOMP_loop_ull_ordered_dynamic_start, Number of GOMP_loop_ull_ordered_guided_next, Number of GOMP_loop_ull_ordered_guided_start, Number of GOMP_loop_ull_ordered_runtime_next, Number of GOMP_loop_ull_ordered_runtime_start, Number of GOMP_loop_ull_ordered_static_next, Number of GOMP_loop_ull_ordered_static_start, Number of GOMP_loop_ull_runtime_next, Number of GOMP_loop_ull_runtime_start, Number of GOMP_loop_ull_static_next, Number of GOMP_loop_ull_static_start, Number of GOMP_doacross_post, Number of GOMP_doacross_ull_post, Number of GOMP_doacross_ull_wait, Number of GOMP_doacross_wait, Number of GOMP_ordered_end, Number of GOMP_ordered_start, Number of GOMP_cancel, Number of GOMP_cancellation_point, Number of GOMP_parallel, Number of GOMP_parallel_end, Number of GOMP_parallel_start, Number of GOMP_parallel_sections, Number of GOMP_parallel_sections_start, Number of GOMP_sections_end, Number of GOMP_sections_end_cancel, Number of GOMP_sections_end_nowait, Number of GOMP_sections_next, Number of GOMP_sections_start, Number of GOMP_single_copy_end, Number of GOMP_single_copy_start, Number of GOMP_single_start, Number of GOMP_PLUGIN_target_task_completion, Number of GOMP_task, Number of GOMP_taskgroup_end, Number of GOMP_taskgroup_start, Number of GOMP_taskwait, Number of GOMP_taskyield, Number of GOMP_offload_register, Number of GOMP_offload_register_ver, Number of GOMP_offload_unregister, Number of GOMP_offload_unregister_ver, Number of GOMP_target, Number of GOMP_target_data, Number of GOMP_target_data_ext, Number of GOMP_target_end_data, Number of GOMP_target_enter_exit_data, Number of GOMP_target_ext, Number of GOMP_target_update, Number of GOMP_target_update_ext, Number of GOMP_teams, Number of GOMP_taskloop, Number of GOACC_data_end, Number of GOACC_data_start, Number of GOACC_declare, Number of GOACC_enter_exit_data, Number of GOACC_get_num_threads, Number of GOACC_get_thread_num, Number of GOACC_parallel, Number of GOACC_parallel_keyed, Number of GOACC_update, Number of GOACC_wait");
+	printf("%lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu, %lu", accum_count[idx_GOMP_atomic_end], accum_count[idx_GOMP_atomic_start], accum_count[idx_GOMP_barrier], accum_count[idx_GOMP_barrier_cancel], accum_count[idx_GOMP_critical_end], accum_count[idx_GOMP_critical_name_end], accum_count[idx_GOMP_critical_name_start], accum_count[idx_GOMP_critical_start], accum_count[idx_GOMP_loop_doacross_dynamic_start], accum_count[idx_GOMP_loop_doacross_guided_start], accum_count[idx_GOMP_loop_doacross_runtime_start], accum_count[idx_GOMP_loop_doacross_static_start], accum_count[idx_GOMP_loop_dynamic_next], accum_count[idx_GOMP_loop_dynamic_start], accum_count[idx_GOMP_loop_end], accum_count[idx_GOMP_loop_end_cancel], accum_count[idx_GOMP_loop_end_nowait], accum_count[idx_GOMP_loop_guided_next], accum_count[idx_GOMP_loop_guided_start], accum_count[idx_GOMP_loop_nonmonotonic_dynamic_next], accum_count[idx_GOMP_loop_nonmonotonic_dynamic_start], accum_count[idx_GOMP_loop_nonmonotonic_guided_next], accum_count[idx_GOMP_loop_nonmonotonic_guided_start], accum_count[idx_GOMP_loop_ordered_dynamic_next], accum_count[idx_GOMP_loop_ordered_dynamic_start], accum_count[idx_GOMP_loop_ordered_guided_next], accum_count[idx_GOMP_loop_ordered_guided_start], accum_count[idx_GOMP_loop_ordered_runtime_next], accum_count[idx_GOMP_loop_ordered_runtime_start], accum_count[idx_GOMP_loop_ordered_static_next], accum_count[idx_GOMP_loop_ordered_static_start], accum_count[idx_GOMP_loop_runtime_next], accum_count[idx_GOMP_loop_runtime_start], accum_count[idx_GOMP_loop_static_next], accum_count[idx_GOMP_loop_static_start], accum_count[idx_GOMP_parallel_loop_dynamic], accum_count[idx_GOMP_parallel_loop_dynamic_start], accum_count[idx_GOMP_parallel_loop_guided], accum_count[idx_GOMP_parallel_loop_guided_start], accum_count[idx_GOMP_parallel_loop_nonmonotonic_dynamic], accum_count[idx_GOMP_parallel_loop_nonmonotonic_guided], accum_count[idx_GOMP_parallel_loop_runtime], accum_count[idx_GOMP_parallel_loop_runtime_start], accum_count[idx_GOMP_parallel_loop_static], accum_count[idx_GOMP_parallel_loop_static_start], accum_count[idx_GOMP_loop_ull_doacross_dynamic_start], accum_count[idx_GOMP_loop_ull_doacross_guided_start], accum_count[idx_GOMP_loop_ull_doacross_runtime_start], accum_count[idx_GOMP_loop_ull_doacross_static_start], accum_count[idx_GOMP_loop_ull_dynamic_next], accum_count[idx_GOMP_loop_ull_dynamic_start], accum_count[idx_GOMP_loop_ull_guided_next], accum_count[idx_GOMP_loop_ull_guided_start], accum_count[idx_GOMP_loop_ull_nonmonotonic_dynamic_next], accum_count[idx_GOMP_loop_ull_nonmonotonic_dynamic_start], accum_count[idx_GOMP_loop_ull_nonmonotonic_guided_next], accum_count[idx_GOMP_loop_ull_nonmonotonic_guided_start], accum_count[idx_GOMP_loop_ull_ordered_dynamic_next], accum_count[idx_GOMP_loop_ull_ordered_dynamic_start], accum_count[idx_GOMP_loop_ull_ordered_guided_next], accum_count[idx_GOMP_loop_ull_ordered_guided_start], accum_count[idx_GOMP_loop_ull_ordered_runtime_next], accum_count[idx_GOMP_loop_ull_ordered_runtime_start], accum_count[idx_GOMP_loop_ull_ordered_static_next], accum_count[idx_GOMP_loop_ull_ordered_static_start], accum_count[idx_GOMP_loop_ull_runtime_next], accum_count[idx_GOMP_loop_ull_runtime_start], accum_count[idx_GOMP_loop_ull_static_next], accum_count[idx_GOMP_loop_ull_static_start], accum_count[idx_GOMP_doacross_post], accum_count[idx_GOMP_doacross_ull_post], accum_count[idx_GOMP_doacross_ull_wait], accum_count[idx_GOMP_doacross_wait], accum_count[idx_GOMP_ordered_end], accum_count[idx_GOMP_ordered_start], accum_count[idx_GOMP_cancel], accum_count[idx_GOMP_cancellation_point], accum_count[idx_GOMP_parallel], accum_count[idx_GOMP_parallel_end], accum_count[idx_GOMP_parallel_start], accum_count[idx_GOMP_parallel_sections], accum_count[idx_GOMP_parallel_sections_start], accum_count[idx_GOMP_sections_end], accum_count[idx_GOMP_sections_end_cancel], accum_count[idx_GOMP_sections_end_nowait], accum_count[idx_GOMP_sections_next], accum_count[idx_GOMP_sections_start], accum_count[idx_GOMP_single_copy_end], accum_count[idx_GOMP_single_copy_start], accum_count[idx_GOMP_single_start], accum_count[idx_GOMP_PLUGIN_target_task_completion], accum_count[idx_GOMP_task], accum_count[idx_GOMP_taskgroup_end], accum_count[idx_GOMP_taskgroup_start], accum_count[idx_GOMP_taskwait], accum_count[idx_GOMP_taskyield], accum_count[idx_GOMP_offload_register], accum_count[idx_GOMP_offload_register_ver], accum_count[idx_GOMP_offload_unregister], accum_count[idx_GOMP_offload_unregister_ver], accum_count[idx_GOMP_target], accum_count[idx_GOMP_target_data], accum_count[idx_GOMP_target_data_ext], accum_count[idx_GOMP_target_end_data], accum_count[idx_GOMP_target_enter_exit_data], accum_count[idx_GOMP_target_ext], accum_count[idx_GOMP_target_update], accum_count[idx_GOMP_target_update_ext], accum_count[idx_GOMP_teams], accum_count[idx_GOMP_taskloop], accum_count[idx_GOACC_data_end], accum_count[idx_GOACC_data_start], accum_count[idx_GOACC_declare], accum_count[idx_GOACC_enter_exit_data], accum_count[idx_GOACC_get_num_threads], accum_count[idx_GOACC_get_thread_num], accum_count[idx_GOACC_parallel], accum_count[idx_GOACC_parallel_keyed], accum_count[idx_GOACC_update], accum_count[idx_GOACC_wait]);
 }
 
-void print_results_csv_accum(void)
-{
-	printf("Number of GOMP_atomic_end, Number of GOMP_atomic_start...");
-	printf("%d, %d...\n", accum_count[num_GOMP_atomic_end], accum_count[num_GOMP_atomic_start],...);
-
-	printf("Number of GOMP_atomic_end: %d\n", num_GOMP_atomic_end);
-	printf("Number of GOMP_atomic_start: %d\n", num_GOMP_atomic_start);
-	printf("Number of GOMP_barrier: %d\n", num_GOMP_barrier);
-	printf("Number of GOMP_barrier_cancel: %d\n", num_GOMP_barrier_cancel);
-	printf("Number of GOMP_critical_end: %d\n", num_GOMP_critical_end);
-	printf("Number of GOMP_critical_name_end: %d\n", num_GOMP_critical_name_end);
-	printf("Number of GOMP_critical_name_start: %d\n", num_GOMP_critical_name_start);
-	printf("Number of GOMP_critical_start: %d\n", num_GOMP_critical_start);
-	printf("Number of GOMP_loop_doacross_dynamic_start: %d\n", num_GOMP_loop_doacross_dynamic_start);
-	printf("Number of GOMP_loop_doacross_guided_start: %d\n", num_GOMP_loop_doacross_guided_start);
-	printf("Number of GOMP_loop_doacross_runtime_start: %d\n", num_GOMP_loop_doacross_runtime_start);
-	printf("Number of GOMP_loop_doacross_static_start: %d\n", num_GOMP_loop_doacross_static_start);
-	printf("Number of GOMP_loop_dynamic_next: %d\n", num_GOMP_loop_dynamic_next);
-	printf("Number of GOMP_loop_dynamic_start: %d\n", num_GOMP_loop_dynamic_start);
-	printf("Number of GOMP_loop_end: %d\n", num_GOMP_loop_end);
-	printf("Number of GOMP_loop_end_cancel: %d\n", num_GOMP_loop_end_cancel);
-	printf("Number of GOMP_loop_end_nowait: %d\n", num_GOMP_loop_end_nowait);
-	printf("Number of GOMP_loop_guided_next: %d\n", num_GOMP_loop_guided_next);
-	printf("Number of GOMP_loop_guided_start: %d\n", num_GOMP_loop_guided_start);
-	printf("Number of GOMP_loop_nonmonotonic_dynamic_next: %d\n", num_GOMP_loop_nonmonotonic_dynamic_next);
-	printf("Number of GOMP_loop_nonmonotonic_dynamic_start: %d\n", num_GOMP_loop_nonmonotonic_dynamic_start);
-	printf("Number of GOMP_loop_nonmonotonic_guided_next: %d\n", num_GOMP_loop_nonmonotonic_guided_next);
-	printf("Number of GOMP_loop_nonmonotonic_guided_start: %d\n", num_GOMP_loop_nonmonotonic_guided_start);
-	printf("Number of GOMP_loop_ordered_dynamic_next: %d\n", num_GOMP_loop_ordered_dynamic_next);
-	printf("Number of GOMP_loop_ordered_dynamic_start: %d\n", num_GOMP_loop_ordered_dynamic_start);
-	printf("Number of GOMP_loop_ordered_guided_next: %d\n", num_GOMP_loop_ordered_guided_next);
-	printf("Number of GOMP_loop_ordered_guided_start: %d\n", num_GOMP_loop_ordered_guided_start);
-	printf("Number of GOMP_loop_ordered_runtime_next: %d\n", num_GOMP_loop_ordered_runtime_next);
-	printf("Number of GOMP_loop_ordered_runtime_start: %d\n", num_GOMP_loop_ordered_runtime_start);
-	printf("Number of GOMP_loop_ordered_static_next: %d\n", num_GOMP_loop_ordered_static_next);
-	printf("Number of GOMP_loop_ordered_static_start: %d\n", num_GOMP_loop_ordered_static_start);
-	printf("Number of GOMP_loop_runtime_next: %d\n", num_GOMP_loop_runtime_next);
-	printf("Number of GOMP_loop_runtime_start: %d\n", num_GOMP_loop_runtime_start);
-	printf("Number of GOMP_loop_static_next: %d\n", num_GOMP_loop_static_next);
-	printf("Number of GOMP_loop_static_start: %d\n", num_GOMP_loop_static_start);
-	printf("Number of GOMP_parallel_loop_dynamic: %d\n", num_GOMP_parallel_loop_dynamic);
-	printf("Number of GOMP_parallel_loop_dynamic_start: %d\n", num_GOMP_parallel_loop_dynamic_start);
-	printf("Number of GOMP_parallel_loop_guided: %d\n", num_GOMP_parallel_loop_guided);
-	printf("Number of GOMP_parallel_loop_guided_start: %d\n", num_GOMP_parallel_loop_guided_start);
-	printf("Number of GOMP_parallel_loop_nonmonotonic_dynamic: %d\n", num_GOMP_parallel_loop_nonmonotonic_dynamic);
-	printf("Number of GOMP_parallel_loop_nonmonotonic_guided: %d\n", num_GOMP_parallel_loop_nonmonotonic_guided);
-	printf("Number of GOMP_parallel_loop_runtime: %d\n", num_GOMP_parallel_loop_runtime);
-	printf("Number of GOMP_parallel_loop_runtime_start: %d\n", num_GOMP_parallel_loop_runtime_start);
-	printf("Number of GOMP_parallel_loop_static: %d\n", num_GOMP_parallel_loop_static);
-	printf("Number of GOMP_parallel_loop_static_start: %d\n", num_GOMP_parallel_loop_static_start);
-	printf("Number of GOMP_loop_ull_doacross_dynamic_start: %d\n", num_GOMP_loop_ull_doacross_dynamic_start);
-	printf("Number of GOMP_loop_ull_doacross_guided_start: %d\n", num_GOMP_loop_ull_doacross_guided_start);
-	printf("Number of GOMP_loop_ull_doacross_runtime_start: %d\n", num_GOMP_loop_ull_doacross_runtime_start);
-	printf("Number of GOMP_loop_ull_doacross_static_start: %d\n", num_GOMP_loop_ull_doacross_static_start);
-	printf("Number of GOMP_loop_ull_dynamic_next: %d\n", num_GOMP_loop_ull_dynamic_next);
-	printf("Number of GOMP_loop_ull_dynamic_start: %d\n", num_GOMP_loop_ull_dynamic_start);
-	printf("Number of GOMP_loop_ull_guided_next: %d\n", num_GOMP_loop_ull_guided_next);
-	printf("Number of GOMP_loop_ull_guided_start: %d\n", num_GOMP_loop_ull_guided_start);
-	printf("Number of GOMP_loop_ull_nonmonotonic_dynamic_next: %d\n", num_GOMP_loop_ull_nonmonotonic_dynamic_next);
-	printf("Number of GOMP_loop_ull_nonmonotonic_dynamic_start: %d\n", num_GOMP_loop_ull_nonmonotonic_dynamic_start);
-	printf("Number of GOMP_loop_ull_nonmonotonic_guided_next: %d\n", num_GOMP_loop_ull_nonmonotonic_guided_next);
-	printf("Number of GOMP_loop_ull_nonmonotonic_guided_start: %d\n", num_GOMP_loop_ull_nonmonotonic_guided_start);
-	printf("Number of GOMP_loop_ull_ordered_dynamic_next: %d\n", num_GOMP_loop_ull_ordered_dynamic_next);
-	printf("Number of GOMP_loop_ull_ordered_dynamic_start: %d\n", num_GOMP_loop_ull_ordered_dynamic_start);
-	printf("Number of GOMP_loop_ull_ordered_guided_next: %d\n", num_GOMP_loop_ull_ordered_guided_next);
-	printf("Number of GOMP_loop_ull_ordered_guided_start: %d\n", num_GOMP_loop_ull_ordered_guided_start);
-	printf("Number of GOMP_loop_ull_ordered_runtime_next: %d\n", num_GOMP_loop_ull_ordered_runtime_next);
-	printf("Number of GOMP_loop_ull_ordered_runtime_start: %d\n", num_GOMP_loop_ull_ordered_runtime_start);
-	printf("Number of GOMP_loop_ull_ordered_static_next: %d\n", num_GOMP_loop_ull_ordered_static_next);
-	printf("Number of GOMP_loop_ull_ordered_static_start: %d\n", num_GOMP_loop_ull_ordered_static_start);
-	printf("Number of GOMP_loop_ull_runtime_next: %d\n", num_GOMP_loop_ull_runtime_next);
-	printf("Number of GOMP_loop_ull_runtime_start: %d\n", num_GOMP_loop_ull_runtime_start);
-	printf("Number of GOMP_loop_ull_static_next: %d\n", num_GOMP_loop_ull_static_next);
-	printf("Number of GOMP_loop_ull_static_start: %d\n", num_GOMP_loop_ull_static_start);
-	printf("Number of GOMP_doacross_post: %d\n", num_GOMP_doacross_post);
-	printf("Number of GOMP_doacross_ull_post: %d\n", num_GOMP_doacross_ull_post);
-	printf("Number of GOMP_doacross_ull_wait: %d\n", num_GOMP_doacross_ull_wait);
-	printf("Number of GOMP_doacross_wait: %d\n", num_GOMP_doacross_wait);
-	printf("Number of GOMP_ordered_end: %d\n", num_GOMP_ordered_end);
-	printf("Number of GOMP_ordered_start: %d\n", num_GOMP_ordered_start);
-	printf("Number of GOMP_cancel: %d\n", num_GOMP_cancel);
-	printf("Number of GOMP_cancellation_point: %d\n", num_GOMP_cancellation_point);
-	printf("Number of GOMP_parallel: %d\n", num_GOMP_parallel);
-	printf("Number of GOMP_parallel_end: %d\n", num_GOMP_parallel_end);
-	printf("Number of GOMP_parallel_start: %d\n", num_GOMP_parallel_start);
-	printf("Number of GOMP_parallel_sections: %d\n", num_GOMP_parallel_sections);
-	printf("Number of GOMP_parallel_sections_start: %d\n", num_GOMP_parallel_sections_start);
-	printf("Number of GOMP_sections_end: %d\n", num_GOMP_sections_end);
-	printf("Number of GOMP_sections_end_cancel: %d\n", num_GOMP_sections_end_cancel);
-	printf("Number of GOMP_sections_end_nowait: %d\n", num_GOMP_sections_end_nowait);
-	printf("Number of GOMP_sections_next: %d\n", num_GOMP_sections_next);
-	printf("Number of GOMP_sections_start: %d\n", num_GOMP_sections_start);
-	printf("Number of GOMP_single_copy_end: %d\n", num_GOMP_single_copy_end);
-	printf("Number of GOMP_single_copy_start: %d\n", num_GOMP_single_copy_start);
-	printf("Number of GOMP_single_start: %d\n", num_GOMP_single_start);
-	printf("Number of GOMP_PLUGIN_target_task_completion: %d\n", num_GOMP_PLUGIN_target_task_completion);
-	printf("Number of GOMP_task: %d\n", num_GOMP_task);
-	printf("Number of GOMP_taskgroup_end: %d\n", num_GOMP_taskgroup_end);
-	printf("Number of GOMP_taskgroup_start: %d\n", num_GOMP_taskgroup_start);
-	printf("Number of GOMP_taskwait: %d\n", num_GOMP_taskwait);
-	printf("Number of GOMP_taskyield: %d\n", num_GOMP_taskyield);
-	printf("Number of GOMP_offload_register: %d\n", num_GOMP_offload_register);
-	printf("Number of GOMP_offload_register_ver: %d\n", num_GOMP_offload_register_ver);
-	printf("Number of GOMP_offload_unregister: %d\n", num_GOMP_offload_unregister);
-	printf("Number of GOMP_offload_unregister_ver: %d\n", num_GOMP_offload_unregister_ver);
-	printf("Number of GOMP_target: %d\n", num_GOMP_target);
-	printf("Number of GOMP_target_data: %d\n", num_GOMP_target_data);
-	printf("Number of GOMP_target_data_ext: %d\n", num_GOMP_target_data_ext);
-	printf("Number of GOMP_target_end_data: %d\n", num_GOMP_target_end_data);
-	printf("Number of GOMP_target_enter_exit_data: %d\n", num_GOMP_target_enter_exit_data);
-	printf("Number of GOMP_target_ext: %d\n", num_GOMP_target_ext);
-	printf("Number of GOMP_target_update: %d\n", num_GOMP_target_update);
-	printf("Number of GOMP_target_update_ext: %d\n", num_GOMP_target_update_ext);
-	printf("Number of GOMP_teams: %d\n", num_GOMP_teams);
-	printf("Number of GOMP_taskloop: %d\n", num_GOMP_taskloop);
-	printf("Number of GOACC_data_end: %d\n", num_GOACC_data_end);
-	printf("Number of GOACC_data_start: %d\n", num_GOACC_data_start);
-	printf("Number of GOACC_declare: %d\n", num_GOACC_declare);
-	printf("Number of GOACC_enter_exit_data: %d\n", num_GOACC_enter_exit_data);
-	printf("Number of GOACC_get_num_threads: %d\n", num_GOACC_get_num_threads);
-	printf("Number of GOACC_get_thread_num: %d\n", num_GOACC_get_thread_num);
-	printf("Number of GOACC_parallel: %d\n", num_GOACC_parallel);
-	printf("Number of GOACC_parallel_keyed: %d\n", num_GOACC_parallel_keyed);
-	printf("Number of GOACC_update: %d\n", num_GOACC_update);
-	printf("Number of GOACC_wait: %d\n", num_GOACC_wait);
-}
 
 // HOOKS
-void PRE_GOMP_atomic_end(void)
-{
+void PRE_GOMP_atomic_end (void) {
 	PRINT_FUNC_NAME;
 	partial_count[idx_GOMP_atomic_end]++;
 }
 
-void POST_GOMP_atomic_end(void)
-{
+void POST_GOMP_atomic_end (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_atomic_start(void)
-{
+void PRE_GOMP_atomic_start (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_atomic_start++;
+	partial_count[idx_GOMP_atomic_start]++;
 }
 
-void POST_GOMP_atomic_start(void)
-{
+void POST_GOMP_atomic_start (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_barrier(void)
-{
+void PRE_GOMP_barrier (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_barrier++;
+	partial_count[idx_GOMP_barrier]++;
 }
 
-void POST_GOMP_barrier(void)
-{
+void POST_GOMP_barrier (void) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_barrier_cancel(void)
-{
+bool PRE_GOMP_barrier_cancel (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_barrier_cancel++;
+	partial_count[idx_GOMP_barrier_cancel]++;
 }
 
-bool POST_GOMP_barrier_cancel(void)
-{
+bool POST_GOMP_barrier_cancel (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_critical_end(void)
-{
+void PRE_GOMP_critical_end (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_critical_end++;
+	partial_count[idx_GOMP_critical_end]++;
 }
 
-void POST_GOMP_critical_end(void)
-{
+void POST_GOMP_critical_end (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_critical_name_end(void **pptr)
-{
+void PRE_GOMP_critical_name_end (void ** pptr) {
 	PRINT_FUNC_NAME;
-	num_GOMP_critical_name_end++;
+	partial_count[idx_GOMP_critical_name_end]++;
 }
 
-void POST_GOMP_critical_name_end(void **pptr)
-{
+void POST_GOMP_critical_name_end (void ** pptr) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_critical_name_start(void **pptr)
-{
+void PRE_GOMP_critical_name_start (void ** pptr) {
 	PRINT_FUNC_NAME;
-	num_GOMP_critical_name_start++;
+	partial_count[idx_GOMP_critical_name_start]++;
 }
 
-void POST_GOMP_critical_name_start(void **pptr)
-{
+void POST_GOMP_critical_name_start (void ** pptr) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_critical_start(void)
-{
+void PRE_GOMP_critical_start (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_critical_start++;
+	partial_count[idx_GOMP_critical_start]++;
 }
 
-void POST_GOMP_critical_start(void)
-{
+void POST_GOMP_critical_start (void) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_doacross_dynamic_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_doacross_dynamic_start (unsigned ncounts,long * counts,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_doacross_dynamic_start++;
+	partial_count[idx_GOMP_loop_doacross_dynamic_start]++;
 }
 
-bool POST_GOMP_loop_doacross_dynamic_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_doacross_dynamic_start (unsigned ncounts,long * counts,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_doacross_guided_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_doacross_guided_start (unsigned ncounts,long * counts,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_doacross_guided_start++;
+	partial_count[idx_GOMP_loop_doacross_guided_start]++;
 }
 
-bool POST_GOMP_loop_doacross_guided_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_doacross_guided_start (unsigned ncounts,long * counts,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_doacross_runtime_start(unsigned ncounts, long *counts, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_doacross_runtime_start (unsigned ncounts,long * counts,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_doacross_runtime_start++;
+	partial_count[idx_GOMP_loop_doacross_runtime_start]++;
 }
 
-bool POST_GOMP_loop_doacross_runtime_start(unsigned ncounts, long *counts, long *istart, long *iend)
-{
+bool POST_GOMP_loop_doacross_runtime_start (unsigned ncounts,long * counts,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_doacross_static_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_doacross_static_start (unsigned ncounts,long * counts,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_doacross_static_start++;
+	partial_count[idx_GOMP_loop_doacross_static_start]++;
 }
 
-bool POST_GOMP_loop_doacross_static_start(unsigned ncounts, long *counts, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_doacross_static_start (unsigned ncounts,long * counts,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_dynamic_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_dynamic_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_dynamic_next++;
+	partial_count[idx_GOMP_loop_dynamic_next]++;
 }
 
-bool POST_GOMP_loop_dynamic_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_dynamic_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_dynamic_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_dynamic_start++;
+	partial_count[idx_GOMP_loop_dynamic_start]++;
 }
 
-bool POST_GOMP_loop_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_dynamic_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_loop_end(void)
-{
+void PRE_GOMP_loop_end (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_end++;
+	partial_count[idx_GOMP_loop_end]++;
 }
 
-void POST_GOMP_loop_end(void)
-{
+void POST_GOMP_loop_end (void) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_end_cancel(void)
-{
+bool PRE_GOMP_loop_end_cancel (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_end_cancel++;
+	partial_count[idx_GOMP_loop_end_cancel]++;
 }
 
-bool POST_GOMP_loop_end_cancel(void)
-{
+bool POST_GOMP_loop_end_cancel (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_loop_end_nowait(void)
-{
+void PRE_GOMP_loop_end_nowait (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_end_nowait++;
+	partial_count[idx_GOMP_loop_end_nowait]++;
 }
 
-void POST_GOMP_loop_end_nowait(void)
-{
+void POST_GOMP_loop_end_nowait (void) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_guided_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_guided_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_guided_next++;
+	partial_count[idx_GOMP_loop_guided_next]++;
 }
 
-bool POST_GOMP_loop_guided_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_guided_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_guided_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_guided_start++;
+	partial_count[idx_GOMP_loop_guided_start]++;
 }
 
-bool POST_GOMP_loop_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_guided_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_nonmonotonic_dynamic_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_nonmonotonic_dynamic_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_nonmonotonic_dynamic_next++;
+	partial_count[idx_GOMP_loop_nonmonotonic_dynamic_next]++;
 }
 
-bool POST_GOMP_loop_nonmonotonic_dynamic_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_nonmonotonic_dynamic_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_nonmonotonic_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_nonmonotonic_dynamic_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_nonmonotonic_dynamic_start++;
+	partial_count[idx_GOMP_loop_nonmonotonic_dynamic_start]++;
 }
 
-bool POST_GOMP_loop_nonmonotonic_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_nonmonotonic_dynamic_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_nonmonotonic_guided_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_nonmonotonic_guided_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_nonmonotonic_guided_next++;
+	partial_count[idx_GOMP_loop_nonmonotonic_guided_next]++;
 }
 
-bool POST_GOMP_loop_nonmonotonic_guided_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_nonmonotonic_guided_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_nonmonotonic_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_nonmonotonic_guided_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_nonmonotonic_guided_start++;
+	partial_count[idx_GOMP_loop_nonmonotonic_guided_start]++;
 }
 
-bool POST_GOMP_loop_nonmonotonic_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_nonmonotonic_guided_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ordered_dynamic_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_ordered_dynamic_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ordered_dynamic_next++;
+	partial_count[idx_GOMP_loop_ordered_dynamic_next]++;
 }
 
-bool POST_GOMP_loop_ordered_dynamic_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_ordered_dynamic_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ordered_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_ordered_dynamic_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ordered_dynamic_start++;
+	partial_count[idx_GOMP_loop_ordered_dynamic_start]++;
 }
 
-bool POST_GOMP_loop_ordered_dynamic_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_ordered_dynamic_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ordered_guided_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_ordered_guided_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ordered_guided_next++;
+	partial_count[idx_GOMP_loop_ordered_guided_next]++;
 }
 
-bool POST_GOMP_loop_ordered_guided_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_ordered_guided_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ordered_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_ordered_guided_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ordered_guided_start++;
+	partial_count[idx_GOMP_loop_ordered_guided_start]++;
 }
 
-bool POST_GOMP_loop_ordered_guided_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_ordered_guided_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ordered_runtime_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_ordered_runtime_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ordered_runtime_next++;
+	partial_count[idx_GOMP_loop_ordered_runtime_next]++;
 }
 
-bool POST_GOMP_loop_ordered_runtime_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_ordered_runtime_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ordered_runtime_start(long start, long end, long incr, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_ordered_runtime_start (long start,long end,long incr,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ordered_runtime_start++;
+	partial_count[idx_GOMP_loop_ordered_runtime_start]++;
 }
 
-bool POST_GOMP_loop_ordered_runtime_start(long start, long end, long incr, long *istart, long *iend)
-{
+bool POST_GOMP_loop_ordered_runtime_start (long start,long end,long incr,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ordered_static_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_ordered_static_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ordered_static_next++;
+	partial_count[idx_GOMP_loop_ordered_static_next]++;
 }
 
-bool POST_GOMP_loop_ordered_static_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_ordered_static_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ordered_static_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_ordered_static_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ordered_static_start++;
+	partial_count[idx_GOMP_loop_ordered_static_start]++;
 }
 
-bool POST_GOMP_loop_ordered_static_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_ordered_static_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_runtime_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_runtime_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_runtime_next++;
+	partial_count[idx_GOMP_loop_runtime_next]++;
 }
 
-bool POST_GOMP_loop_runtime_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_runtime_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_runtime_start(long start, long end, long incr, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_runtime_start (long start,long end,long incr,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_runtime_start++;
+	partial_count[idx_GOMP_loop_runtime_start]++;
 }
 
-bool POST_GOMP_loop_runtime_start(long start, long end, long incr, long *istart, long *iend)
-{
+bool POST_GOMP_loop_runtime_start (long start,long end,long incr,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_static_next(long *istart, long *iend)
-{
+bool PRE_GOMP_loop_static_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_static_next++;
+	partial_count[idx_GOMP_loop_static_next]++;
 }
 
-bool POST_GOMP_loop_static_next(long *istart, long *iend)
-{
+bool POST_GOMP_loop_static_next (long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_static_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool PRE_GOMP_loop_static_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_static_start++;
+	partial_count[idx_GOMP_loop_static_start]++;
 }
 
-bool POST_GOMP_loop_static_start(long start, long end, long incr, long chunk_size, long *istart, long *iend)
-{
+bool POST_GOMP_loop_static_start (long start,long end,long incr,long chunk_size,long * istart,long * iend) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_dynamic(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void PRE_GOMP_parallel_loop_dynamic (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_dynamic++;
+	partial_count[idx_GOMP_parallel_loop_dynamic]++;
 }
 
-void POST_GOMP_parallel_loop_dynamic(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void POST_GOMP_parallel_loop_dynamic (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_dynamic_start(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size)
-{
+void PRE_GOMP_parallel_loop_dynamic_start (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_dynamic_start++;
+	partial_count[idx_GOMP_parallel_loop_dynamic_start]++;
 }
 
-void POST_GOMP_parallel_loop_dynamic_start(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size)
-{
+void POST_GOMP_parallel_loop_dynamic_start (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_guided(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void PRE_GOMP_parallel_loop_guided (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_guided++;
+	partial_count[idx_GOMP_parallel_loop_guided]++;
 }
 
-void POST_GOMP_parallel_loop_guided(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void POST_GOMP_parallel_loop_guided (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_guided_start(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size)
-{
+void PRE_GOMP_parallel_loop_guided_start (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_guided_start++;
+	partial_count[idx_GOMP_parallel_loop_guided_start]++;
 }
 
-void POST_GOMP_parallel_loop_guided_start(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size)
-{
+void POST_GOMP_parallel_loop_guided_start (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_nonmonotonic_dynamic(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void PRE_GOMP_parallel_loop_nonmonotonic_dynamic (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_nonmonotonic_dynamic++;
+	partial_count[idx_GOMP_parallel_loop_nonmonotonic_dynamic]++;
 }
 
-void POST_GOMP_parallel_loop_nonmonotonic_dynamic(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void POST_GOMP_parallel_loop_nonmonotonic_dynamic (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_nonmonotonic_guided(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void PRE_GOMP_parallel_loop_nonmonotonic_guided (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_nonmonotonic_guided++;
+	partial_count[idx_GOMP_parallel_loop_nonmonotonic_guided]++;
 }
 
-void POST_GOMP_parallel_loop_nonmonotonic_guided(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void POST_GOMP_parallel_loop_nonmonotonic_guided (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_runtime(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, unsigned flags)
-{
+void PRE_GOMP_parallel_loop_runtime (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,unsigned flags) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_runtime++;
+	partial_count[idx_GOMP_parallel_loop_runtime]++;
 }
 
-void POST_GOMP_parallel_loop_runtime(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, unsigned flags)
-{
+void POST_GOMP_parallel_loop_runtime (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,unsigned flags) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_runtime_start(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr)
-{
+void PRE_GOMP_parallel_loop_runtime_start (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_runtime_start++;
+	partial_count[idx_GOMP_parallel_loop_runtime_start]++;
 }
 
-void POST_GOMP_parallel_loop_runtime_start(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr)
-{
+void POST_GOMP_parallel_loop_runtime_start (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_static(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void PRE_GOMP_parallel_loop_static (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_static++;
+	partial_count[idx_GOMP_parallel_loop_static]++;
 }
 
-void POST_GOMP_parallel_loop_static(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size, unsigned flags)
-{
+void POST_GOMP_parallel_loop_static (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size,unsigned flags) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_loop_static_start(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size)
-{
+void PRE_GOMP_parallel_loop_static_start (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_loop_static_start++;
+	partial_count[idx_GOMP_parallel_loop_static_start]++;
 }
 
-void POST_GOMP_parallel_loop_static_start(void (*fn)(void *), void *data, unsigned num_threads, long start, long end, long incr, long chunk_size)
-{
+void POST_GOMP_parallel_loop_static_start (void (* fn)(void *),void * data,unsigned num_threads,long start,long end,long incr,long chunk_size) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_doacross_dynamic_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_doacross_dynamic_start (unsigned ncounts,gomp_ull * counts,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_doacross_dynamic_start++;
+	partial_count[idx_GOMP_loop_ull_doacross_dynamic_start]++;
 }
 
-bool POST_GOMP_loop_ull_doacross_dynamic_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_doacross_dynamic_start (unsigned ncounts,gomp_ull * counts,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_doacross_guided_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_doacross_guided_start (unsigned ncounts,gomp_ull * counts,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_doacross_guided_start++;
+	partial_count[idx_GOMP_loop_ull_doacross_guided_start]++;
 }
 
-bool POST_GOMP_loop_ull_doacross_guided_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_doacross_guided_start (unsigned ncounts,gomp_ull * counts,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_doacross_runtime_start(unsigned ncounts, gomp_ull *counts, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_doacross_runtime_start (unsigned ncounts,gomp_ull * counts,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_doacross_runtime_start++;
+	partial_count[idx_GOMP_loop_ull_doacross_runtime_start]++;
 }
 
-bool POST_GOMP_loop_ull_doacross_runtime_start(unsigned ncounts, gomp_ull *counts, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_doacross_runtime_start (unsigned ncounts,gomp_ull * counts,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_doacross_static_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_doacross_static_start (unsigned ncounts,gomp_ull * counts,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_doacross_static_start++;
+	partial_count[idx_GOMP_loop_ull_doacross_static_start]++;
 }
 
-bool POST_GOMP_loop_ull_doacross_static_start(unsigned ncounts, gomp_ull *counts, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_doacross_static_start (unsigned ncounts,gomp_ull * counts,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_dynamic_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_dynamic_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_dynamic_next++;
+	partial_count[idx_GOMP_loop_ull_dynamic_next]++;
 }
 
-bool POST_GOMP_loop_ull_dynamic_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_dynamic_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_dynamic_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_dynamic_start++;
+	partial_count[idx_GOMP_loop_ull_dynamic_start]++;
 }
 
-bool POST_GOMP_loop_ull_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_dynamic_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_guided_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_guided_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_guided_next++;
+	partial_count[idx_GOMP_loop_ull_guided_next]++;
 }
 
-bool POST_GOMP_loop_ull_guided_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_guided_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_guided_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_guided_start++;
+	partial_count[idx_GOMP_loop_ull_guided_start]++;
 }
 
-bool POST_GOMP_loop_ull_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_guided_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_nonmonotonic_dynamic_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_nonmonotonic_dynamic_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_nonmonotonic_dynamic_next++;
+	partial_count[idx_GOMP_loop_ull_nonmonotonic_dynamic_next]++;
 }
 
-bool POST_GOMP_loop_ull_nonmonotonic_dynamic_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_nonmonotonic_dynamic_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_nonmonotonic_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_nonmonotonic_dynamic_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_nonmonotonic_dynamic_start++;
+	partial_count[idx_GOMP_loop_ull_nonmonotonic_dynamic_start]++;
 }
 
-bool POST_GOMP_loop_ull_nonmonotonic_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_nonmonotonic_dynamic_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_nonmonotonic_guided_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_nonmonotonic_guided_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_nonmonotonic_guided_next++;
+	partial_count[idx_GOMP_loop_ull_nonmonotonic_guided_next]++;
 }
 
-bool POST_GOMP_loop_ull_nonmonotonic_guided_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_nonmonotonic_guided_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_nonmonotonic_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_nonmonotonic_guided_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_nonmonotonic_guided_start++;
+	partial_count[idx_GOMP_loop_ull_nonmonotonic_guided_start]++;
 }
 
-bool POST_GOMP_loop_ull_nonmonotonic_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_nonmonotonic_guided_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_ordered_dynamic_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_ordered_dynamic_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_ordered_dynamic_next++;
+	partial_count[idx_GOMP_loop_ull_ordered_dynamic_next]++;
 }
 
-bool POST_GOMP_loop_ull_ordered_dynamic_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_ordered_dynamic_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_ordered_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_ordered_dynamic_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_ordered_dynamic_start++;
+	partial_count[idx_GOMP_loop_ull_ordered_dynamic_start]++;
 }
 
-bool POST_GOMP_loop_ull_ordered_dynamic_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_ordered_dynamic_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_ordered_guided_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_ordered_guided_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_ordered_guided_next++;
+	partial_count[idx_GOMP_loop_ull_ordered_guided_next]++;
 }
 
-bool POST_GOMP_loop_ull_ordered_guided_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_ordered_guided_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_ordered_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_ordered_guided_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_ordered_guided_start++;
+	partial_count[idx_GOMP_loop_ull_ordered_guided_start]++;
 }
 
-bool POST_GOMP_loop_ull_ordered_guided_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_ordered_guided_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_ordered_runtime_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_ordered_runtime_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_ordered_runtime_next++;
+	partial_count[idx_GOMP_loop_ull_ordered_runtime_next]++;
 }
 
-bool POST_GOMP_loop_ull_ordered_runtime_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_ordered_runtime_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_ordered_runtime_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_ordered_runtime_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_ordered_runtime_start++;
+	partial_count[idx_GOMP_loop_ull_ordered_runtime_start]++;
 }
 
-bool POST_GOMP_loop_ull_ordered_runtime_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_ordered_runtime_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_ordered_static_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_ordered_static_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_ordered_static_next++;
+	partial_count[idx_GOMP_loop_ull_ordered_static_next]++;
 }
 
-bool POST_GOMP_loop_ull_ordered_static_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_ordered_static_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_ordered_static_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_ordered_static_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_ordered_static_start++;
+	partial_count[idx_GOMP_loop_ull_ordered_static_start]++;
 }
 
-bool POST_GOMP_loop_ull_ordered_static_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_ordered_static_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_runtime_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_runtime_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_runtime_next++;
+	partial_count[idx_GOMP_loop_ull_runtime_next]++;
 }
 
-bool POST_GOMP_loop_ull_runtime_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_runtime_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_runtime_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_runtime_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_runtime_start++;
+	partial_count[idx_GOMP_loop_ull_runtime_start]++;
 }
 
-bool POST_GOMP_loop_ull_runtime_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_runtime_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_static_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_static_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_static_next++;
+	partial_count[idx_GOMP_loop_ull_static_next]++;
 }
 
-bool POST_GOMP_loop_ull_static_next(gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_static_next (gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_loop_ull_static_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool PRE_GOMP_loop_ull_static_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_loop_ull_static_start++;
+	partial_count[idx_GOMP_loop_ull_static_start]++;
 }
 
-bool POST_GOMP_loop_ull_static_start(bool up, gomp_ull start, gomp_ull end, gomp_ull incr, gomp_ull chunk_size, gomp_ull *istart, gomp_ull *iend)
-{
+bool POST_GOMP_loop_ull_static_start (bool up,gomp_ull start,gomp_ull end,gomp_ull incr,gomp_ull chunk_size,gomp_ull * istart,gomp_ull * iend) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_doacross_post(long *counts)
-{
+void PRE_GOMP_doacross_post (long * counts) {
 	PRINT_FUNC_NAME;
-	num_GOMP_doacross_post++;
+	partial_count[idx_GOMP_doacross_post]++;
 }
 
-void POST_GOMP_doacross_post(long *counts)
-{
+void POST_GOMP_doacross_post (long * counts) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_doacross_ull_post(gomp_ull *counts)
-{
+void PRE_GOMP_doacross_ull_post (gomp_ull * counts) {
 	PRINT_FUNC_NAME;
-	num_GOMP_doacross_ull_post++;
+	partial_count[idx_GOMP_doacross_ull_post]++;
 }
 
-void POST_GOMP_doacross_ull_post(gomp_ull *counts)
-{
+void POST_GOMP_doacross_ull_post (gomp_ull * counts) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_doacross_ull_wait(gomp_ull first, ...)
-{
+void PRE_GOMP_doacross_ull_wait (gomp_ull first,...) {
 	PRINT_FUNC_NAME;
-	num_GOMP_doacross_ull_wait++;
+	partial_count[idx_GOMP_doacross_ull_wait]++;
 }
 
-void POST_GOMP_doacross_ull_wait(gomp_ull first, ...)
-{
+void POST_GOMP_doacross_ull_wait (gomp_ull first,...) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_doacross_wait(long first, ...)
-{
+void PRE_GOMP_doacross_wait (long first,...) {
 	PRINT_FUNC_NAME;
-	num_GOMP_doacross_wait++;
+	partial_count[idx_GOMP_doacross_wait]++;
 }
 
-void POST_GOMP_doacross_wait(long first, ...)
-{
+void POST_GOMP_doacross_wait (long first,...) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_ordered_end(void)
-{
+void PRE_GOMP_ordered_end (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_ordered_end++;
+	partial_count[idx_GOMP_ordered_end]++;
 }
 
-void POST_GOMP_ordered_end(void)
-{
+void POST_GOMP_ordered_end (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_ordered_start(void)
-{
+void PRE_GOMP_ordered_start (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_ordered_start++;
+	partial_count[idx_GOMP_ordered_start]++;
 }
 
-void POST_GOMP_ordered_start(void)
-{
+void POST_GOMP_ordered_start (void) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_cancel(int which, bool do_cancel)
-{
+bool PRE_GOMP_cancel (int which,bool do_cancel) {
 	PRINT_FUNC_NAME;
-	num_GOMP_cancel++;
+	partial_count[idx_GOMP_cancel]++;
 }
 
-bool POST_GOMP_cancel(int which, bool do_cancel)
-{
+bool POST_GOMP_cancel (int which,bool do_cancel) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_cancellation_point(int which)
-{
+bool PRE_GOMP_cancellation_point (int which) {
 	PRINT_FUNC_NAME;
-	num_GOMP_cancellation_point++;
+	partial_count[idx_GOMP_cancellation_point]++;
 }
 
-bool POST_GOMP_cancellation_point(int which)
-{
+bool POST_GOMP_cancellation_point (int which) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel(void (*fn)(void *), void *data, unsigned num_threads, unsigned int flags)
-{
+void PRE_GOMP_parallel (void (* fn)(void *),void * data,unsigned num_threads,unsigned int flags) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel++;
+	partial_count[idx_GOMP_parallel]++;
 }
 
-void POST_GOMP_parallel(void (*fn)(void *), void *data, unsigned num_threads, unsigned int flags)
-{
+void POST_GOMP_parallel (void (* fn)(void *),void * data,unsigned num_threads,unsigned int flags) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_end(void)
-{
+void PRE_GOMP_parallel_end (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_end++;
-
-	accumulate_results();
+	partial_count[idx_GOMP_parallel_end]++;
 }
 
-void POST_GOMP_parallel_end(void)
-{
+void POST_GOMP_parallel_end (void) {
 	PRINT_FUNC_NAME;
-	print_results();
+	print_results_csv_partial();
+int i;
+	for (i = 0; i < NUM_FUNCTIONS; i++) {
+		accum_count[i] += partial_count[i];
+		partial_count[i] = 0;
+	}
+	print_results_csv_accum();
 }
 
-void PRE_GOMP_parallel_start(void (*fn)(void *), void *data, unsigned num_threads)
-{
+void PRE_GOMP_parallel_start (void (* fn)(void *),void * data,unsigned num_threads) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_start++;
+	partial_count[idx_GOMP_parallel_start]++;
 }
 
-void POST_GOMP_parallel_start(void (*fn)(void *), void *data, unsigned num_threads)
-{
+void POST_GOMP_parallel_start (void (* fn)(void *),void * data,unsigned num_threads) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_sections(void (*fn)(void *), void *data, unsigned num_threads, unsigned count, unsigned flags)
-{
+void PRE_GOMP_parallel_sections (void (* fn)(void *),void * data,unsigned num_threads,unsigned count,unsigned flags) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_sections++;
+	partial_count[idx_GOMP_parallel_sections]++;
 }
 
-void POST_GOMP_parallel_sections(void (*fn)(void *), void *data, unsigned num_threads, unsigned count, unsigned flags)
-{
+void POST_GOMP_parallel_sections (void (* fn)(void *),void * data,unsigned num_threads,unsigned count,unsigned flags) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_parallel_sections_start(void (*fn)(void *), void *data, unsigned num_threads, unsigned count)
-{
+void PRE_GOMP_parallel_sections_start (void (* fn)(void *),void * data,unsigned num_threads,unsigned count) {
 	PRINT_FUNC_NAME;
-	num_GOMP_parallel_sections_start++;
+	partial_count[idx_GOMP_parallel_sections_start]++;
 }
 
-void POST_GOMP_parallel_sections_start(void (*fn)(void *), void *data, unsigned num_threads, unsigned count)
-{
+void POST_GOMP_parallel_sections_start (void (* fn)(void *),void * data,unsigned num_threads,unsigned count) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_sections_end(void)
-{
+void PRE_GOMP_sections_end (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_sections_end++;
+	partial_count[idx_GOMP_sections_end]++;
 }
 
-void POST_GOMP_sections_end(void)
-{
+void POST_GOMP_sections_end (void) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_sections_end_cancel(void)
-{
+bool PRE_GOMP_sections_end_cancel (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_sections_end_cancel++;
+	partial_count[idx_GOMP_sections_end_cancel]++;
 }
 
-bool POST_GOMP_sections_end_cancel(void)
-{
+bool POST_GOMP_sections_end_cancel (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_sections_end_nowait(void)
-{
+void PRE_GOMP_sections_end_nowait (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_sections_end_nowait++;
+	partial_count[idx_GOMP_sections_end_nowait]++;
 }
 
-void POST_GOMP_sections_end_nowait(void)
-{
+void POST_GOMP_sections_end_nowait (void) {
 	PRINT_FUNC_NAME;
 }
 
-unsigned PRE_GOMP_sections_next(void)
-{
+unsigned PRE_GOMP_sections_next (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_sections_next++;
+	partial_count[idx_GOMP_sections_next]++;
 }
 
-unsigned POST_GOMP_sections_next(void)
-{
+unsigned POST_GOMP_sections_next (void) {
 	PRINT_FUNC_NAME;
 }
 
-unsigned PRE_GOMP_sections_start(unsigned count)
-{
+unsigned PRE_GOMP_sections_start (unsigned count) {
 	PRINT_FUNC_NAME;
-	num_GOMP_sections_start++;
+	partial_count[idx_GOMP_sections_start]++;
 }
 
-unsigned POST_GOMP_sections_start(unsigned count)
-{
+unsigned POST_GOMP_sections_start (unsigned count) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_single_copy_end(void *data)
-{
+void PRE_GOMP_single_copy_end (void * data) {
 	PRINT_FUNC_NAME;
-	num_GOMP_single_copy_end++;
+	partial_count[idx_GOMP_single_copy_end]++;
 }
 
-void POST_GOMP_single_copy_end(void *data)
-{
+void POST_GOMP_single_copy_end (void * data) {
 	PRINT_FUNC_NAME;
 }
 
-void *PRE_GOMP_single_copy_start(void)
-{
+void * PRE_GOMP_single_copy_start (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_single_copy_start++;
+	partial_count[idx_GOMP_single_copy_start]++;
 }
 
-void *POST_GOMP_single_copy_start(void)
-{
+void * POST_GOMP_single_copy_start (void) {
 	PRINT_FUNC_NAME;
 }
 
-bool PRE_GOMP_single_start(void)
-{
+bool PRE_GOMP_single_start (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_single_start++;
+	partial_count[idx_GOMP_single_start]++;
 }
 
-bool POST_GOMP_single_start(void)
-{
+bool POST_GOMP_single_start (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_PLUGIN_target_task_completion(void *data)
-{
+void PRE_GOMP_PLUGIN_target_task_completion (void * data) {
 	PRINT_FUNC_NAME;
-	num_GOMP_PLUGIN_target_task_completion++;
+	partial_count[idx_GOMP_PLUGIN_target_task_completion]++;
 }
 
-void POST_GOMP_PLUGIN_target_task_completion(void *data)
-{
+void POST_GOMP_PLUGIN_target_task_completion (void * data) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_task(void (*fn)(void *), void *data, void (*cpyfn)(void *, void *), long arg_size, long arg_align, bool if_clause, unsigned flags, void **depend, int priority)
-{
+void PRE_GOMP_task (void (* fn)(void *),void * data,void (* cpyfn)(void *,void *),long arg_size,long arg_align,bool if_clause,unsigned flags,void ** depend,int priority) {
 	PRINT_FUNC_NAME;
-	num_GOMP_task++;
+	partial_count[idx_GOMP_task]++;
 }
 
-void POST_GOMP_task(void (*fn)(void *), void *data, void (*cpyfn)(void *, void *), long arg_size, long arg_align, bool if_clause, unsigned flags, void **depend, int priority)
-{
+void POST_GOMP_task (void (* fn)(void *),void * data,void (* cpyfn)(void *,void *),long arg_size,long arg_align,bool if_clause,unsigned flags,void ** depend,int priority) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_taskgroup_end(void)
-{
+void PRE_GOMP_taskgroup_end (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_taskgroup_end++;
+	partial_count[idx_GOMP_taskgroup_end]++;
 }
 
-void POST_GOMP_taskgroup_end(void)
-{
+void POST_GOMP_taskgroup_end (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_taskgroup_start(void)
-{
+void PRE_GOMP_taskgroup_start (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_taskgroup_start++;
+	partial_count[idx_GOMP_taskgroup_start]++;
 }
 
-void POST_GOMP_taskgroup_start(void)
-{
+void POST_GOMP_taskgroup_start (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_taskwait(void)
-{
+void PRE_GOMP_taskwait (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_taskwait++;
+	partial_count[idx_GOMP_taskwait]++;
 }
 
-void POST_GOMP_taskwait(void)
-{
+void POST_GOMP_taskwait (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_taskyield(void)
-{
+void PRE_GOMP_taskyield (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_taskyield++;
+	partial_count[idx_GOMP_taskyield]++;
 }
 
-void POST_GOMP_taskyield(void)
-{
+void POST_GOMP_taskyield (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_offload_register(const void *host_table, int target_type, const void *target_data)
-{
+void PRE_GOMP_offload_register (const void * host_table,int target_type,const void * target_data) {
 	PRINT_FUNC_NAME;
-	num_GOMP_offload_register++;
+	partial_count[idx_GOMP_offload_register]++;
 }
 
-void POST_GOMP_offload_register(const void *host_table, int target_type, const void *target_data)
-{
+void POST_GOMP_offload_register (const void * host_table,int target_type,const void * target_data) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_offload_register_ver(unsigned version, const void *host_table, int target_type, const void *target_data)
-{
+void PRE_GOMP_offload_register_ver (unsigned version,const void * host_table,int target_type,const void * target_data) {
 	PRINT_FUNC_NAME;
-	num_GOMP_offload_register_ver++;
+	partial_count[idx_GOMP_offload_register_ver]++;
 }
 
-void POST_GOMP_offload_register_ver(unsigned version, const void *host_table, int target_type, const void *target_data)
-{
+void POST_GOMP_offload_register_ver (unsigned version,const void * host_table,int target_type,const void * target_data) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_offload_unregister(const void *host_table, int target_type, const void *target_data)
-{
+void PRE_GOMP_offload_unregister (const void * host_table,int target_type,const void * target_data) {
 	PRINT_FUNC_NAME;
-	num_GOMP_offload_unregister++;
+	partial_count[idx_GOMP_offload_unregister]++;
 }
 
-void POST_GOMP_offload_unregister(const void *host_table, int target_type, const void *target_data)
-{
+void POST_GOMP_offload_unregister (const void * host_table,int target_type,const void * target_data) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_offload_unregister_ver(unsigned version, const void *host_table, int target_type, const void *target_data)
-{
+void PRE_GOMP_offload_unregister_ver (unsigned version,const void * host_table,int target_type,const void * target_data) {
 	PRINT_FUNC_NAME;
-	num_GOMP_offload_unregister_ver++;
+	partial_count[idx_GOMP_offload_unregister_ver]++;
 }
 
-void POST_GOMP_offload_unregister_ver(unsigned version, const void *host_table, int target_type, const void *target_data)
-{
+void POST_GOMP_offload_unregister_ver (unsigned version,const void * host_table,int target_type,const void * target_data) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_target(int device, void (*fn)(void *), const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
-{
+void PRE_GOMP_target (int device,void (* fn)(void *),const void * unused,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned char * kinds) {
 	PRINT_FUNC_NAME;
-	num_GOMP_target++;
+	partial_count[idx_GOMP_target]++;
 }
 
-void POST_GOMP_target(int device, void (*fn)(void *), const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
-{
+void POST_GOMP_target (int device,void (* fn)(void *),const void * unused,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned char * kinds) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_target_data(int device, const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
-{
+void PRE_GOMP_target_data (int device,const void * unused,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned char * kinds) {
 	PRINT_FUNC_NAME;
-	num_GOMP_target_data++;
+	partial_count[idx_GOMP_target_data]++;
 }
 
-void POST_GOMP_target_data(int device, const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
-{
+void POST_GOMP_target_data (int device,const void * unused,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned char * kinds) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_target_data_ext(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds)
-{
+void PRE_GOMP_target_data_ext (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds) {
 	PRINT_FUNC_NAME;
-	num_GOMP_target_data_ext++;
+	partial_count[idx_GOMP_target_data_ext]++;
 }
 
-void POST_GOMP_target_data_ext(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds)
-{
+void POST_GOMP_target_data_ext (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_target_end_data(void)
-{
+void PRE_GOMP_target_end_data (void) {
 	PRINT_FUNC_NAME;
-	num_GOMP_target_end_data++;
+	partial_count[idx_GOMP_target_end_data]++;
 }
 
-void POST_GOMP_target_end_data(void)
-{
+void POST_GOMP_target_end_data (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_target_enter_exit_data(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend)
-{
+void PRE_GOMP_target_enter_exit_data (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,unsigned int flags,void ** depend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_target_enter_exit_data++;
+	partial_count[idx_GOMP_target_enter_exit_data]++;
 }
 
-void POST_GOMP_target_enter_exit_data(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend)
-{
+void POST_GOMP_target_enter_exit_data (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,unsigned int flags,void ** depend) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_target_ext(int device, void (*fn)(void *), size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend, void **args)
-{
+void PRE_GOMP_target_ext (int device,void (* fn)(void *),size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,unsigned int flags,void ** depend,void ** args) {
 	PRINT_FUNC_NAME;
-	num_GOMP_target_ext++;
+	partial_count[idx_GOMP_target_ext]++;
 }
 
-void POST_GOMP_target_ext(int device, void (*fn)(void *), size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend, void **args)
-{
+void POST_GOMP_target_ext (int device,void (* fn)(void *),size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,unsigned int flags,void ** depend,void ** args) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_target_update(int device, const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
-{
+void PRE_GOMP_target_update (int device,const void * unused,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned char * kinds) {
 	PRINT_FUNC_NAME;
-	num_GOMP_target_update++;
+	partial_count[idx_GOMP_target_update]++;
 }
 
-void POST_GOMP_target_update(int device, const void *unused, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned char *kinds)
-{
+void POST_GOMP_target_update (int device,const void * unused,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned char * kinds) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_target_update_ext(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend)
-{
+void PRE_GOMP_target_update_ext (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,unsigned int flags,void ** depend) {
 	PRINT_FUNC_NAME;
-	num_GOMP_target_update_ext++;
+	partial_count[idx_GOMP_target_update_ext]++;
 }
 
-void POST_GOMP_target_update_ext(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, unsigned int flags, void **depend)
-{
+void POST_GOMP_target_update_ext (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,unsigned int flags,void ** depend) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_teams(unsigned int num_teams, unsigned int thread_limit)
-{
+void PRE_GOMP_teams (unsigned int num_teams,unsigned int thread_limit) {
 	PRINT_FUNC_NAME;
-	num_GOMP_teams++;
+	partial_count[idx_GOMP_teams]++;
 }
 
-void POST_GOMP_teams(unsigned int num_teams, unsigned int thread_limit)
-{
+void POST_GOMP_teams (unsigned int num_teams,unsigned int thread_limit) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOMP_taskloop(void (*fn)(void *), void *data, void (*cpyfn)(void *, void *), long arg_size, long arg_align, unsigned flags, unsigned long num_tasks, int priority, TYPE start, TYPE end, TYPE step)
-{
+void PRE_GOMP_taskloop (void (* fn)(void *),void * data,void (* cpyfn)(void *,void *),long arg_size,long arg_align,unsigned flags,unsigned long num_tasks,int priority,TYPE start,TYPE end,TYPE step) {
 	PRINT_FUNC_NAME;
-	num_GOMP_taskloop++;
+	partial_count[idx_GOMP_taskloop]++;
 }
 
-void POST_GOMP_taskloop(void (*fn)(void *), void *data, void (*cpyfn)(void *, void *), long arg_size, long arg_align, unsigned flags, unsigned long num_tasks, int priority, TYPE start, TYPE end, TYPE step)
-{
+void POST_GOMP_taskloop (void (* fn)(void *),void * data,void (* cpyfn)(void *,void *),long arg_size,long arg_align,unsigned flags,unsigned long num_tasks,int priority,TYPE start,TYPE end,TYPE step) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOACC_data_end(void)
-{
+void PRE_GOACC_data_end (void) {
 	PRINT_FUNC_NAME;
-	num_GOACC_data_end++;
+	partial_count[idx_GOACC_data_end]++;
 }
 
-void POST_GOACC_data_end(void)
-{
+void POST_GOACC_data_end (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOACC_data_start(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds)
-{
+void PRE_GOACC_data_start (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds) {
 	PRINT_FUNC_NAME;
-	num_GOACC_data_start++;
+	partial_count[idx_GOACC_data_start]++;
 }
 
-void POST_GOACC_data_start(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds)
-{
+void POST_GOACC_data_start (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOACC_declare(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds)
-{
+void PRE_GOACC_declare (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds) {
 	PRINT_FUNC_NAME;
-	num_GOACC_declare++;
+	partial_count[idx_GOACC_declare]++;
 }
 
-void POST_GOACC_declare(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds)
-{
+void POST_GOACC_declare (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOACC_enter_exit_data(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, int async, int num_waits, ...)
-{
+void PRE_GOACC_enter_exit_data (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,int async,int num_waits,...) {
 	PRINT_FUNC_NAME;
-	num_GOACC_enter_exit_data++;
+	partial_count[idx_GOACC_enter_exit_data]++;
 }
 
-void POST_GOACC_enter_exit_data(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, int async, int num_waits, ...)
-{
+void POST_GOACC_enter_exit_data (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,int async,int num_waits,...) {
 	PRINT_FUNC_NAME;
 }
 
-int PRE_GOACC_get_num_threads(void)
-{
+int PRE_GOACC_get_num_threads (void) {
 	PRINT_FUNC_NAME;
-	num_GOACC_get_num_threads++;
+	partial_count[idx_GOACC_get_num_threads]++;
 }
 
-int POST_GOACC_get_num_threads(void)
-{
+int POST_GOACC_get_num_threads (void) {
 	PRINT_FUNC_NAME;
 }
 
-int PRE_GOACC_get_thread_num(void)
-{
+int PRE_GOACC_get_thread_num (void) {
 	PRINT_FUNC_NAME;
-	num_GOACC_get_thread_num++;
+	partial_count[idx_GOACC_get_thread_num]++;
 }
 
-int POST_GOACC_get_thread_num(void)
-{
+int POST_GOACC_get_thread_num (void) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOACC_parallel(int device, void (*fn)(void *), size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, int num_gangs, int num_workers, int vector_length, int async, int num_waits, ...)
-{
+void PRE_GOACC_parallel (int device,void (* fn)(void *),size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,int num_gangs,int num_workers,int vector_length,int async,int num_waits,...) {
 	PRINT_FUNC_NAME;
-	num_GOACC_parallel++;
+	partial_count[idx_GOACC_parallel]++;
 }
 
-void POST_GOACC_parallel(int device, void (*fn)(void *), size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, int num_gangs, int num_workers, int vector_length, int async, int num_waits, ...)
-{
+void POST_GOACC_parallel (int device,void (* fn)(void *),size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,int num_gangs,int num_workers,int vector_length,int async,int num_waits,...) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOACC_parallel_keyed(int device, void (*fn)(void *), size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, ...)
-{
+void PRE_GOACC_parallel_keyed (int device,void (* fn)(void *),size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,...) {
 	PRINT_FUNC_NAME;
-	num_GOACC_parallel_keyed++;
+	partial_count[idx_GOACC_parallel_keyed]++;
 }
 
-void POST_GOACC_parallel_keyed(int device, void (*fn)(void *), size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, ...)
-{
+void POST_GOACC_parallel_keyed (int device,void (* fn)(void *),size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,...) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOACC_update(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, int async, int num_waits, ...)
-{
+void PRE_GOACC_update (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,int async,int num_waits,...) {
 	PRINT_FUNC_NAME;
-	num_GOACC_update++;
+	partial_count[idx_GOACC_update]++;
 }
 
-void POST_GOACC_update(int device, size_t mapnum, void **hostaddrs, size_t *sizes, unsigned short *kinds, int async, int num_waits, ...)
-{
+void POST_GOACC_update (int device,size_t mapnum,void ** hostaddrs,size_t * sizes,unsigned short * kinds,int async,int num_waits,...) {
 	PRINT_FUNC_NAME;
 }
 
-void PRE_GOACC_wait(int async, int num_waits, ...)
-{
+void PRE_GOACC_wait (int async,int num_waits,...) {
 	PRINT_FUNC_NAME;
-	num_GOACC_wait++;
+	partial_count[idx_GOACC_wait]++;
 }
 
-void POST_GOACC_wait(int async, int num_waits, ...)
-{
+void POST_GOACC_wait (int async,int num_waits,...) {
 	PRINT_FUNC_NAME;
 }
+
+
 
 ///GENERATED 120 FUNCTIONS
