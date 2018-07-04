@@ -1,0 +1,2 @@
+correlation.o: correlation.c ../../utilities/polybench.h correlation.h
+polybench.o: ../../utilities/polybench.c
