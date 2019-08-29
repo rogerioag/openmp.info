@@ -11,6 +11,9 @@ tags_url = 'svn://gcc.gnu.org/svn/gcc/tags/'
 releases_file_name_input  = 'releases_gcc'
 releases_file_name_output = 'releases_gcc{}'
 
+# path to download libgomps
+workspace = path + 'workspace/'
+
 # save releases in file
 def save_releases(gcc_releases):
     file = open(path + releases_file_name_input, 'w')
@@ -56,6 +59,23 @@ def check_existence():
     file_fail_output.close()
     file_sucess_output.close()
 
+# download all paths libgomps files from each release into workspace folder
+# if force=True, then all libgomps files for each release will be replaced
+def download_libgomps(force=True):
+    try: os.mkdir(workspace)
+    except FileExistsError: pass
+
+    file_sucess_input = open(path + releases_file_name_output.format('_sucess'))
+    # create and export all libgomp paths from all releases
+    for url in file_sucess_input.readlines():
+        url = url.replace('libgomp.map\n', '')
+        # get the 'gcc_4_2_0_release/', eg
+        release = re.search('gcc_\d_\d_\d_release/', url).group(0)
+        #os.mkdir(workspace + release)
+
+        svn.remote.RemoteClient(url).export(workspace + release, force=force)
+
 if __name__ == '__main__':
     get_gcc_releases()
     check_existence()
+    download_libgomps()
