@@ -91,6 +91,6 @@ def download_libgomps(force=True):
     print('download libgomps...OK')
 
 if __name__ == '__main__':
-    #get_gcc_releases()
-    #check_existence()
+    get_gcc_releases()
+    check_existence()
     download_libgomps()
