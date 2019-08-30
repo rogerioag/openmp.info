@@ -1,4 +1,3 @@
-
 # Script para extrair as funções do arquivo libgomp_g.h
 
 ## Funcionamento
@@ -16,13 +15,8 @@ void GOMP_taskloop (void (*fn) (void *), void *data, void (*cpyfn) (void *, void
 ```
 6. Salva o nome do arquivo, nome da função, protótipo e string de chamada em um array, que será utilizado para gerar o código
 
-## Compilar ctags
-
-1. ```cd ctags```
-2. ```./autogen```
-3. ```./configure```
-4. ```make```
-5. ```sudo make install```
+## Instalar ctags
+Instale usando ```apt install ctags``` ou diretamente pelo `source`: https://github.com/universal-ctags/ctags
 
 ## Instalar pycparser
 
