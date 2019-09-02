@@ -41,19 +41,26 @@ def parse():
     all_tags = []
 
     for f in files:
+        print('PROCESS FILE {}:'.format(f))
+
+        print('    download ...', end='', flush=True)
         urllib.request.urlretrieve(repository_url + f, f)
+        print('OK.')
 
         # remove linhas contendo 'ialias'
         # 'ialias' estava atrapalhando o ctags de encontrar algumas funções
         os.system('sed -i \'/ialias/d\' {}'.format(f))
 
+        print('    get tags...', end='', flush=True)
         proc = subprocess.Popen(shlex.split('ctags -f - --fields=St {}'.format(f)),
                                 stdout=subprocess.PIPE,
                                 stdin=subprocess.PIPE,
                                 bufsize=1,
                                 universal_newlines=True)
+        print('OK.')
 
         tags = proc.stdout.readlines()
+        print('    process tags...', end='', flush=True)
         for tag in tags:
 
             fields = tag.split('\t')
@@ -89,6 +96,8 @@ def parse():
 
                 all_tags.append(
                     Function(f, func_name, return_type, signature, args_str))
+
+        print('OK.')
     return all_tags
 
 print(parse())
