@@ -60,7 +60,6 @@ def parse():
             func_name = fields[0]
             
             if (func_name.startswith('GOMP_') or func_name.startswith('GOACC_')) and func_name not in [x.name for x in all_tags] and len(fields) > 4 :
-
   
                 return_type = fields[3].replace('typeref:typename:', '')
                 signature = fields[4].replace(
@@ -73,9 +72,12 @@ def parse():
                 s = s.replace('gomp_ull', 'unsigned long long')
                 s = s.replace('size_t', 'unsigned int')
                 s = s.replace('TYPE', 'long')
+                # add typedef to c++11 definition
+                s = 'typedef int uintptr_t;' + s
                 ast = parser.parse(s)
-                param_list = ast.children()[0][1].children()[0][1].children()[
-                    0][1].children()[0][1]
+                # remove the ast node for c++11 definition
+                ast = ast.children()[1]
+                param_list = ast[1].children()[0][1].children()[0][1].children()[0][1]
 
                 args_str = ''
 
@@ -88,3 +90,5 @@ def parse():
                 all_tags.append(
                     Function(f, func_name, return_type, signature, args_str))
     return all_tags
+
+print(parse())
