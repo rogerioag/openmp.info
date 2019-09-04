@@ -8,7 +8,7 @@ def gen_functions(tags, fw):
     for tag in tags:
         if tag.file not in visited_files:
 
-            fw.write('\n/* %s */\n' % tag.file)
+            fw.write('/* %s */\n' % tag.file)
 
             visited_files.append(tag.file)
 
