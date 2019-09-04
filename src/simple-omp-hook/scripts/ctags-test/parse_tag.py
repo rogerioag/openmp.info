@@ -90,4 +90,6 @@ def parse():
                     Function(f, func_name, return_type, signature, args_str))
 
         print('OK.')
+
+    os.chdir('../')
     return all_tags

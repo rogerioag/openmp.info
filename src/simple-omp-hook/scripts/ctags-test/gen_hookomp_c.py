@@ -2,32 +2,44 @@
 Get tags and generate the file hookomp.c to all tags
 """
 
-def gen_hookomp_c(tags):
+def gen_functions(tags, fw):
     visited_files = []
 
     for tag in tags:
         if tag.file not in visited_files:
-            print('/* ------------------------------------------------------------- */')
-            print('/* %s' % tag.file)
-            print('/* ------------------------------------------------------------- */')
+            fw.write('/* ------------------------------------------------------------- */\n')
+            fw.write('/* %s\n' % tag.file)
+            fw.write('/* ------------------------------------------------------------- */\n\n')
             visited_files.append(tag.file)
 
-        print('%s %s %s {' % (tag.return_type, tag.name, tag.signature))
-        print('\tPRINT_FUNC_NAME;')
-        print('\tGET_RUNTIME_FUNCTION(lib_%s, "%s");' % (tag.name, tag.name))
-        print('\tTRACE("[hookomp]: Thread [%%lu] is executing %s.\\n", (unsigned long int)pthread_self());' % tag.name)
-        print('\tPRE_%s%s;' % (tag.name, tag.call))
+        fw.write('%s %s %s {\n' % (tag.return_type, tag.name, tag.signature))
+        fw.write('\tPRINT_FUNC_NAME;\n')
+        fw.write('\tGET_RUNTIME_FUNCTION(lib_%s, "%s");\n' % (tag.name, tag.name))
+        fw.write('\tTRACE("[hookomp]: Thread [%%lu] is executing %s.\\n", (unsigned long int)pthread_self());\n' % tag.name)
+        fw.write('\tPRE_%s%s;\n' % (tag.name, tag.call))
 
         if tag.return_type == 'void':
-            print('\tlib_%s%s;' % (tag.name, tag.call))
+            fw.write('\tlib_%s%s;\n' % (tag.name, tag.call))
         else:
-            print('\t%s ret = lib_%s%s;' % (tag.return_type, tag.name, tag.call))  
+            fw.write('\t%s ret = lib_%s%s;\n' % (tag.return_type, tag.name, tag.call))  
 
-        print('\tPOST_%s%s;' % (tag.name, tag.call))
+        fw.write('\tPOST_%s%s;\n' % (tag.name, tag.call))
 
         if tag.return_type != 'void':
-            print('\treturn ret;')
+            fw.write('\treturn ret;\n')
 
-        print('}\n')
+        fw.write('}\n\n')
 
-    print('\n\n///GENERATED %d FUNCTIONS' % len(tags))
+    fw.write('\n///GENERATED %d FUNCTIONS' % len(tags))
+
+def gen_hookomp_c(tags, file_name):
+    # file writer
+    fw = open(file_name, 'w')
+    print('generate {} ...'.format(file_name), end='', flush=True)
+
+    #gen_header(file, fw)
+    gen_functions(tags, fw)
+    #gen_tail(file, fw)
+
+    fw.close()
+    print('OK')
