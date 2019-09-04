@@ -24,7 +24,7 @@ def parse():
         fields = line.split('\t')
         func_name = fields[0]
 
-        if len(fields) > 4 and 'prototype' in fields and func_name not in [x for x in functions]:
+        if len(fields) > 4 and 'prototype' in fields and func_name not in functions:
             functions.append(func_name)
 
     arq.close()
@@ -41,33 +41,25 @@ def parse():
     all_tags = []
 
     for f in files:
-        print('PROCESS FILE {}:'.format(f))
+        print('process file {}...'.format(f), end='', flush=True)
 
-        print('    download ...', end='', flush=True)
         urllib.request.urlretrieve(repository_url + f, f)
-        print('OK.')
-
         # remove linhas contendo 'ialias'
         # 'ialias' estava atrapalhando o ctags de encontrar algumas funções
         os.system('sed -i \'/ialias/d\' {}'.format(f))
-
-        print('    get tags...', end='', flush=True)
         proc = subprocess.Popen(shlex.split('ctags -f - --fields=St {}'.format(f)),
                                 stdout=subprocess.PIPE,
                                 stdin=subprocess.PIPE,
                                 bufsize=1,
                                 universal_newlines=True)
-        print('OK.')
 
         tags = proc.stdout.readlines()
-        print('    process tags...', end='', flush=True)
         for tag in tags:
 
             fields = tag.split('\t')
             func_name = fields[0]
             
             if (func_name.startswith('GOMP_') or func_name.startswith('GOACC_')) and func_name not in [x.name for x in all_tags] and len(fields) > 4 :
-  
                 return_type = fields[3].replace('typeref:typename:', '')
                 signature = fields[4].replace(
                     'signature:', '').replace('\n', '')
@@ -99,5 +91,3 @@ def parse():
 
         print('OK.')
     return all_tags
-
-print(parse())
