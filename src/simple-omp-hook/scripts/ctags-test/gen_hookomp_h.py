@@ -1,29 +1,30 @@
-import parse_tag
+"""
+Get tags and generate the file hookomp.h to all tags
+"""
 
-tags = parse_tag.parse()
-visited_files = []
+def gen_hookomp_h(tags):
+    visited_files = []
 
-for tag in tags:
-    if tag.file not in visited_files:
+    for tag in tags:
+        if tag.file not in visited_files:
 
-        print('\n/* %s */\n' % tag.file)
+            print('\n/* %s */\n' % tag.file)
 
-        visited_files.append(tag.file)
+            visited_files.append(tag.file)
 
-    print('%s (*lib_%s) %s;' % (tag.return_type, tag.name, tag.signature))
+        print('%s (*lib_%s) %s;' % (tag.return_type, tag.name, tag.signature))
 
+    print('\n\n// --------------------  END OF PART 1\n\n')
 
-print('\n\n// --------------------  END OF PART 1\n\n')
+    visited_files.clear()
 
-visited_files.clear()
+    for tag in tags:
+        if tag.file not in visited_files:
 
-for tag in tags:
-    if tag.file not in visited_files:
+            print('\n/* %s */\n' % tag.file)
 
-        print('\n/* %s */\n' % tag.file)
+            visited_files.append(tag.file)
 
-        visited_files.append(tag.file)
+        print('%s %s %s;' % (tag.return_type, tag.name, tag.signature))
 
-    print('%s %s %s;' % (tag.return_type, tag.name, tag.signature))
-
-print('\n\n///GENERATED %d FUNCTIONS' % len(tags))
+    print('\n\n///GENERATED %d FUNCTIONS' % len(tags))

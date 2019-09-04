@@ -1,31 +1,33 @@
-import parse_tag
+"""
+Get tags and generate the file hookomp.c to all tags
+"""
 
-tags = parse_tag.parse()
-visited_files = []
+def gen_hookomp_c(tags):
+    visited_files = []
 
-for tag in tags:
-    if tag.file not in visited_files:
-        print('/* ------------------------------------------------------------- */')
-        print('/* %s' % tag.file)
-        print('/* ------------------------------------------------------------- */')
-        visited_files.append(tag.file)
+    for tag in tags:
+        if tag.file not in visited_files:
+            print('/* ------------------------------------------------------------- */')
+            print('/* %s' % tag.file)
+            print('/* ------------------------------------------------------------- */')
+            visited_files.append(tag.file)
 
-    print('%s %s %s {' % (tag.return_type, tag.name, tag.signature))
-    print('\tPRINT_FUNC_NAME;')
-    print('\tGET_RUNTIME_FUNCTION(lib_%s, "%s");' % (tag.name, tag.name))
-    print('\tTRACE("[hookomp]: Thread [%%lu] is executing %s.\\n", (unsigned long int)pthread_self());' % tag.name)
-    print('\tPRE_%s%s;' % (tag.name, tag.call))
+        print('%s %s %s {' % (tag.return_type, tag.name, tag.signature))
+        print('\tPRINT_FUNC_NAME;')
+        print('\tGET_RUNTIME_FUNCTION(lib_%s, "%s");' % (tag.name, tag.name))
+        print('\tTRACE("[hookomp]: Thread [%%lu] is executing %s.\\n", (unsigned long int)pthread_self());' % tag.name)
+        print('\tPRE_%s%s;' % (tag.name, tag.call))
 
-    if tag.return_type == 'void':
-        print('\tlib_%s%s;' % (tag.name, tag.call))
-    else:
-        print('\t%s ret = lib_%s%s;' % (tag.return_type, tag.name, tag.call))  
+        if tag.return_type == 'void':
+            print('\tlib_%s%s;' % (tag.name, tag.call))
+        else:
+            print('\t%s ret = lib_%s%s;' % (tag.return_type, tag.name, tag.call))  
 
-    print('\tPOST_%s%s;' % (tag.name, tag.call))
+        print('\tPOST_%s%s;' % (tag.name, tag.call))
 
-    if tag.return_type != 'void':
-        print('\treturn ret;')
+        if tag.return_type != 'void':
+            print('\treturn ret;')
 
-    print('}\n')
+        print('}\n')
 
-print('\n\n///GENERATED %d FUNCTIONS' % len(tags))
+    print('\n\n///GENERATED %d FUNCTIONS' % len(tags))
