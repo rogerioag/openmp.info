@@ -2,6 +2,23 @@
 Get tags and generate the file hookomp.c to all tags
 """
 
+# else, the file reader will be the pos_ppd
+def gen_from_model(fw, pre=True):
+    file_name = 'model/'
+    file_name += 'pre_hkc' if pre else 'pos_hkc'
+    file_name += '.c'
+
+    try:
+        model = open(file_name)
+
+        for line in model.readlines():
+            if line.startswith('//\\'):
+                continue
+
+            fw.write(line)
+    except FileNotFoundError:
+        pass
+
 def gen_functions(tags, fw):
     visited_files = []
 
@@ -37,9 +54,9 @@ def gen_hookomp_c(tags, file_name):
     fw = open(file_name, 'w')
     print('generate {} ...'.format(file_name), end='', flush=True)
 
-    #gen_header(file, fw)
+    gen_from_model(fw, True)
     gen_functions(tags, fw)
-    #gen_tail(file, fw)
+    gen_from_model(fw, False)
 
     fw.close()
     print('OK')
