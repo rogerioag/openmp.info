@@ -55,7 +55,7 @@ def gen_functions(fw, tags):
     fw.write('\n// HOOKS\n\n')
 
     for tag in tags:
-        fw.write('%s PRE_%s %s\n{' % (tag.return_type, tag.name, tag.signature))
+        fw.write('%s PRE_%s %s\n{\n' % (tag.return_type, tag.name, tag.signature))
         fw.write('\tPRINT_FUNC_NAME;\n')
         fw.write('\tpartial_count[idx_%s]++;\n' % tag.name)
         fw.write('}\n\n')
