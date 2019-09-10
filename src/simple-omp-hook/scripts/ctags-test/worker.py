@@ -5,6 +5,7 @@ import downloader           as dw
 import gen_hookomp_h        as ghh
 import gen_hookomp_c        as ghc
 import gen_prepostdef       as gppd
+import gen_libhookomp       as glho
 import gen_prepostfunctions as gppf
 
 # verify if exists the paths
@@ -54,3 +55,4 @@ ghh.gen_hookomp_h(tags, dir_output + 'hookomp.h')
 ghc.gen_hookomp_c(tags, dir_output + 'hookomp.c')
 gppd.gen_prepostdef(tags, dir_output + 'prepostdef.h')
 gppf.gen_prepostfunctions(tags, dir_output + 'prepostfunctions.c')
+glho.gen_libhookomp(dir_output)
