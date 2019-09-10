@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <pthread.h>
 #include <semaphore.h>
-#include "debug.h"
+#include "../static/debug.h"
 
 #include "prepostdef.h"
 
