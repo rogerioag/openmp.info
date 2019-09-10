@@ -1,5 +1,4 @@
 import os
-import urllib.request
 import subprocess
 import shlex
 from collections import namedtuple
@@ -15,9 +14,10 @@ Function = namedtuple('Function', 'file name return_type signature call')
 #  make
 #  sudo make install
 
-def parse():
+def parse(dir_src, dir_output, files):
     functions = []
 
+    """
     arq = open('tags.txt', 'r')
     lines = arq.readlines()
     for line in lines:
@@ -28,25 +28,19 @@ def parse():
             functions.append(func_name)
 
     arq.close()
+    """
 
-    repository_url = 'https://raw.githubusercontent.com/gcc-mirror/gcc/master/libgomp/'
-    files = ['atomic.c', 'barrier.c', 'critical.c', 'loop.c', 'loop_ull.c', 'ordered.c',
-             'parallel.c', 'sections.c', 'single.c', 'task.c', 'target.c', 'taskloop.c',
-             'oacc-parallel.c']
-
-    os.system('rm -rf src/')
-    os.system('mkdir -p src')
-    os.chdir('src')
+    current_dir = os.path.abspath('./')
+    os.chdir(dir_src)
 
     all_tags = []
 
     for f in files:
         print('process file {}...'.format(f), end='', flush=True)
 
-        urllib.request.urlretrieve(repository_url + f, f)
         # remove linhas contendo 'ialias'
         # 'ialias' estava atrapalhando o ctags de encontrar algumas funções
-        os.system('sed -i \'/ialias/d\' {}'.format(f))
+        # o comando daqui já foi feito antes de calcular o sha1
         proc = subprocess.Popen(shlex.split('ctags -f - --fields=St {}'.format(f)),
                                 stdout=subprocess.PIPE,
                                 stdin=subprocess.PIPE,
@@ -91,5 +85,5 @@ def parse():
 
         print('OK.')
 
-    os.chdir('../')
+    os.chdir(current_dir)
     return all_tags
