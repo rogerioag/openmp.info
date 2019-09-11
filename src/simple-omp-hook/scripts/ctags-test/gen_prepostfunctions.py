@@ -60,7 +60,7 @@ def gen_functions(fw, tags):
         fw.write('\tpartial_count[idx_%s]++;\n' % tag.name)
         fw.write('}\n\n')
 
-        fw.write('%s POST_%s %s {\n' % (tag.return_type, tag.name, tag.signature))
+        fw.write('%s POST_%s %s \n{\n' % (tag.return_type, tag.name, tag.signature))
         fw.write('\tPRINT_FUNC_NAME;\n')
 
         if tag.name == 'GOMP_parallel_end':

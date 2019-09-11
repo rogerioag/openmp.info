@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "debug.h"
+#include <stdint.h>	// required by uintptr_t in C99
 
 typedef unsigned long long gomp_ull;
 typedef _Bool bool;
