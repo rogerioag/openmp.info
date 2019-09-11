@@ -11,3 +11,11 @@ typedef long TYPE;
 
 #define BUFFER_SIZE 10240
 
+// just print the values that was called
+void print(char *name, int qtd)
+{
+	if(qtd) {
+		printf("%s: %d\n", name, qtd);
+	}
+}
+

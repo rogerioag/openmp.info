@@ -6,20 +6,16 @@ Get tags and generate the file prepostfunctions.c to all tags
 def gen_print_results_csv_partial(fw, tags):
     fw.write('\n')
     fw.write('void print_results_csv_partial(void) {\n')
-    fw.write('\tprintf("' + ', '.join([tag.name for tag in tags]) + '");\n')
-    fw.write('\tprintf("' + ', '.join(['%lu'] * len(tags)) + '", ')
-    fw.write(', '.join('partial_count[idx_%s]' % tag.name for tag in tags))
-    fw.write(');\n')
+    for tag in tags:
+        fw.write('\tprint("{0}", partial_count[idx_{0}]);\n'.format(tag.name))
     fw.write('}\n\n')
 
 # this values should be generated dynamically
 def gen_print_results_csv_accum(fw, tags):
     fw.write('\n')
     fw.write('void print_results_csv_accum(void) {\n')
-    fw.write('\tprintf("' + ', '.join([tag.name for tag in tags]) + '");\n')
-    fw.write('\tprintf("' + ', '.join(['%lu'] * len(tags)) + '", ')
-    fw.write(', '.join('accum_count[idx_%s]' % tag.name for tag in tags))
-    fw.write(');\n')
+    for tag in tags:
+        fw.write('\tprint("{0}", accum_count[idx_{0}]);\n'.format(tag.name))
     fw.write('}\n\n')
 
 # this values cannot be in a file
@@ -64,6 +60,7 @@ def gen_functions(fw, tags):
         fw.write('\tPRINT_FUNC_NAME;\n')
 
         if tag.name == 'GOMP_parallel_end':
+            fw.write('\tprintf("\\n");\n')
             fw.write('\tprint_results_csv_partial();\n')
 
             fw.write('\tint i;\n')
@@ -72,7 +69,9 @@ def gen_functions(fw, tags):
             fw.write('\t\tpartial_count[i] = 0;\n')
             fw.write('\t}\n')
 
-            fw.write('\tprint_results_csv_accum();\n')
+            # fw.write('\tprintf("\\n");\n')
+            # fw.write('\tprint_results_csv_accum();\n')
+            fw.write('\tprintf("\\n");\n')
 
         fw.write('}\n\n')
 
