@@ -11,7 +11,6 @@
 - Utilizado o ```pycparser``` pois tem alguns protótipos mais complexos de extrair os nomes dos parâmetros, por exemplo:
 ```
 void GOMP_taskloop (void (*fn) (void *), void *data, void (*cpyfn) (void *, void *), long arg_size, long arg_align, unsigned flags, unsigned long num_tasks, int priority, TYPE start, TYPE end, TYPE  ep)
-
 ```
 6. Salva o nome do arquivo, nome da função, protótipo e string de chamada em um array, que será utilizado para gerar o código
 
