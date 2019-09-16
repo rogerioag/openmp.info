@@ -49,6 +49,8 @@ def parse(dir_src, dir_output, files):
 
         tags = proc.stdout.readlines()
         for tag in tags:
+            print(tag)
+            continue
 
             fields = tag.split('\t')
             func_name = fields[0]
@@ -66,7 +68,9 @@ def parse(dir_src, dir_output, files):
                 s = s.replace('size_t', 'unsigned int')
                 s = s.replace('TYPE', 'long')
                 # add typedef to c++11 definition
-                s = 'typedef int uintptr_t;' + s
+                #s = 'typedef int uintptr_t;' + s
+                s = '#include <stdint.h>;' + s
+                print(s)
                 ast = parser.parse(s)
                 # remove the ast node for c++11 definition
                 ast = ast.children()[1]
