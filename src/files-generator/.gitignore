@@ -1,3 +1,6 @@
+*.txt
+Pipfile*
+
 src/*
 output/*
 .vscode/*

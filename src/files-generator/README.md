@@ -22,7 +22,7 @@ The path `model` contain the scripts that will be inserted at top and bottom of 
 The files `model/pre_[abreviation].c` and `model/pos_[abreviation].c` is used to write some code directly in `C`, because is hard to write this code directly in the `python` files. It's better to write `printf("%d", var);` in `C` files instead `fp.write("printf(\"%d\", var);\n")` directly in `python` files. For this, all static code is written in `model/[pre|pos]_[abreviation].c` files.
 
 ## Install ctags and pycparser
- - `apt install ctags` or directly by [source](https://github.com/universal-ctags/ctags).
+ - `sh ctags.sh`
  - `pip3 install pycparser`
 
 ## Use
