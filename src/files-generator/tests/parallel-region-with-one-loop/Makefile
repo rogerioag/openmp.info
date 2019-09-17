@@ -9,6 +9,7 @@ all: clean cp main run
 cp:
 	cp ../../output/libhookomp.so .
 	cp ../../output/prepostfunctions.c .
+	cp ../../static/debug.h .
 
 main: 
 	LD_LIBRARY_PATH=$(PWD):$(LD_LIBRARY_PATH) export LD_LIBRARY_PATH
@@ -24,4 +25,4 @@ run:
 	LD_LIBRARY_PATH=. LD_PRELOAD=./libhookomp.so ./parallel-region-with-one-loop.exe
 	
 clean:
-	rm -rf *.o *.so *.exe *.ompexp *.out prepostfunctions.c
+	rm -rf *.o *.so *.exe *.ompexp *.out prepostfunctions.c debug.h

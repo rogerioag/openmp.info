@@ -9,6 +9,7 @@ all: clean cp main run
 cp:
 	cp ../../output/libhookomp.so .
 	cp ../../output/prepostfunctions.c .
+	cp ../../static/debug.h .
 
 main: 
 	LD_LIBRARY_PATH=$(PWD):$(LD_LIBRARY_PATH) export LD_LIBRARY_PATH
@@ -19,9 +20,9 @@ main:
 	${CC} -I ${LIB_HOOKOMP_PATH} -L ${LIB_HOOKOMP_PATH} -fdump-tree-ompexp parallel-region-with-tasks.c -fopenmp
 
 	${CC} -I . -L . parallel-region-with-tasks.o prepostfunctions.o -o parallel-region-with-tasks.exe -lhookomp -fopenmp
-	
+
 run:
 	LD_LIBRARY_PATH=. LD_PRELOAD=./libhookomp.so ./parallel-region-with-tasks.exe 10
 	
 clean:
-	rm -rf *.o *.so *.exe *.ompexp *.out prepostfunctions.c
+	rm -rf *.o *.so *.exe *.ompexp *.out prepostfunctions.c debug.h
