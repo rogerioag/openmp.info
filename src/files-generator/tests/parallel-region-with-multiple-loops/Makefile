@@ -25,4 +25,4 @@ run:
 	LD_LIBRARY_PATH=. LD_PRELOAD=./libhookomp.so ./parallel-region-with-multiple-loops.exe
 	
 clean:
-	rm -rf *.o *.so *.exe *.ompexp *.out prepostfunctions.c debug.h
+	rm -rf *.o *.so *.exe *.ompexp *.out prepostfunctions.c debug.h *.json

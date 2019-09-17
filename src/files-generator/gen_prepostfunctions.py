@@ -61,6 +61,7 @@ def gen_functions(fw, tags):
 
         if tag.name == 'GOMP_parallel_end':
             fw.write('\tprintf("\\n");\n')
+            fw.write('\topen_json();\n')
             fw.write('\tprint_results_csv_partial();\n')
 
             fw.write('\tint i;\n')
@@ -70,7 +71,7 @@ def gen_functions(fw, tags):
             fw.write('\t}\n')
 
             # fw.write('\tprintf("\\n");\n')
-            # fw.write('\tprint_results_csv_accum();\n')
+            fw.write('\tclose_json();\n')
             fw.write('\tprintf("\\n");\n')
 
         fw.write('}\n\n')
