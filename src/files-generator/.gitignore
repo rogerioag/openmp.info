@@ -1,3 +1,4 @@
 src/*
 output/*
+.vscode/*
 __pycache__/*
