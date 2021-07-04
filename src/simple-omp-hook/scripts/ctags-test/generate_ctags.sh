@@ -1,1 +1,0 @@
-ctags -f tags.txt --c++-kinds=+p+l --fields=SK --sort=no libgomp_g.h 
