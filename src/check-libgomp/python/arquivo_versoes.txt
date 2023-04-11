@@ -2,7 +2,6 @@ svn://gcc.gnu.org/svn/gcc/tags/gcc_3_0_1_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_3_0_2_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_3_0_3_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_3_0_4_release/libgomp/libgomp.map
-svn://gcc.gnu.org/svn/gcc/tags/gcc_3_0_pre_20010527/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_3_0_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_3_1_1_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_3_1_release/libgomp/libgomp.map
@@ -87,7 +86,14 @@ svn://gcc.gnu.org/svn/gcc/tags/gcc_6_1_0_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_6_2_0_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_6_3_0_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_6_4_0_release/libgomp/libgomp.map
+svn://gcc.gnu.org/svn/gcc/tags/gcc_6_5_0_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_7_1_0_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_7_2_0_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_7_3_0_release/libgomp/libgomp.map
+svn://gcc.gnu.org/svn/gcc/tags/gcc_7_4_0_release/libgomp/libgomp.map
+svn://gcc.gnu.org/svn/gcc/tags/gcc_7_5_0_release/libgomp/libgomp.map
 svn://gcc.gnu.org/svn/gcc/tags/gcc_8_1_0_release/libgomp/libgomp.map
+svn://gcc.gnu.org/svn/gcc/tags/gcc_8_2_0_release/libgomp/libgomp.map
+svn://gcc.gnu.org/svn/gcc/tags/gcc_8_3_0_release/libgomp/libgomp.map
+svn://gcc.gnu.org/svn/gcc/tags/gcc_9_1_0_release/libgomp/libgomp.map
+svn://gcc.gnu.org/svn/gcc/tags/gcc_9_2_0_release/libgomp/libgomp.map

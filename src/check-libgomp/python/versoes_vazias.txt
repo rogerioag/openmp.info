@@ -2,7 +2,6 @@ gcc_3_0_1_release/  NÃO POSSUE libgomp
 gcc_3_0_2_release/  NÃO POSSUE libgomp
 gcc_3_0_3_release/  NÃO POSSUE libgomp
 gcc_3_0_4_release/  NÃO POSSUE libgomp
-gcc_3_0_pre_20010527/  NÃO POSSUE libgomp
 gcc_3_0_release/  NÃO POSSUE libgomp
 gcc_3_1_1_release/  NÃO POSSUE libgomp
 gcc_3_1_release/  NÃO POSSUE libgomp
@@ -30,3 +29,5 @@ gcc_4_0_2_release/  NÃO POSSUE libgomp
 gcc_4_0_3_release/  NÃO POSSUE libgomp
 gcc_4_0_4_release/  NÃO POSSUE libgomp
 gcc_4_1_0_release/  NÃO POSSUE libgomp
+gcc_4_1_1_release/  NÃO POSSUE libgomp
+gcc_4_1_2_release/  NÃO POSSUE libgomp

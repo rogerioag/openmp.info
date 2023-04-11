@@ -1,7 +1,8 @@
-CC=gcc-4.8
-CXX=g++-4.8
-#LIB_HOOKOMP_PATH=$(PWD)/..
-LIB_HOOKOMP_PATH=/home/${USER}/openmp.info/src/simple-omp-hook/
+CC=gcc
+CXX=g++
+# LIB_HOOKOMP_PATH=$(PWD)/..
+# LIB_HOOKOMP_PATH=/home/${USER}/openmp.info/src/simple-omp-hook/
+LIB_HOOKOMP_PATH=/media/rag/BK-RAG-HP1TB/repositorios/Dropbox/dados/rogerio/projetos.github/openmp.info/src/simple-omp-hook/
 
 all: clean main
 

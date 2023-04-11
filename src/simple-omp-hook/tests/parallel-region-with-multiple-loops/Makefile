@@ -1,4 +1,4 @@
-CC=gcc-4.8
+CC=gcc
 CXX=g++
 #LIB_HOOKOMP_PATH=$(PWD)/..
 
